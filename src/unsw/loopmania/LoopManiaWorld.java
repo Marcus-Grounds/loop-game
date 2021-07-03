@@ -20,6 +20,35 @@ public class LoopManiaWorld {
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
 
+    public static final int START_HALTH = 100;
+    public static final int START_EXP = 0;
+    public static final int START_GOLD = 0;
+    public static final int  BASE_DAMEGE = 5;
+
+
+    public static final int LOW_HEALTH = 10;
+    public static final int MED_HEALTH = 30;
+    public static final int HIGH_HEALTH = 100;
+
+    public static final int LOW_DAMAGE = 2;
+    public static final int MED_DAMAGE = 5;
+    public static final int HIGH_DAMAGE = 10;
+
+    public static final int LOW_EXP = 1;
+    public static final int MED_EXP = 2;
+    public static final int HIGH_EXP = 5;
+
+    public static final int LOW_GOLD = 1;
+    public static final int MED_GOLD = 2;
+    public static final int HIGH_GOLD = 3;
+
+    public static final int SHORT_RADIUS = 1;
+    public static final int MED_RADIUS = 3;
+    public static final int LONG_RADIUS = 5;
+
+    public static final int GOAL_WIN_EXP = 500;
+    public static final int GOAL_WIN_GOLD = 250;
+
     /**
      * width of the world in GridPane cells
      */
