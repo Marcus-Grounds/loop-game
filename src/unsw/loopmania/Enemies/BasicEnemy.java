@@ -9,8 +9,8 @@ import unsw.loopmania.*;
  */
 public class BasicEnemy extends MovingEntity {
     // TODO = modify this, and add additional forms of enemy
-    public BasicEnemy(PathPosition position, Health health) {
-        super(position, health);
+    public BasicEnemy(PathPosition position) {
+        super(position);
     }
 
     /**

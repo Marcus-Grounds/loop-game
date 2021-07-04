@@ -5,8 +5,9 @@ import unsw.loopmania.PathPosition;
 
 public class Zombie extends BasicEnemy {
 
-    public Zombie(PathPosition position, Health health) {
-        super(position, health);
+    public Zombie(PathPosition position) {
+        super(position);
+        
         //TODO Auto-generated constructor stub
     }
     
