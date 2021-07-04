@@ -31,7 +31,7 @@ public class LoopManiaWorld {
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
 
-    public static final int START_HALTH = 100;
+    public static final int START_HEALTH = 100;
     public static final int START_EXP = 0;
     public static final int START_GOLD = 0;
     public static final int  BASE_DAMEGE = 5;
@@ -183,7 +183,8 @@ public class LoopManiaWorld {
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            BasicEnemy enemy = new BasicEnemy(new PathPosition(indexInPath, orderedPath));
+            //at the momeny we only spawn slug, will change later
+            Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
