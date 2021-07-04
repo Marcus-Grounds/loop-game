@@ -1,5 +1,11 @@
 package unsw.loopmania;
 
+import unsw.loopmania.BasicItems.*;
+import unsw.loopmania.Buildings.*;
+import unsw.loopmania.Cards.*;
+import unsw.loopmania.Enemies.*;
+import unsw.loopmania.GameMode.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -83,7 +89,7 @@ public class LoopManiaWorld {
     private List<Entity> unequippedInventoryItems;
 
     // TODO = expand the range of buildings
-    private List<VampireCastleBuilding> buildingEntities;
+    private List<Building> buildingEntities;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -133,6 +139,38 @@ public class LoopManiaWorld {
         // for adding non-specific entities (ones without another dedicated list)
         // TODO = if more specialised types being added from main menu, add more methods like this with specific input types...
         nonSpecifiedEntities.add(entity);
+    }
+
+    public void addBasicEnemy (BasicEnemy basicEnemy) {
+        this.enemies.add(basicEnemy);
+    }
+
+    public List<BasicEnemy> getAllBasicEnemies () {
+        return this.enemies;
+    }
+
+    public void addCard (Card card) {
+        this.cardEntities.add(card);
+    }
+
+    public List<Card> getAllCards () {
+        return this.cardEntities;
+    }
+
+    public void addInventoryItem (Entity entity) {
+        this.unequippedInventoryItems.add(entity);
+    }
+
+    public List<Entity> getAllInventoryItems () {
+        return this.unequippedInventoryItems;
+    }
+
+    public void addBuilding (Building building) {
+        this.buildingEntities.add(building);
+    }
+
+    public List<Building> getAllBuildings () {
+        return this.buildingEntities;
     }
 
     /**
