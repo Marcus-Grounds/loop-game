@@ -2,11 +2,21 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import org.junit.jupiter.api.Test;
 
-import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.*;
+
+import unsw.loopmania.BasicItems.*;
+
+import unsw.loopmania.Buildings.*;
+
+import unsw.loopmania.Cards.*;
+
+import unsw.loopmania.Enemies.*;
+
+import unsw.loopmania.GameMode.*;
 
 
 /**
