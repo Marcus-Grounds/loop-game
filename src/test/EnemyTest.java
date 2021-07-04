@@ -24,6 +24,7 @@ public class EnemyTest {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         Slug slug = new Slug(null);
         d.addBasicEnemy(slug);
+        assertEquals(slug.getCurrentHealth(), 10);
         List<BasicEnemy> dummyList = new ArrayList<BasicEnemy>();
         dummyList.add(slug);
         assertEquals(d.getAllBasicEnemies(), dummyList);
