@@ -3,7 +3,6 @@ package unsw.loopmania;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-
 /**
  * represents a non-moving entity
  * unlike the moving entities, this can be placed anywhere on the game map
