@@ -7,18 +7,21 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public abstract class MovingEntity extends Entity {
 
+    //private Health health;
     /**
      * object holding position in the path
      */
     private PathPosition position;
+    private Health health;
 
     /**
      * Create a moving entity which moves up and down the path in position
      * @param position represents the current position in the path
      */
-    public MovingEntity(PathPosition position) {
+    public MovingEntity(PathPosition position, Health health) {
         super();
         this.position = position;
+        this.health = health;
     }
 
     /**
@@ -49,5 +52,9 @@ public abstract class MovingEntity extends Entity {
 
     public int getY() {
         return y().get();
+    }
+
+    public int getCurrentHealth() {
+        return health.getCurrHealth();
     }
 }
