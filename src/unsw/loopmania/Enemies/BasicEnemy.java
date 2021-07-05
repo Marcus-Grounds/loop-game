@@ -9,11 +9,28 @@ import unsw.loopmania.*;
  */
 public class BasicEnemy extends MovingEntity {
     // TODO = modify this, and add additional forms of enemy
+    private int attackRadius;
+    private int supportRadius;
+    private int damage;
 
 
-
-    public BasicEnemy(PathPosition position, Health health) {
+    public BasicEnemy(PathPosition position, Health health, int attackRadius, int supportRadius, int damage) {
         super(position, health);
+        this.attackRadius = attackRadius;
+        this.supportRadius = supportRadius;
+        this.damage = damage;
+    }
+
+    public int getAttackRadius() {
+        return attackRadius;
+    }
+
+    public int getSupportRadius() {
+        return supportRadius;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 
     /**
