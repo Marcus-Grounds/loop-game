@@ -1,13 +1,15 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.javatuples.Pair;
 import java.util.*;
 
 import org.junit.jupiter.api.Test;
 
 import unsw.loopmania.*;
-
+import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
 
 import unsw.loopmania.Buildings.*;
@@ -19,6 +21,10 @@ import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;
 
 public class EnemyTest {
+    public static final int START_HEALTH = 100;
+    public static final int START_EXP = 0;
+    public static final int START_GOLD = 0;
+    public static final int  BASE_DAMEGE = 5;
     
     public static final int LOW_HEALTH = 10;
     public static final int MED_HEALTH = 30;
@@ -71,5 +77,49 @@ public class EnemyTest {
         dummyList.add(z);
         dummyList.add(v);
         assertEquals(d.getAllBasicEnemies(), dummyList);
+
+
+
+
     }
+
+    @Test
+    public void TestBattle(){
+        //test battle
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(5, 0);
+        
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        PathPosition p1 = new PathPosition(0, orderedPath);
+        PathPosition p2 = new PathPosition(1, orderedPath);
+        PathPosition p3 = new PathPosition(2, orderedPath);
+
+        //spawn slug and character next to eachother
+        Slug s1 = new Slug(p1);
+        d.addBasicEnemy(s1);
+        Character c = new Character(p2);
+        d.setCharacter(c);
+
+        //spawn another slug far away from character
+        Slug s2 = new Slug(p3);
+        d.addBasicEnemy(s2);
+
+        d.runBattles();
+
+        //test that after battle, health of both character and slug is decreased
+        assertTrue(s1.getCurrentHealth() < LOW_HEALTH);
+        assertTrue(c.getCurrentHealth() < START_HEALTH);
+
+        //slug2 uneffected because it's far away from battle
+        assertEquals(s2.getCurrentHealth(), LOW_HEALTH);
+
+    }
+
 }

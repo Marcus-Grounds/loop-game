@@ -57,4 +57,8 @@ public abstract class MovingEntity extends Entity {
     public int getCurrentHealth() {
         return health.getCurrHealth();
     }
+
+    public void decreaseHealth(int healthToDecrease){
+        health.decreaseHealth(healthToDecrease);
+    }
 }

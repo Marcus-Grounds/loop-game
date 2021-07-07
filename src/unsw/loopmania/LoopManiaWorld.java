@@ -18,6 +18,7 @@ import unsw.loopmania.Buildings.VampireCastleBuilding;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Cards.VampireCastleCard;
 import unsw.loopmania.Enemies.BasicEnemy;
+import unsw.loopmania.LoopManiaApplication;
 
 /**
  * A backend world.
@@ -223,6 +224,7 @@ public class LoopManiaWorld {
         }
         return defeatedEnemies;
     }
+
 
     /**
      * spawn a card in the world and return the card entity
