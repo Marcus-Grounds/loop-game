@@ -13,7 +13,7 @@ public class Slug extends BasicEnemy {
     
     public Slug(PathPosition position) {
         //Health healthSlug = new Health(10);
-        super(position, new Health(LOW_HEALTH), SHORT_RADIUS, SHORT_RADIUS, 10);
+        super(position, new Health(LOW_HEALTH), SHORT_RADIUS, SHORT_RADIUS, LOW_DAMAGE);
         //TODO Auto-generated constructor stub
     }
     

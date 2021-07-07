@@ -211,9 +211,25 @@ public class LoopManiaWorld {
         for (BasicEnemy e: enemies){
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
-            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
+            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= Math.pow(e.getAttackRadius(),2)){
                 // fight...
-                defeatedEnemies.add(e);
+                while(character.getCurrentHealth() > 0 && e.getCurrentHealth() > 0) {
+                    character.decreaseHealth(e.getDamage());
+                    
+                    //need to change this line once character attacking strategy is configured correctly
+                    e.decreaseHealth(5);
+                    System.out.println(character.getCurrentHealth());
+                    System.out.println(e.getCurrentHealth());
+                }
+                if (character.getCurrentHealth() <= 0) {
+                    System.out.println("Character DEAD");
+                    character.destroy();
+                }
+                else if (e.getCurrentHealth() <= 0){
+                    System.out.println("Enemy DEAD");
+                    defeatedEnemies.add(e);
+                }
+                
             }
         }
         for (BasicEnemy e: defeatedEnemies){
@@ -224,7 +240,6 @@ public class LoopManiaWorld {
         }
         return defeatedEnemies;
     }
-
 
     /**
      * spawn a card in the world and return the card entity
