@@ -186,6 +186,7 @@ public class LoopManiaWorld {
             int indexInPath = orderedPath.indexOf(pos);
             //at the momeny we only spawn slug, will change later
             Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
+            //Vampire enemy = new Vampire(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }

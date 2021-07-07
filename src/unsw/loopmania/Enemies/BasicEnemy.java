@@ -2,6 +2,7 @@ package unsw.loopmania.Enemies;
 
 import java.util.Random;
 
+import javafx.scene.image.ImageView;
 import unsw.loopmania.*;
 
 /**
@@ -14,11 +15,12 @@ public class BasicEnemy extends MovingEntity {
     private int damage;
 
 
-    public BasicEnemy(PathPosition position, Health health, int attackRadius, int supportRadius, int damage) {
-        super(position, health);
+    public BasicEnemy(PathPosition position, Health health, int attackRadius, int supportRadius, int damage, ImageView image) {
+        super(position, health, image);
         this.attackRadius = attackRadius;
         this.supportRadius = supportRadius;
         this.damage = damage;
+        //this.image = image
     }
 
     public int getAttackRadius() {
