@@ -84,7 +84,7 @@ public class EnemyTest {
     }
 
     @Test
-    public void TestBattle(){
+    public void TestBattleSlug(){
         //test battle
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -111,8 +111,8 @@ public class EnemyTest {
         Slug s2 = new Slug(p3);
         d.addBasicEnemy(s2);
 
+        //d.runBattles(new LoopManiaWorldController(world, initialEntities);
         d.runBattles();
-
         //test that after battle, health of both character and slug is decreased
         assertTrue(s1.getCurrentHealth() < LOW_HEALTH);
         assertTrue(c.getCurrentHealth() < START_HEALTH);
@@ -120,6 +120,51 @@ public class EnemyTest {
         //slug2 uneffected because it's far away from battle
         assertEquals(s2.getCurrentHealth(), LOW_HEALTH);
 
+    }
+
+    @Test
+    public void TestBattleSupportRadius(){
+        //test battle
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(5, 0);
+        
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        PathPosition p1 = new PathPosition(0, orderedPath);
+        PathPosition p2 = new PathPosition(1, orderedPath);
+        PathPosition p3 = new PathPosition(2, orderedPath);
+
+        //spawn a zombie that is 4 units away from character. Within support radius, but not battle radius.
+        Zombie z1 = new Zombie(p3);
+        d.addBasicEnemy(z1);
+        Character c = new Character(p2);
+        d.setCharacter(c);
+
+        d.runBattles();
+        assertTrue(z1.getCurrentHealth() == MED_HEALTH);
+        assertTrue(c.getCurrentHealth() == START_HEALTH);
+
+    
+        //spawn slug and character next to eachother, should trigger zombie to join
+        Slug s1 = new Slug(p1);
+        d.addBasicEnemy(s1);
+        d.runBattles();
+
+  
+
+        //d.runBattles(new LoopManiaWorldController(world, initialEntities);
+
+        //test that after battle, health of both character and slug is decreased
+        assertTrue(z1.getCurrentHealth() < MED_HEALTH);
+        assertTrue(c.getCurrentHealth() < START_HEALTH);
+        assertTrue(s1.getCurrentHealth() < LOW_HEALTH);
+        
     }
 
 }

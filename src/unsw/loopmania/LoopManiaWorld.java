@@ -205,8 +205,12 @@ public class LoopManiaWorld {
      * run the expected battles in the world, based on current world state
      * @return list of enemies which have been killed
      */
+    //public List<BasicEnemy> runBattles(LoopManiaWorldController world) {
     public List<BasicEnemy> runBattles() {
+
         // TODO = modify this - currently the character automatically wins all battles without any damage!
+
+        
         List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
         for (BasicEnemy e: enemies){
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
@@ -229,6 +233,7 @@ public class LoopManiaWorld {
                     System.out.println("Enemy DEAD");
                     defeatedEnemies.add(e);
                 }
+                //world.pause();
                 
             }
         }

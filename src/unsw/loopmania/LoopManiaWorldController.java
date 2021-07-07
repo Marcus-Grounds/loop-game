@@ -245,6 +245,7 @@ public class LoopManiaWorldController {
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             world.runTickMoves();
             List<BasicEnemy> defeatedEnemies = world.runBattles();
+            //List<BasicEnemy> defeatedEnemies = world.runBattles(this);
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
             }
