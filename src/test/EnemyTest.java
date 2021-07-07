@@ -77,10 +77,6 @@ public class EnemyTest {
         dummyList.add(z);
         dummyList.add(v);
         assertEquals(d.getAllBasicEnemies(), dummyList);
-
-
-
-
     }
 
     @Test
@@ -140,19 +136,19 @@ public class EnemyTest {
         PathPosition p2 = new PathPosition(1, orderedPath);
         PathPosition p3 = new PathPosition(2, orderedPath);
 
-        //spawn a zombie that is 4 units away from character. Within support radius, but not battle radius.
-        Zombie z1 = new Zombie(p3);
-        d.addBasicEnemy(z1);
+        //spawn a vampire that is 4 units away from character. Within support radius, but not battle radius.
+        Vampire v1 = new Vampire(p3);
+        d.addBasicEnemy(v1);
         Character c = new Character(p2);
         d.setCharacter(c);
 
         d.runBattles();
-        assertTrue(z1.getCurrentHealth() == MED_HEALTH);
+        assertTrue(v1.getCurrentHealth() == HIGH_HEALTH);
         assertTrue(c.getCurrentHealth() == START_HEALTH);
 
     
         //spawn slug and character next to eachother, should trigger zombie to join
-        Slug s1 = new Slug(p1);
+        Slug s1 = new Slug(p2);
         d.addBasicEnemy(s1);
         d.runBattles();
 
@@ -161,7 +157,7 @@ public class EnemyTest {
         //d.runBattles(new LoopManiaWorldController(world, initialEntities);
 
         //test that after battle, health of both character and slug is decreased
-        assertTrue(z1.getCurrentHealth() < MED_HEALTH);
+        assertTrue(v1.getCurrentHealth() < HIGH_HEALTH);
         assertTrue(c.getCurrentHealth() < START_HEALTH);
         assertTrue(s1.getCurrentHealth() < LOW_HEALTH);
         

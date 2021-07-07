@@ -14,17 +14,18 @@ public abstract class MovingEntity extends Entity {
      */
     private PathPosition position;
     private Health health;
-    public ImageView image;
+    //public ImageView image;
 
     /**
      * Create a moving entity which moves up and down the path in position
      * @param position represents the current position in the path
      */
-    public MovingEntity(PathPosition position, Health health, ImageView image) {
+    //public MovingEntity(PathPosition position, Health health, ImageView image) {
+    public MovingEntity(PathPosition position, Health health) {
         super();
         this.position = position;
         this.health = health;
-        this.image = image;
+        //this.image = image;
     }
 
     /**
@@ -64,8 +65,9 @@ public abstract class MovingEntity extends Entity {
     public void decreaseHealth(int healthToDecrease){
         health.decreaseHealth(healthToDecrease);
     }
-
+    /*
     public ImageView getImageView(){
         return image;
     }
+    */
 }

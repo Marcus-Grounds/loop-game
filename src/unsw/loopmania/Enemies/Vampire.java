@@ -15,7 +15,8 @@ public class Vampire extends BasicEnemy {
     public static final int HIGH_DAMAGE = 10;
     
     public Vampire(PathPosition position) {
-        super(position, new Health(HIGH_HEALTH), MED_RADIUS, HIGH_RADIUS, HIGH_DAMAGE, new ImageView(new Image((new File("src/images/vampire.png")).toURI().toString())));
+        //super(position, new Health(HIGH_HEALTH), MED_RADIUS, HIGH_RADIUS, HIGH_DAMAGE, new ImageView(new Image((new File("src/images/vampire.png")).toURI().toString())));
+        super(position, new Health(HIGH_HEALTH), MED_RADIUS, HIGH_RADIUS, HIGH_DAMAGE);
         //TODO Auto-generated constructor stub
     }
 }

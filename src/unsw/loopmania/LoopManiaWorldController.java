@@ -126,6 +126,7 @@ public class LoopManiaWorldController {
     private Timeline timeline;
 
     private Image vampireCastleCardImage;
+    private Image basicEnemyImage;
     private Image swordImage;
     private Image basicBuildingImage;
 
@@ -175,6 +176,7 @@ public class LoopManiaWorldController {
         this.world = world;
         entityImages = new ArrayList<>(initialEntities);
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
+        basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
         basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
         currentlyDraggedImage = null;
@@ -243,7 +245,6 @@ public class LoopManiaWorldController {
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             world.runTickMoves();
             List<BasicEnemy> defeatedEnemies = world.runBattles();
-            //List<BasicEnemy> defeatedEnemies = world.runBattles(this);
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
             }
@@ -348,7 +349,9 @@ public class LoopManiaWorldController {
      * @param enemy
      */
     private void onLoad(BasicEnemy enemy) {
-        ImageView view = enemy.getImageView();
+        ImageView view = new ImageView(basicEnemyImage);
+        //ImageView view = enemy.getImageView();
+        
         addEntity(enemy, view);
         squares.getChildren().add(view);
     }

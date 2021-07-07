@@ -14,7 +14,8 @@ public class Zombie extends BasicEnemy {
     public static final int MED_DAMAGE = 5;
     
     public Zombie(PathPosition position) {
-        super(position, new Health(MED_HEALTH), MED_RADIUS, MED_RADIUS, MED_DAMAGE, new ImageView(new Image((new File("src/images/zombie.png")).toURI().toString())));
+        //super(position, new Health(MED_HEALTH), MED_RADIUS, MED_RADIUS, MED_DAMAGE, new ImageView(new Image((new File("src/images/zombie.png")).toURI().toString())));
+        super(position, new Health(MED_HEALTH), MED_RADIUS, MED_RADIUS, MED_DAMAGE);
         //TODO Auto-generated constructor stub
     }
     

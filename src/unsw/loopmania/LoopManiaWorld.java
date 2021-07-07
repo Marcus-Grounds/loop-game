@@ -35,7 +35,7 @@ public class LoopManiaWorld {
     public static final int START_HEALTH = 100;
     public static final int START_EXP = 0;
     public static final int START_GOLD = 0;
-    public static final int  BASE_DAMEGE = 5;
+    public static final int BASE_DAMEGE = 5;
 
 
     public static final int LOW_HEALTH = 10;
@@ -186,9 +186,12 @@ public class LoopManiaWorld {
             int indexInPath = orderedPath.indexOf(pos);
             //at the momeny we only spawn slug, will change later
             Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
-            //Vampire enemy = new Vampire(new PathPosition(indexInPath, orderedPath));
+            
+            //Vampire enemy1 = new Vampire(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
+            //enemies.add(enemy1);
             spawningEnemies.add(enemy);
+            //spawningEnemies.add(enemy1);
         }
         return spawningEnemies;
     }
@@ -221,7 +224,8 @@ public class LoopManiaWorld {
                 List<BasicEnemy> enemiesToFight = new ArrayList<BasicEnemy>();
                 enemiesToFight.add(e);
                 for(BasicEnemy e1: enemies){
-                    if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= Math.pow(e.getSupportRadius(),2)) {
+                    if (Math.pow((character.getX()-e1.getX()), 2) +  Math.pow((character.getY()-e1.getY()), 2) <= Math.pow(e1.getSupportRadius(),2)
+                    && !enemiesToFight.contains(e1)) {
                         enemiesToFight.add(e1);
                     }
                 }
@@ -245,8 +249,9 @@ public class LoopManiaWorld {
                     }
                 }
                 //world.pause();
-                
+                break;
             }
+
         }
         for (BasicEnemy e: defeatedEnemies){
             // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
