@@ -1,6 +1,7 @@
 package unsw.loopmania;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.ImageView;
 
 /**
  * The moving entity
@@ -13,15 +14,18 @@ public abstract class MovingEntity extends Entity {
      */
     private PathPosition position;
     private Health health;
+    public ImageView image;
 
     /**
      * Create a moving entity which moves up and down the path in position
      * @param position represents the current position in the path
      */
-    public MovingEntity(PathPosition position, Health health) {
+    public MovingEntity(PathPosition position, Health health, ImageView image) {
+    //public MovingEntity(PathPosition position, Health health) {
         super();
         this.position = position;
         this.health = health;
+        this.image = image;
     }
 
     /**
@@ -57,4 +61,13 @@ public abstract class MovingEntity extends Entity {
     public Health getCurrentHealth() {
         return this.health;
     }
+
+    public void decreaseHealth(int healthToDecrease){
+        health.decreaseHealth(healthToDecrease);
+    }
+    
+    public ImageView getImageView(){
+        return image;
+    }
+    
 }

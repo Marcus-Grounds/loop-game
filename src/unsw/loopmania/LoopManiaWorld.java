@@ -18,6 +18,7 @@ import unsw.loopmania.Buildings.VampireCastleBuilding;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Cards.VampireCastleCard;
 import unsw.loopmania.Enemies.BasicEnemy;
+import unsw.loopmania.LoopManiaApplication;
 
 /**
  * A backend world.
@@ -34,7 +35,7 @@ public class LoopManiaWorld {
     public static final int START_HEALTH = 100;
     public static final int START_EXP = 0;
     public static final int START_GOLD = 0;
-    public static final int  BASE_DAMEGE = 5;
+    public static final int BASE_DAMEGE = 5;
 
 
     public static final int LOW_HEALTH = 10;
@@ -185,8 +186,12 @@ public class LoopManiaWorld {
             int indexInPath = orderedPath.indexOf(pos);
             //at the momeny we only spawn slug, will change later
             Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
+            
+            //Vampire enemy1 = new Vampire(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
+            //enemies.add(enemy1);
             spawningEnemies.add(enemy);
+            //spawningEnemies.add(enemy1);
         }
         return spawningEnemies;
     }
@@ -204,16 +209,49 @@ public class LoopManiaWorld {
      * run the expected battles in the world, based on current world state
      * @return list of enemies which have been killed
      */
+    //public List<BasicEnemy> runBattles(LoopManiaWorldController world) {
     public List<BasicEnemy> runBattles() {
+
         // TODO = modify this - currently the character automatically wins all battles without any damage!
+
+        
         List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
         for (BasicEnemy e: enemies){
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
-            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
-                // fight...
-                defeatedEnemies.add(e);
+            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= Math.pow(e.getAttackRadius(),2)){
+                //find all enemies that the character is in support radius of
+                List<BasicEnemy> enemiesToFight = new ArrayList<BasicEnemy>();
+                enemiesToFight.add(e);
+                for(BasicEnemy e1: enemies){
+                    if (Math.pow((character.getX()-e1.getX()), 2) +  Math.pow((character.getY()-e1.getY()), 2) <= Math.pow(e1.getSupportRadius(),2)
+                    && !enemiesToFight.contains(e1)) {
+                        enemiesToFight.add(e1);
+                    }
+                }
+                for (BasicEnemy e1 : enemiesToFight) {
+                    // fight...
+                    while(character.getCurrentHealth() > 0 && e1.getCurrentHealth() > 0) {
+                        character.decreaseHealth(e1.getDamage());
+                        
+                        //need to change this line once character attacking strategy is configured correctly
+                        e1.decreaseHealth(5);
+                        System.out.println(character.getCurrentHealth());
+                        System.out.println(e1.getCurrentHealth());
+                    }
+                    if (character.getCurrentHealth() <= 0) {
+                        System.out.println("Character DEAD");
+                        character.destroy();
+                    }
+                    else if (e1.getCurrentHealth() <= 0){
+                        System.out.println("Enemy DEAD");
+                        defeatedEnemies.add(e1);
+                    }
+                }
+                //world.pause();
+                break;
             }
+
         }
         for (BasicEnemy e: defeatedEnemies){
             // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
