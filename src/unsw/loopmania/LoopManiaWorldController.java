@@ -349,8 +349,8 @@ public class LoopManiaWorldController {
      * @param enemy
      */
     private void onLoad(BasicEnemy enemy) {
-        ImageView view = new ImageView(basicEnemyImage);
-        //ImageView view = enemy.getImageView();
+        //ImageView view = new ImageView(basicEnemyImage);
+        ImageView view = enemy.getImageView();
         
         addEntity(enemy, view);
         squares.getChildren().add(view);

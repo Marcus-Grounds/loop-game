@@ -8,6 +8,7 @@ import java.util.*;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.embed.swing.JFXPanel;
 import unsw.loopmania.*;
 import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
@@ -49,6 +50,9 @@ public class EnemyTest {
 
     @Test
     public void Test1(){
+        //not 100 percent sure why this line is here, but without it gets error about graphics : )
+        JFXPanel jfxPanel = new JFXPanel();
+
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         Slug slug = new Slug(null);
         d.addBasicEnemy(slug);
@@ -81,6 +85,7 @@ public class EnemyTest {
 
     @Test
     public void TestBattleSlug(){
+        JFXPanel jfxPanel = new JFXPanel();
         //test battle
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -120,6 +125,8 @@ public class EnemyTest {
 
     @Test
     public void TestBattleSupportRadius(){
+
+        JFXPanel jfxPanel = new JFXPanel();
         //test battle
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();

@@ -16,9 +16,9 @@ public class BasicEnemy extends MovingEntity {
     private int damage;
     //public ImageView image;
 
-    //public BasicEnemy(PathPosition position, Health health, int attackRadius, int supportRadius, int damage, ImageView image) {
-    public BasicEnemy(PathPosition position, Health health, int attackRadius, int supportRadius, int damage) {
-        super(position, health);
+    public BasicEnemy(PathPosition position, Health health, int attackRadius, int supportRadius, int damage, ImageView image) {
+    //public BasicEnemy(PathPosition position, Health health, int attackRadius, int supportRadius, int damage) {
+        super(position, health, image);
         this.attackRadius = attackRadius;
         this.supportRadius = supportRadius;
         this.damage = damage;
