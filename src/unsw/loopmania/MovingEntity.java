@@ -54,7 +54,7 @@ public abstract class MovingEntity extends Entity {
         return y().get();
     }
 
-    public int getCurrentHealth() {
-        return health.getCurrHealth();
+    public Health getCurrentHealth() {
+        return this.health;
     }
 }
