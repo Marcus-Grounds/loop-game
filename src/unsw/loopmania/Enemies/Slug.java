@@ -1,9 +1,6 @@
 package unsw.loopmania.Enemies;
 
-<<<<<<< HEAD
-=======
 import unsw.loopmania.LoopManiaWorld;
->>>>>>> master
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 
