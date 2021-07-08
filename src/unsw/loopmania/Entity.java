@@ -3,6 +3,8 @@ package unsw.loopmania;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 
 /**
  * A backend entity in the world.
@@ -23,6 +25,7 @@ public abstract class Entity {
      * This is why we don't have to track which JavaFX node corresponds to which backend entity explicitly! (for example, in a Hashmap)
      */
     private BooleanProperty shouldExist;
+    
 
     /**
      * create an Entity
@@ -30,6 +33,7 @@ public abstract class Entity {
      */
     public Entity(){
         shouldExist = new SimpleBooleanProperty(true);
+        //this.image = image;
     }
 
      /**
@@ -77,4 +81,7 @@ public abstract class Entity {
      * @return y coordinate, as number from 0 to height-1
      */
     public abstract int getY();
+
+    
+    
 }

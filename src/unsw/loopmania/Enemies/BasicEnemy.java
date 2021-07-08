@@ -2,18 +2,39 @@ package unsw.loopmania.Enemies;
 
 import java.util.Random;
 
+import javafx.scene.image.ImageView;
 import unsw.loopmania.*;
+
 
 /**
  * a basic form of enemy in the world
  */
 public class BasicEnemy extends MovingEntity {
     // TODO = modify this, and add additional forms of enemy
+    private int attackRadius;
+    private int supportRadius;
+    private int damage;
+    //public ImageView image;
 
+    public BasicEnemy(PathPosition position, Health health, int attackRadius, int supportRadius, int damage, ImageView image) {
+    //public BasicEnemy(PathPosition position, Health health, int attackRadius, int supportRadius, int damage) {
+        super(position, health, image);
+        this.attackRadius = attackRadius;
+        this.supportRadius = supportRadius;
+        this.damage = damage;
+        //this.image = image;
+    }
 
+    public int getAttackRadius() {
+        return attackRadius;
+    }
 
-    public BasicEnemy(PathPosition position, Health health) {
-        super(position, health);
+    public int getSupportRadius() {
+        return supportRadius;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 
     /**
@@ -30,4 +51,9 @@ public class BasicEnemy extends MovingEntity {
             moveDownPath();
         }
     }
+    /*
+    public ImageView getImageView(){
+        return image;
+    }
+    */
 }
