@@ -6,6 +6,7 @@ import unsw.loopmania.Cards.*;
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,6 +14,10 @@ import java.util.Random;
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import unsw.loopmania.BasicItems.Sword;
 import unsw.loopmania.Buildings.VampireCastleBuilding;
 import unsw.loopmania.Cards.Card;
@@ -208,13 +213,11 @@ public class LoopManiaWorld {
     /**
      * run the expected battles in the world, based on current world state
      * @return list of enemies which have been killed
+     * @throws IOException
      */
     //public List<BasicEnemy> runBattles(LoopManiaWorldController world) {
-    public List<BasicEnemy> runBattles() {
+    public List<BasicEnemy> runBattles(LoopManiaWorldController controller) {
 
-        // TODO = modify this - currently the character automatically wins all battles without any damage!
-
-        
         List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
         for (BasicEnemy e: enemies){
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
@@ -248,7 +251,13 @@ public class LoopManiaWorld {
                         defeatedEnemies.add(e1);
                     }
                 }
-                //world.pause();
+                
+                try {
+                    controller.switchToBattle();
+                } catch (IOException e2) {
+                    // TODO Auto-generated catch block
+                    e2.printStackTrace();
+                }
                 break;
             }
 
@@ -459,4 +468,9 @@ public class LoopManiaWorld {
 
         return newBuilding;
     }
+    /*
+    public List<BasicEnemy> runBattles(LoopManiaWorldController world) {
+        return null;
+    }
+    */
 }

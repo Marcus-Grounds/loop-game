@@ -9,6 +9,7 @@ import java.util.*;
 import org.junit.jupiter.api.Test;
 
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.image.ImageView;
 import unsw.loopmania.*;
 import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
@@ -113,7 +114,9 @@ public class EnemyTest {
         d.addBasicEnemy(s2);
 
         //d.runBattles(new LoopManiaWorldController(world, initialEntities);
-        d.runBattles();
+        List<ImageView> initialEntities = new ArrayList<ImageView>();
+
+        d.runBattles(new LoopManiaWorldController(d, initialEntities));
         //test that after battle, health of both character and slug is decreased
         assertTrue(s1.getCurrentHealth() < LOW_HEALTH);
         assertTrue(c.getCurrentHealth() < START_HEALTH);
@@ -149,7 +152,7 @@ public class EnemyTest {
         Character c = new Character(p2);
         d.setCharacter(c);
 
-        d.runBattles();
+        d.runBattles(null);
         assertTrue(v1.getCurrentHealth() == HIGH_HEALTH);
         assertTrue(c.getCurrentHealth() == START_HEALTH);
 
@@ -157,7 +160,7 @@ public class EnemyTest {
         //spawn slug and character next to eachother, should trigger zombie to join
         Slug s1 = new Slug(p2);
         d.addBasicEnemy(s1);
-        d.runBattles();
+        d.runBattles(null);
 
   
 

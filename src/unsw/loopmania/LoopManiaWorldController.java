@@ -80,6 +80,7 @@ enum DRAGGABLE_TYPE{
  *     This is run on the JavaFX application thread when it has enough time.
  */
 public class LoopManiaWorldController {
+    //private BattleEnemyScreen battleEnemyScreen;
 
     /**
      * squares gridpane includes path images, enemies, character, empty grass, buildings
@@ -168,6 +169,13 @@ public class LoopManiaWorldController {
      */
     private MenuSwitcher mainMenuSwitcher;
 
+    private MenuSwitcher battleSwitcher;
+    /*
+    public void setBattleEnemyScreen (BattleEnemyScreen battleEnemyScreen){
+        this.battleEnemyScreen = battleEnemyScreen;
+    }
+    */
+
     /**
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
@@ -188,6 +196,8 @@ public class LoopManiaWorldController {
         anchorPaneRootSetOnDragDropped = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
         gridPaneNodeSetOnDragEntered = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
         gridPaneNodeSetOnDragExited = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
+
+        //battleEnemyScreen = new BattleEnemyScreen();
     }
 
     @FXML
@@ -244,7 +254,8 @@ public class LoopManiaWorldController {
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             world.runTickMoves();
-            List<BasicEnemy> defeatedEnemies = world.runBattles();
+            //List<BasicEnemy> defeatedEnemies = world.runBattles(this);
+            List<BasicEnemy> defeatedEnemies = world.runBattles(this);
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
             }
@@ -267,6 +278,14 @@ public class LoopManiaWorldController {
         System.out.println("pausing");
         timeline.stop();
     }
+    /*
+    public void pauseForBattle(){
+        isPaused = true;
+        System.out.println("pausing");
+        timeline.stop();
+        //battleScreen.start();
+    }
+    */
 
     public void terminate(){
         pause();
@@ -631,15 +650,26 @@ public class LoopManiaWorldController {
         this.mainMenuSwitcher = mainMenuSwitcher;
     }
 
+    public void setBattleSwitcher(MenuSwitcher battleSwitcher){
+        this.battleSwitcher = battleSwitcher;
+    }
+
     /**
      * this method is triggered when click button to go to main menu in FXML
      * @throws IOException
      */
     @FXML
-    private void switchToMainMenu() throws IOException {
+    public void switchToMainMenu() throws IOException {
         // TODO = possibly set other menu switchers
         pause();
         mainMenuSwitcher.switchMenu();
+    }
+
+    @FXML
+    public void switchToBattle() throws IOException {
+        // TODO = possibly set other menu switchers
+        pause();
+        battleSwitcher.switchMenu();
     }
 
     /**
@@ -727,4 +757,8 @@ public class LoopManiaWorldController {
         System.out.println("In application thread? = "+Platform.isFxApplicationThread());
         System.out.println("Current system time = "+java.time.LocalDateTime.now().toString().replace('T', ' '));
     }
+    /*
+    public void setBattlerSwitcher(Object object) {
+    }
+    */
 }
