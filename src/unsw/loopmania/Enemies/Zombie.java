@@ -19,13 +19,9 @@ public class Zombie extends BasicEnemy implements SpawnStrategy {
         //TODO Auto-generated constructor stub
     }
     
-<<<<<<< HEAD
-}
-=======
     @Override
     public void spawn() {
         // TODO Auto-generated method stub
         
     }
 }
->>>>>>> master

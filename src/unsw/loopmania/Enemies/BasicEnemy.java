@@ -51,13 +51,9 @@ public class BasicEnemy extends MovingEntity {
             moveDownPath();
         }
     }
-<<<<<<< HEAD
-
-=======
     /*
     public ImageView getImageView(){
         return image;
     }
     */
->>>>>>> master
 }
