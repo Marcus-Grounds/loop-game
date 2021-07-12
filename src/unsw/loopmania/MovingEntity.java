@@ -58,8 +58,12 @@ public abstract class MovingEntity extends Entity {
         return y().get();
     }
 
-    public Health getCurrentHealth() {
-        return this.health;
+    public int getCurrentHealth() {
+        return health.getCurrHealth();
+    }
+
+    public void increaseHealth(int healthToIncrease){
+        health.decreaseHealth(healthToIncrease);
     }
 
     public void decreaseHealth(int healthToDecrease){
