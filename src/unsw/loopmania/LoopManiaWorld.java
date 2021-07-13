@@ -71,6 +71,8 @@ public class LoopManiaWorld {
      */
     private int height;
 
+    private int loopCount;
+
     /**
      * generic entitites - i.e. those which don't have dedicated fields
      */
@@ -325,6 +327,10 @@ public class LoopManiaWorld {
     public void runTickMoves(){
         character.moveDownPath();
         moveBasicEnemies();
+    }
+
+    public int getLoopCount() {
+        return this.loopCount;
     }
 
     /**
