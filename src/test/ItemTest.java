@@ -22,7 +22,6 @@ import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.util.Pair;
 
 public class ItemTest {
     @Test
@@ -40,106 +39,124 @@ public class ItemTest {
 
     // Test weapons attacks on slug
 
+    @Test
     public void TestAttackOnSlugBySword1() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
 
         Sword sword = new Sword(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         d.setNumberOfLoops(15);
-        Slug enemy = new Slug(new PathPosition(2, orderedPath));
+        Slug enemy = new Slug(new PathPosition(1, orderedPath));
 
         assertEquals(10, enemy.getCurrentHealth());
-        sword.reduceSlugHealth(enemy);
+        sword.reduceSlugHealth(enemy, d);
 
         assertTrue(0 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 10);
 
     }
 
+    @Test
     public void TestAttackOnSlugBySword2() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
 
         Sword sword = new Sword(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         d.setNumberOfLoops(50);
-        Slug enemy = new Slug(new PathPosition(2, orderedPath));
+        Slug enemy = new Slug(new PathPosition(1, orderedPath));
 
         assertEquals(10, enemy.getCurrentHealth());
-        sword.reduceSlugHealth(enemy);
+        sword.reduceSlugHealth(enemy, d);
 
         assertEquals(0, enemy.getCurrentHealth());
 
     }
 
+    @Test
     public void TestAttackOnSlugBySword3() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
 
         Sword sword = new Sword(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         d.setNumberOfLoops(80);
-        Slug enemy = new Slug(new PathPosition(2, orderedPath));
+        Slug enemy = new Slug(new PathPosition(1, orderedPath));
 
         assertEquals(10, enemy.getCurrentHealth());
-        sword.reduceSlugHealth(enemy);
+        sword.reduceSlugHealth(enemy, d);
 
         assertEquals(0, enemy.getCurrentHealth());
 
     }
 
+    @Test
     public void TestAttackOnSlugByStake() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
         
         Stake stake = new Stake(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Slug enemy = new Slug(new PathPosition(2, orderedPath));
+        Slug enemy = new Slug(new PathPosition(1, orderedPath));
 
         assertEquals(10, enemy.getCurrentHealth());
-        stake.reduceSlugHealth(enemy);
+        stake.reduceSlugHealth(enemy, d);
 
         assertTrue(5 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 8);
 
     }
 
+    @Test
     public void TestAttackOnSlugByStaff() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
  
         Stake staff = new Stake(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Slug enemy = new Slug(new PathPosition(2, orderedPath));
+        Slug enemy = new Slug(new PathPosition(1, orderedPath));
 
         assertEquals(10, enemy.getCurrentHealth());
-        staff.reduceSlugHealth(enemy);
+        staff.reduceSlugHealth(enemy, d);
         assertEquals(8, enemy.getCurrentHealth());
 
     }
 
+    @Test
     public void TestIncreaseSlugHealthBeyondMaximum() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
 
         Sword sword = new Sword(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         d.setNumberOfLoops(80);
-        Slug enemy = new Slug(new PathPosition(2, orderedPath));
+        Slug enemy = new Slug(new PathPosition(1, orderedPath));
 
         assertEquals(10, enemy.getCurrentHealth());
-        sword.reduceSlugHealth(enemy);
+        sword.reduceSlugHealth(enemy, d);
 
         assertEquals(0, enemy.getCurrentHealth());
 
@@ -148,98 +165,117 @@ public class ItemTest {
         assertEquals(10, enemy.getCurrentHealth());
     }
 
+
     // Test weapons attacks on vampire
 
+    @Test
     public void TestAttackOnVampireBySword1() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
         Sword sword = new Sword(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         d.setNumberOfLoops(15);
-        Vampire enemy = new Vampire(new PathPosition(2, orderedPath));
+        Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
 
         assertEquals(100, enemy.getCurrentHealth());
-        sword.reduceVampireHealth(enemy);
+        sword.reduceVampireHealth(enemy, d);
 
         assertTrue(90 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 95);
 
     }
 
+    @Test
     public void TestAttackOnVampireBySword2() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
         Sword sword = new Sword(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         d.setNumberOfLoops(50);
-        Vampire enemy = new Vampire(new PathPosition(2, orderedPath));
+        Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
 
         assertEquals(100, enemy.getCurrentHealth());
-        sword.reduceVampireHealth(enemy);
+        sword.reduceVampireHealth(enemy, d);
 
         assertTrue(85 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 90);
 
     }
 
-    
+    @Test
     public void TestAttackOnVampireBySword3() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
         Sword sword = new Sword(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         d.setNumberOfLoops(80);
-        Vampire enemy = new Vampire(new PathPosition(2, orderedPath));
+        Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
 
         assertEquals(100, enemy.getCurrentHealth());
-        sword.reduceVampireHealth(enemy);
+        sword.reduceVampireHealth(enemy, d);
 
         assertTrue(80 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 85);
 
     }
 
+    @Test
     public void TestAttackOnVampireByStake() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
         Stake stake = new Stake(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Vampire enemy = new Vampire(new PathPosition(2, orderedPath));
+        Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
 
         assertEquals(100, enemy.getCurrentHealth());
-        stake.reduceVampireHealth(enemy);
+        stake.reduceVampireHealth(enemy, d);
 
         assertEquals(70, enemy.getCurrentHealth());
 
     }
 
+    @Test
     public void TestAttackOnVampireByStaff() {
-        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();    
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
-        orderedPath.add(path1);
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
 
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
         Staff staff= new Staff(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Vampire enemy = new Vampire(new PathPosition(2, orderedPath));
+        Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
 
         assertEquals(100, enemy.getCurrentHealth());
-        staff.reduceVampireHealth(enemy);
+        staff.reduceVampireHealth(enemy, d);
 
         assertEquals(98, enemy.getCurrentHealth());
 
     }
 
+    @Test
     public void TestIncreaseVampireHealthBeyondMaximum() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
-        Vampire enemy = new Vampire(new PathPosition(2, orderedPath));
+        orderedPath.add(path2);
+        Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
 
         assertEquals(100, enemy.getCurrentHealth());
 
@@ -250,97 +286,114 @@ public class ItemTest {
 
     // Test weapons attacks on zombie 
 
+    @Test
     public void TestAttackOnZombieBySword1() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
         Sword sword = new Sword(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         d.setNumberOfLoops(15);
-        Zombie enemy = new Zombie(new PathPosition(2, orderedPath));
+        Zombie enemy = new Zombie(new PathPosition(1, orderedPath));
 
         assertEquals(30, enemy.getCurrentHealth());
-        sword.reduceZombieHealth(enemy);
+        sword.reduceZombieHealth(enemy, d);
 
         assertTrue(20 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 25);
 
     }
 
+    @Test
     public void TestAttackOnZombieBySword2() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
         Sword sword = new Sword(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         d.setNumberOfLoops(50);
-        Zombie enemy = new Zombie(new PathPosition(2, orderedPath));
+        Zombie enemy = new Zombie(new PathPosition(1, orderedPath));
 
         assertEquals(30, enemy.getCurrentHealth());
-        sword.reduceZombieHealth(enemy);
+        sword.reduceZombieHealth(enemy, d);
 
         assertTrue(15 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 20);
 
     }
 
-    
+    @Test
     public void TestAttackOnZombieBySword3() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
         Sword sword = new Sword(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         d.setNumberOfLoops(80);
-        Zombie enemy = new Zombie(new PathPosition(2, orderedPath));
+        Zombie enemy = new Zombie(new PathPosition(1, orderedPath));
 
         assertEquals(30, enemy.getCurrentHealth());
-        sword.reduceZombieHealth(enemy);
+        sword.reduceZombieHealth(enemy, d);
 
         assertTrue(10 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 15);
 
     }
 
+    @Test
     public void TestAttackOnZombieByStake() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
         Stake stake = new Stake(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Vampire enemy = new Vampire(new PathPosition(2, orderedPath));
+        Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
 
         assertEquals(30, enemy.getCurrentHealth());
-        stake.reduceVampireHealth(enemy);
+        stake.reduceVampireHealth(enemy, d);
 
         assertTrue(25 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 28);
 
     }
 
+    @Test
     public void TestAttackOnZombieByStaff() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
+        orderedPath.add(path2);
         Staff staff= new Staff(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Vampire enemy = new Vampire(new PathPosition(2, orderedPath));
+        Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
 
         assertEquals(30, enemy.getCurrentHealth());
-        staff.reduceVampireHealth(enemy);
+        staff.reduceVampireHealth(enemy, d);
 
         assertEquals(28, enemy.getCurrentHealth());
 
     }
 
+    @Test
     public void TestIncreaseZombieHealthBeyondMaximum() {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
-        Vampire enemy = new Vampire(new PathPosition(2, orderedPath));
+        orderedPath.add(path2);
+        Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
 
         assertEquals(30, enemy.getCurrentHealth());
 
@@ -355,16 +408,19 @@ public class ItemTest {
                 
     // Tests for Helmet
 
+    @Test
     public void TestHelmetDefencetoSlug() {
 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
-        Character c = new Character(new PathPosition(4, orderedPath));
+        orderedPath.add(path2);
+        Character c = new Character(new PathPosition(0, orderedPath));
         Helmet helmet= new Helmet(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Slug enemy = new Slug(new PathPosition(5, orderedPath));
+        Slug enemy = new Slug(new PathPosition(1, orderedPath));
 
         assertEquals(100, c.getCurrentHealth());
         helmet.reduceSlugDamage(enemy, c);
@@ -373,16 +429,19 @@ public class ItemTest {
 
     }
 
+    @Test
     public void TestHelmetDefencetoZombie() {
 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
-        Character c = new Character(new PathPosition(4, orderedPath));
+        orderedPath.add(path2);
+        Character c = new Character(new PathPosition(0, orderedPath));
         Helmet helmet= new Helmet(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Zombie enemy = new Zombie(new PathPosition(5, orderedPath));
+        Zombie enemy = new Zombie(new PathPosition(1, orderedPath));
 
         assertEquals(100, c.getCurrentHealth());
         helmet.reduceZombieDamage(enemy, c);
@@ -390,16 +449,19 @@ public class ItemTest {
         assertEquals(97, c.getCurrentHealth());
     }
 
+    @Test
     public void TestHelmetDefencetoVampire() {
 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
-        Character c = new Character(new PathPosition(4, orderedPath));
+        orderedPath.add(path2);
+        Character c = new Character(new PathPosition(0, orderedPath));
         Helmet helmet= new Helmet(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Vampire enemy = new Vampire(new PathPosition(5, orderedPath));
+        Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
 
         assertEquals(100, c.getCurrentHealth());
         helmet.reduceVampireDamage(enemy, c);
@@ -409,16 +471,19 @@ public class ItemTest {
 
     // Tests for Armour
 
+    @Test
     public void TestArmourDefencetoSlug() {
 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
-        Character c = new Character(new PathPosition(4, orderedPath));
+        orderedPath.add(path2);
+        Character c = new Character(new PathPosition(0, orderedPath));
         Armour armour = new Armour(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Slug enemy = new Slug(new PathPosition(5, orderedPath));
+        Slug enemy = new Slug(new PathPosition(1, orderedPath));
 
         assertEquals(100, c.getCurrentHealth());
         armour.reduceSlugDamage(enemy, c);
@@ -427,16 +492,19 @@ public class ItemTest {
 
     }
 
+    @Test
     public void TestArmourDefencetoZombie() {
 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
-        Character c = new Character(new PathPosition(4, orderedPath));
+        orderedPath.add(path2);
+        Character c = new Character(new PathPosition(0, orderedPath));
         Armour armour = new Armour(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Zombie enemy = new Zombie(new PathPosition(5, orderedPath));
+        Zombie enemy = new Zombie(new PathPosition(1, orderedPath));
 
         assertEquals(100, c.getCurrentHealth());
         armour.reduceZombieDamage(enemy, c);
@@ -444,16 +512,19 @@ public class ItemTest {
         assertEquals(97, c.getCurrentHealth());
     }
 
+    @Test
     public void TestArmourDefencetoVampire() {
 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
-        Character c = new Character(new PathPosition(4, orderedPath));
+        orderedPath.add(path2);
+        Character c = new Character(new PathPosition(0, orderedPath));
         Armour armour= new Armour(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Vampire enemy = new Vampire(new PathPosition(5, orderedPath));
+        Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
 
         assertEquals(100, c.getCurrentHealth());
         armour.reduceVampireDamage(enemy, c);
@@ -465,16 +536,19 @@ public class ItemTest {
 
     // Tests for Shield
 
+    @Test
     public void TestShieldDefencetoSlug() {
 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
-        Character c = new Character(new PathPosition(4, orderedPath));
+        orderedPath.add(path2);
+        Character c = new Character(new PathPosition(0, orderedPath));
         Shield shield = new Shield(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Slug enemy = new Slug(new PathPosition(5, orderedPath));
+        Slug enemy = new Slug(new PathPosition(1, orderedPath));
 
         assertEquals(100, c.getCurrentHealth());
         shield.reduceSlugDamage(enemy, c);
@@ -483,16 +557,19 @@ public class ItemTest {
 
     }
 
+    @Test
     public void TestShieldDefencetoZombie() {
 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
-        Character c = new Character(new PathPosition(4, orderedPath));
+        orderedPath.add(path2);
+        Character c = new Character(new PathPosition(0, orderedPath));
         Shield shield = new Shield(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Zombie enemy = new Zombie(new PathPosition(5, orderedPath));
+        Zombie enemy = new Zombie(new PathPosition(1, orderedPath));
 
         assertEquals(100, c.getCurrentHealth());
         shield.reduceZombieDamage(enemy, c);
@@ -500,16 +577,19 @@ public class ItemTest {
         assertEquals(97, c.getCurrentHealth());
     }
 
+    @Test
     public void TestShieldDefencetoVampire() {
 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
         orderedPath.add(path1);
-        Character c = new Character(new PathPosition(4, orderedPath));
+        orderedPath.add(path2);
+        Character c = new Character(new PathPosition(0, orderedPath));
         Shield shield = new Shield(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Vampire enemy = new Vampire(new PathPosition(5, orderedPath));
+        Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
 
         assertEquals(100, c.getCurrentHealth());
         shield.reduceVampireDamage(enemy, c);
