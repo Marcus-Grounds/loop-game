@@ -88,7 +88,7 @@ public class EnemyTest {
     public void TestBattleSlug(){
         JFXPanel jfxPanel = new JFXPanel();
         //test battle
-        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
         Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
@@ -105,18 +105,19 @@ public class EnemyTest {
 
         //spawn slug and character next to eachother
         Slug s1 = new Slug(p1);
-        d.addBasicEnemy(s1);
+        enemies.add(s1);
         Character c = new Character(p2);
-        d.setCharacter(c);
 
         //spawn another slug far away from character
         Slug s2 = new Slug(p3);
-        d.addBasicEnemy(s2);
+        enemies.add(s2);
 
-        //d.runBattles(new LoopManiaWorldController(world, initialEntities);
-        List<ImageView> initialEntities = new ArrayList<ImageView>();
+        BattleEnemyController battleEnemyController = new BattleEnemyController();
+        Battle battle = new Battle(c, battleEnemyController, enemies, s1);
+        battle.dealDamageOnce();
+        
 
-        d.runBattles(new LoopManiaWorldController(d, initialEntities));
+       
         //test that after battle, health of both character and slug is decreased
         assertTrue(s1.getCurrentHealth() < LOW_HEALTH);
         assertTrue(c.getCurrentHealth() < START_HEALTH);
@@ -131,7 +132,8 @@ public class EnemyTest {
 
         JFXPanel jfxPanel = new JFXPanel();
         //test battle
-        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        //LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
         Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
@@ -148,19 +150,21 @@ public class EnemyTest {
 
         //spawn a vampire that is 4 units away from character. Within support radius, but not battle radius.
         Vampire v1 = new Vampire(p3);
-        d.addBasicEnemy(v1);
+        enemies.add(v1);
         Character c = new Character(p2);
-        d.setCharacter(c);
 
-        d.runBattles(null);
+        //d.runBattles(null);
+        Battle battle = new Battle(c, null, enemies, v1);
+        battle.dealDamageOnce();
         assertTrue(v1.getCurrentHealth() == HIGH_HEALTH);
         assertTrue(c.getCurrentHealth() == START_HEALTH);
 
-    
+        
         //spawn slug and character next to eachother, should trigger zombie to join
-        Slug s1 = new Slug(p2);
-        d.addBasicEnemy(s1);
-        d.runBattles(null);
+        Slug s1 = new Slug(p1);
+        enemies.add(s1);
+        Battle battle1 = new Battle(c, null, enemies, s1);
+        battle1.dealDamageOnce();
 
   
 

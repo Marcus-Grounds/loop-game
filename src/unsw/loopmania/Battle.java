@@ -9,21 +9,32 @@ public class Battle {
     private List<BasicEnemy> enemiesToFight;
     private Character c;
     private BattleEnemyController controller;
-    private List<BasicEnemy> defeatedEnemies;
+    //private List<BasicEnemy> defeatedEnemies;
     private List<BasicEnemy> enemies;
+    private BasicEnemy mainEnemy;
 
-    public Battle(List<BasicEnemy> enemiesToFight, Character c, BattleEnemyController controller, List<BasicEnemy> enemies, List<BasicEnemy> defeatedEnemies) {
-        this.enemiesToFight = enemiesToFight;
+    public Battle(Character c, BattleEnemyController controller, List<BasicEnemy> enemies, BasicEnemy mainEnemy) {
         this.c = c;
         this.controller = controller;
-       this.defeatedEnemies = defeatedEnemies;
         this.enemies = enemies;
+        enemiesToFight = new ArrayList<BasicEnemy>();;
+        this.mainEnemy = mainEnemy;
+
+        if (Math.pow((c.getX()-mainEnemy.getX()), 2) +  Math.pow((c.getY()-mainEnemy.getY()), 2) <= Math.pow(mainEnemy.getAttackRadius(),2)) {
+            enemiesToFight.add(mainEnemy);
+
+            //when a battle starts, get all enemies that needs to be fought
+            for(BasicEnemy e1: enemies){
+                if (Math.pow((c.getX()-e1.getX()), 2) +  Math.pow((c.getY()-e1.getY()), 2) <= Math.pow(e1.getSupportRadius(),2)
+                && !enemiesToFight.contains(e1)) {
+                    enemiesToFight.add(e1);
+                }
+            }
+        }
+        
     }
 
     public void dealDamageOnce(){
-        System.out.println("enemies to fight in battle.java");
-        System.out.println(enemiesToFight.size());
-
         //public void dealDamageOnce(List<BasicEnemy> defeatedEnemies){
         boolean allEnemiesDead = true;
         for (BasicEnemy e: enemiesToFight) {
@@ -32,9 +43,8 @@ public class Battle {
             if (e.getCurrentHealth() > 0) {
                 allEnemiesDead = false;
             }
-            else if (e.getCurrentHealth() <= 0 && !defeatedEnemies.contains(e)){
+            else if (e.getCurrentHealth() <= 0){
                 System.out.println("Enemy DEAD");
-                defeatedEnemies.add(e);
             }
 
             c.decreaseHealth(e.getDamage());
@@ -51,16 +61,15 @@ public class Battle {
             
         }
         if (allEnemiesDead){
-            System.out.println("enemy dead count in battle.java");
-            System.out.println(defeatedEnemies.size());
             
-            for (BasicEnemy enemy: defeatedEnemies){
+            for (BasicEnemy enemy: enemiesToFight){
                 System.out.println("killenemy");
-                
-                enemy.destroy();
-                enemies.remove(enemy);
+                killEnemy(enemy);
             }
-            controller.pauseBattle();
+            if (controller != null) {
+                controller.pauseBattle();
+            }
+           
         }
     }
     /*
@@ -74,7 +83,17 @@ public class Battle {
     }
 
     public List<BasicEnemy> getDefeatedEnemies() {
-        return defeatedEnemies;
+        //System.out.println(defeatedEnemies.size());
+        return enemiesToFight;
+    }
+
+     /**
+     * kill an enemy
+     * @param enemy enemy to be killed
+     */
+    private void killEnemy(BasicEnemy enemy){
+        enemy.destroy();
+        enemies.remove(enemy);
     }
 
 
