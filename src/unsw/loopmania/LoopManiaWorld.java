@@ -216,15 +216,17 @@ public class LoopManiaWorld {
      * @throws IOException
      */
     //public List<BasicEnemy> runBattles(LoopManiaWorldController world) {
-    public List<BasicEnemy> runBattles(LoopManiaWorldController controller) {
+    public List<BasicEnemy> runBattles(LoopManiaWorldController controller, Scene scene, Parent gameRoot, Stage primaryStage) throws IOException {
 
         List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
+        List<BasicEnemy> enemiesToFight = new ArrayList<BasicEnemy>();
         for (BasicEnemy e: enemies){
+            //Battle newBattle = null;
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
             if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= Math.pow(e.getAttackRadius(),2)){
                 //find all enemies that the character is in support radius of
-                List<BasicEnemy> enemiesToFight = new ArrayList<BasicEnemy>();
+                //List<BasicEnemy> enemiesToFight = new ArrayList<BasicEnemy>();
                 enemiesToFight.add(e);
                 for(BasicEnemy e1: enemies){
                     if (Math.pow((character.getX()-e1.getX()), 2) +  Math.pow((character.getY()-e1.getY()), 2) <= Math.pow(e1.getSupportRadius(),2)
@@ -232,43 +234,72 @@ public class LoopManiaWorld {
                         enemiesToFight.add(e1);
                     }
                 }
-                for (BasicEnemy e1 : enemiesToFight) {
-                    // fight...
-                    while(character.getCurrentHealth() > 0 && e1.getCurrentHealth() > 0) {
-                        character.decreaseHealth(e1.getDamage());
-                        
-                        //need to change this line once character attacking strategy is configured correctly
-                        e1.decreaseHealth(5);
-                        System.out.println(character.getCurrentHealth());
-                        System.out.println(e1.getCurrentHealth());
-                    }
-                    if (character.getCurrentHealth() <= 0) {
-                        System.out.println("Character DEAD");
-                        character.destroy();
-                    }
-                    else if (e1.getCurrentHealth() <= 0){
-                        System.out.println("Enemy DEAD");
-                        defeatedEnemies.add(e1);
-                    }
-                }
-                
+                System.out.println("Enemies to find");
+                System.out.println(enemiesToFight.size());
+
+                //creates a new battleEnemeyController and screen
+                BattleEnemyController battleEnemyController = new BattleEnemyController();
+                FXMLLoader battleLoader = new FXMLLoader(getClass().getResource("Battle.fxml"));
+                battleLoader.setController(battleEnemyController);
+                Parent battleRoot = battleLoader.load();
+
+                controller.setBattleSwitcher( () -> {
+                    controller.pause();
+                    LoopManiaApplication.switchToRoot(scene, battleRoot, primaryStage);
+                    battleEnemyController.startTimer();
+                } );
+
+                battleEnemyController.setGameSwitcher(() -> {  
+                    LoopManiaApplication.switchToRoot(scene, gameRoot, primaryStage);
+                    controller.startTimer();
+                });
+
+                Battle newBattle = new Battle(enemiesToFight, character, battleEnemyController, enemies, defeatedEnemies);
+                battleEnemyController.setBattle(newBattle);
                 try {
+                    System.out.println("trying to switch to battle");
+                
+                    //controller.pause();
+                    
                     controller.switchToBattle();
+                    //return newBattle.getDefeatedEnemies();
+                    
+
                 } catch (IOException e2) {
-                    // TODO Auto-generated catch block
                     e2.printStackTrace();
                 }
-                break;
+                /*
+                //for some reason this next two blocks of code is ran before the fight occours
+                List<BasicEnemy> defeatedEnemies = newBattle.getDefeatedEnemies();
+                System.out.println("defeated enemies in loop mania world");
+                System.out.println(defeatedEnemies.size());
+                
+
+                for (BasicEnemy enemy: defeatedEnemies){
+                    System.out.println("killenemy");
+                    // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
+                    // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
+                    // due to mutating list we're iterating over
+                    killEnemy(enemy);
+                }
+                */
+                
+            
+                //break;
             }
 
         }
+        /*
+        List<BasicEnemy> defeatedEnemies = newBattle.getDefeatedEnemies();
+
         for (BasicEnemy e: defeatedEnemies){
             // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
             // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
             // due to mutating list we're iterating over
             killEnemy(e);
         }
-        return defeatedEnemies;
+        */
+        return enemiesToFight;
     }
 
     /**

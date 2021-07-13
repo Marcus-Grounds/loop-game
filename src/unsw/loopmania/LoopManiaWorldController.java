@@ -23,6 +23,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -33,6 +35,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import unsw.loopmania.BasicItems.Sword;
 import unsw.loopmania.Buildings.VampireCastleBuilding;
@@ -170,6 +173,12 @@ public class LoopManiaWorldController {
     private MenuSwitcher mainMenuSwitcher;
 
     private MenuSwitcher battleSwitcher;
+
+    private Scene scene;
+    
+    private Stage primaryStage;
+
+    private Parent gameRoot;
     /*
     public void setBattleEnemyScreen (BattleEnemyScreen battleEnemyScreen){
         this.battleEnemyScreen = battleEnemyScreen;
@@ -180,8 +189,11 @@ public class LoopManiaWorldController {
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
      */
-    public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities) {
+    public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities, Scene scene, Parent gameRoot, Stage primaryStage) {
         this.world = world;
+        this.scene = scene;
+        this.gameRoot = gameRoot;
+        this.primaryStage = primaryStage;
         entityImages = new ArrayList<>(initialEntities);
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
         basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
@@ -255,7 +267,13 @@ public class LoopManiaWorldController {
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             world.runTickMoves();
             //List<BasicEnemy> defeatedEnemies = world.runBattles(this);
-            List<BasicEnemy> defeatedEnemies = world.runBattles(this);
+            List<BasicEnemy> defeatedEnemies = new ArrayList<>();
+            try {
+                defeatedEnemies = world.runBattles(this, scene, gameRoot, primaryStage);
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
             for (BasicEnemy e: defeatedEnemies){
                 reactToEnemyDefeat(e);
             }
@@ -275,7 +293,7 @@ public class LoopManiaWorldController {
      */
     public void pause(){
         isPaused = true;
-        System.out.println("pausing");
+        System.out.println("pausingggggg");
         timeline.stop();
     }
     /*
@@ -651,6 +669,7 @@ public class LoopManiaWorldController {
     }
 
     public void setBattleSwitcher(MenuSwitcher battleSwitcher){
+
         this.battleSwitcher = battleSwitcher;
     }
 
@@ -668,7 +687,7 @@ public class LoopManiaWorldController {
     @FXML
     public void switchToBattle() throws IOException {
         // TODO = possibly set other menu switchers
-        pause();
+        this.pause();
         battleSwitcher.switchMenu();
     }
 
@@ -761,4 +780,8 @@ public class LoopManiaWorldController {
     public void setBattlerSwitcher(Object object) {
     }
     */
+
+    public void setGameRoot(Parent gameRoot){
+        this.gameRoot = gameRoot;
+    }
 }

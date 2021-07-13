@@ -56,4 +56,5 @@ public class BasicEnemy extends MovingEntity {
         return image;
     }
     */
+
 }

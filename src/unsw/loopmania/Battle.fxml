@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" />
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="111.0" layoutY="95.0" text="Enemy">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="419.0" layoutY="95.0" text="Character">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="226.0" layoutY="33.0" text="BATTLE!">
+         <font>
+            <Font size="42.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="enemyImage" fitHeight="150.0" fitWidth="200.0" layoutX="40.0" layoutY="176.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="characterImage" fitHeight="150.0" fitWidth="200.0" layoutX="361.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="healthEnemy" layoutX="105.0" layoutY="131.0" text="Label">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="healthCharacter" layoutX="426.0" layoutY="131.0" text="Label">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

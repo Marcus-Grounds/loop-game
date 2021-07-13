@@ -8,9 +8,12 @@ import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import javafx.geometry.Rectangle2D;
 
 import java.io.File;
@@ -29,14 +32,20 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
     //Images
     private Image characterImage;
     private Image pathTilesImage;
+    private Scene scene;
+    private Stage primaryStage;
+    private Parent gameRoot;
 
-    public LoopManiaWorldControllerLoader(String filename)
+    
+
+    public LoopManiaWorldControllerLoader(String filename, Scene scene, Stage primaryStage)
             throws FileNotFoundException {
         super(filename);
         entities = new ArrayList<>();
         characterImage = new Image((new File("src/images/human_new.png")).toURI().toString());
         pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
-        
+        this.scene = scene;
+        this.primaryStage = primaryStage;
     }
 
     // TODO = load more entity types from the file
@@ -137,7 +146,7 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
      * @throws FileNotFoundException
      */
     public LoopManiaWorldController loadController() throws FileNotFoundException {
-        return new LoopManiaWorldController(load(), entities);        
+        return new LoopManiaWorldController(load(), entities, scene, gameRoot, primaryStage);        
     }
 
 
