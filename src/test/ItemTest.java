@@ -407,31 +407,6 @@ public class ItemTest {
         assertEquals(95, c.getCurrentHealth());
     }
 
-    public void TestHelmetReduceEnemyAttackBy5() {
-
-        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
-        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
-        orderedPath.add(path1);
-        Character c = new Character(new PathPosition(4, orderedPath));
-        Helmet helmet= new Helmet(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        Zombie enemy = new Zombie(new PathPosition(5, orderedPath));
-
-        assertEquals(100, c.getCurrentHealth());
-        c.getNumberOfAttacks;
-
-        if (c.getNumberOfAttacks <= 5 ) {
-            assertEquals(100, c.getCurrentHealth()); 
-        }
-        else {
-            helmet.reduceVampireDamage(enemy, c);
-            assertEquals(97, c.getCurrentHealth());
-        }  
-    }
-
-
-
     // Tests for Armour
 
     public void TestArmourDefencetoSlug() {
@@ -466,7 +441,7 @@ public class ItemTest {
         assertEquals(100, c.getCurrentHealth());
         armour.reduceZombieDamage(enemy, c);
 
-        assertEquals(97.5, c.getCurrentHealth());
+        assertEquals(97, c.getCurrentHealth());
     }
 
     public void TestArmourDefencetoVampire() {
@@ -504,7 +479,7 @@ public class ItemTest {
         assertEquals(100, c.getCurrentHealth());
         shield.reduceSlugDamage(enemy, c);
 
-        assertEquals(100, c.getCurrentHealth());
+        assertEquals(99, c.getCurrentHealth());
 
     }
 
@@ -522,7 +497,7 @@ public class ItemTest {
         assertEquals(100, c.getCurrentHealth());
         shield.reduceZombieDamage(enemy, c);
 
-        assertEquals(98, c.getCurrentHealth());
+        assertEquals(97, c.getCurrentHealth());
     }
 
     public void TestShieldDefencetoVampire() {
@@ -539,7 +514,7 @@ public class ItemTest {
         assertEquals(100, c.getCurrentHealth());
         shield.reduceVampireDamage(enemy, c);
 
-        assertEquals(98, c.getCurrentHealth());
+        assertEquals(95, c.getCurrentHealth());
     }
 
 }
