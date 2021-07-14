@@ -63,7 +63,7 @@ public abstract class MovingEntity extends Entity {
     }
 
     public void increaseHealth(int healthToIncrease){
-        health.decreaseHealth(healthToIncrease);
+        health.increaseHealth(healthToIncrease);
     }
 
     public void decreaseHealth(int healthToDecrease){
