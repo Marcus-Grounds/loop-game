@@ -235,7 +235,33 @@ import unsw.loopmania.LoopManiaApplication;
         return spawningEnemies;
     }
 
+    public Gold possiblySpawnGold() {
+        Pair<Integer, Integer> pos = possiblySpawnPosition(5);
+        
+        Random random = new Random();
+        double r = random.nextDouble();
 
+        if (r < 0.4 && pos != null) {
+            int indexInPath = orderedPath.indexOf(pos);
+            Gold gold = new Gold(new SimpleIntegerProperty(indexInPath), new SimpleIntegerProperty(indexInPath));
+            return gold;
+        }
+        return null;
+    }
+
+    public HealthPotion possiblySpawnHealthPotion() {
+        Pair<Integer, Integer> pos = possiblySpawnPosition(6);
+        
+        Random random = new Random();
+        double r = random.nextDouble();
+
+        if (r < 0.3 && pos != null) {
+            int indexInPath = orderedPath.indexOf(pos);
+            HealthPotion healthPotion = new HealthPotion(new SimpleIntegerProperty(indexInPath), new SimpleIntegerProperty(indexInPath));
+            return healthPotion;
+        }
+        return null;
+    }
 
     // Run battle once between one enemy and character
     public void runBattle(BasicEnemy enemyToFight) {
