@@ -16,7 +16,15 @@ import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
 
 import unsw.loopmania.Buildings.*;
-
+import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
+import unsw.loopmania.Buildings.BattleBuildings.CampfireBuilding;
+import unsw.loopmania.Buildings.BattleBuildings.TowerBuilding;
+import unsw.loopmania.Buildings.PathBuildings.BarracksBuilding;
+import unsw.loopmania.Buildings.PathBuildings.PathBuilding;
+import unsw.loopmania.Buildings.PathBuildings.TrapBuilding;
+import unsw.loopmania.Buildings.PathBuildings.VillageBuilding;
+import unsw.loopmania.Buildings.SpawnBuildings.SpawnBuilding;
+import unsw.loopmania.Buildings.SpawnBuildings.VampireCastleBuilding;
 import unsw.loopmania.Cards.*;
 
 import unsw.loopmania.Enemies.*;
@@ -56,16 +64,28 @@ public class BuildingTest {
         
         JFXPanel jfxPanel = new JFXPanel(); 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
-        Building vampireCastleBuilding = new VampireCastleBuilding(null, null);
-        Building towerBuilding = new TowerBuilding(null, null);
+        
+        VampireCastleBuilding vampireCastleBuilding = new VampireCastleBuilding(null, null);
+        TowerBuilding towerBuilding = new TowerBuilding(null, null);
+        TrapBuilding trapBuilding = new TrapBuilding(null, null);
 
-        d.addBuilding(vampireCastleBuilding);
-        d.addBuilding(towerBuilding);
+        d.addSpawnBuilding(vampireCastleBuilding);
+        d.addBattleBuilding(towerBuilding);
+        d.addPathBuilding(trapBuilding);
 
-        List<Building> dummyList = new ArrayList<Building>();
-        dummyList.add(vampireCastleBuilding);
+        List<BattleBuilding> dummyList = new ArrayList<BattleBuilding>();
+        List<SpawnBuilding> dummyList2 = new ArrayList<SpawnBuilding>();
+        List<PathBuilding> dummyList3 = new ArrayList<PathBuilding>();
+
+        
         dummyList.add(towerBuilding);
-        assertEquals(d.getAllBuildings(), dummyList);
+        dummyList2.add(vampireCastleBuilding);
+        dummyList3.add(trapBuilding);
+        
+        assertEquals(d.getAllBattleBuildings(), dummyList);
+        assertEquals(d.getAllSpawnBuildings(), dummyList2);
+        assertEquals(d.getAllPathBuildings(), dummyList3);
+
     }
 
     @Test
@@ -77,12 +97,12 @@ public class BuildingTest {
         
         //Create tower
         TowerBuilding towerBuilding1 = new TowerBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
-        TowerBuilding towerBuilding2 = new TowerBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(6));
+        TowerBuilding towerBuilding2 = new TowerBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(4));
         TowerBuilding towerBuilding3 = new TowerBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(7));
         
-        d.addBuilding(towerBuilding1);
-        d.addBuilding(towerBuilding2);
-        d.addBuilding(towerBuilding3);
+        d.addBattleBuilding(towerBuilding1);
+        d.addBattleBuilding(towerBuilding2);
+        d.addBattleBuilding(towerBuilding3);
 
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
             
@@ -129,7 +149,7 @@ public class BuildingTest {
 
         //Create village
         VillageBuilding villageBuilding = new VillageBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(0));
-        d.addBuilding(villageBuilding);
+        d.addPathBuilding(villageBuilding);
 
         Character c = new Character(p1);
         d.setCharacter(c);
@@ -137,8 +157,7 @@ public class BuildingTest {
 
         assertEquals(c.getCurrentHealth(), 50);
 
-        d.runTickMoves();
-        d.runTickMoves();
+        d.runTickMovesCharacter();
 
         assertEquals(c.getCurrentHealth(), 70);
 
@@ -153,31 +172,36 @@ public class BuildingTest {
         JFXPanel jfxPanel = new JFXPanel(); 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         
-        //Demonstrates player gaining health when passing through village
+        //Demonstrates enemy losing health when passing through trap
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
 
+        //Path for enemy
         Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(0, 0);
         Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
 
         orderedPath.add(path1);
         orderedPath.add(path2);
         
+        //Path for character so it does not interact with enemy
         PathPosition p1 = new PathPosition(0, orderedPath);
 
         //Create village
         TrapBuilding trapBuilding = new TrapBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(0));
-        d.addBuilding(trapBuilding);
+        d.addPathBuilding(trapBuilding);
 
+        // Should do nothing even if there are no enemies
+        d.runTickMovesEnemies();
+        
         Vampire v = new Vampire(p1);
         d.addBasicEnemy(v);
 
         assertEquals(v.getCurrentHealth(), HIGH_HEALTH);
 
-        v.move(); // just in case the enemy stays in the same position 
-        v.move(); // accounts for the random factor for now
-        v.move();
-        v.move();
-        v.move();
+        d.runTickMovesEnemies(); // just in case the enemy stays in the same position 
+        d.runTickMovesEnemies(); // accounts for the random factor for now
+        d.runTickMovesEnemies();
+        d.runTickMovesEnemies();
+        d.runTickMovesEnemies();
 
         assertTrue(v.getCurrentHealth() < HIGH_HEALTH);
     }
@@ -192,7 +216,7 @@ public class BuildingTest {
         //Create tower
         CampfireBuilding campfireBuilding = new CampfireBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
         
-        d.addBuilding(campfireBuilding);
+        d.addBattleBuilding(campfireBuilding);
 
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
             
@@ -214,21 +238,21 @@ public class BuildingTest {
         d.runBattle(s1);
         
         //SHOULD ONLY REGISTER DAMAGE FROM 2 TOWERS AS ONE IS OUT OF RANGE
-        assertEquals(s1.getCurrentHealth(), HIGH_HEALTH - 2*BASE_DAMEGE);
-        assertEquals(c.getCurrentHealth(), START_HEALTH - HIGH_DAMAGE);
+        assertEquals(s1.getCurrentHealth(), LOW_HEALTH - 2*BASE_DAMEGE);
+        assertEquals(c.getCurrentHealth(), START_HEALTH - LOW_DAMAGE);
     }
 
     @Test
     public void barracksTest() {
         
-        //Create a battle between the character and enemy where character is in range of campfire
+        // Test whether or not an ally is gained after the character passes through it
+        
         JFXPanel jfxPanel = new JFXPanel(); 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         
-        //Create tower
         BarracksBuilding barracksBuilding = new BarracksBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(0));
         
-        d.addBuilding(barracksBuilding);
+        d.addPathBuilding(barracksBuilding);
 
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
             
@@ -239,22 +263,18 @@ public class BuildingTest {
         orderedPath.add(path1);
         orderedPath.add(path2);
         orderedPath.add(path3);
-
-
+ 
         PathPosition p1 = new PathPosition(0, orderedPath);
-        PathPosition p2 = new PathPosition(1, orderedPath);
-        PathPosition p3 = new PathPosition(2, orderedPath);
-
         
         Character c = new Character(p1);
         d.setCharacter(c);
         
         assertEquals(d.getAllAllies().isEmpty(), true);
         
-        d.runTickMoves();
+        d.runTickMovesCharacter();
         assertEquals(d.getAllAllies().isEmpty(), false);
 
-        d.runTickMoves();
+        d.runTickMovesCharacter();
         assertEquals(d.getAllAllies().isEmpty(), false);
     }
 }

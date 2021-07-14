@@ -2,6 +2,7 @@ package unsw.loopmania;
 
 import unsw.loopmania.BasicItems.*;
 import unsw.loopmania.Buildings.*;
+import unsw.loopmania.Buildings.SpawnBuildings.VampireCastleBuilding;
 import unsw.loopmania.Cards.*;
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;
@@ -35,7 +36,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import unsw.loopmania.BasicItems.Sword;
-import unsw.loopmania.Buildings.VampireCastleBuilding;
 import unsw.loopmania.Cards.VampireCastleCard;
 import unsw.loopmania.Enemies.BasicEnemy;
 
@@ -125,10 +125,14 @@ public class LoopManiaWorldController {
      */
     private Timeline timeline;
 
-    private Image vampireCastleCardImage;
     private Image basicEnemyImage;
     private Image swordImage;
-    private Image basicBuildingImage;
+    
+    private Image vampireCastleCardImage;
+    private Image vampireCastleBuildingImage; // probably want to change the implementation of this
+    private Image towerCardImage;
+    private Image towerBuildingImage;
+
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -175,10 +179,14 @@ public class LoopManiaWorldController {
     public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities) {
         this.world = world;
         entityImages = new ArrayList<>(initialEntities);
-        vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
         basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
-        basicBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
+        
+        vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
+        vampireCastleBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
+        towerCardImage = new Image((new File("src/images/tower_card.png")).toURI().toString());
+        towerBuildingImage = new Image((new File("src/images/tower.png")).toURI().toString());
+
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
 
@@ -360,8 +368,10 @@ public class LoopManiaWorldController {
      * load a building into the GUI
      * @param building
      */
-    private void onLoad(VampireCastleBuilding building){
-        ImageView view = new ImageView(basicBuildingImage);
+    private void onLoad(Building building){
+        //ImageView view = new ImageView(vampireCastleBuildingImage);        
+        ImageView view = building.getImageView();
+        
         addEntity(building, view);
         squares.getChildren().add(view);
     }
@@ -408,7 +418,7 @@ public class LoopManiaWorldController {
                             case CARD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn a building here of different types
-                                VampireCastleBuilding newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                Building newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
                                 onLoad(newBuilding);
                                 break;
                             case ITEM:
@@ -489,7 +499,7 @@ public class LoopManiaWorldController {
      * @param buildingNodeY the y coordinate of the drop location for the card, where the building will spawn, from 0 to height-1
      * @return building entity returned from the world
      */
-    private VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
+    private Building convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
         return world.convertCardToBuildingByCoordinates(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
     }
 

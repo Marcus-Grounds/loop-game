@@ -2,7 +2,6 @@ package unsw.loopmania;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.image.ImageView;
 
 /**
  * represents a non-moving entity
@@ -13,11 +12,13 @@ public abstract class StaticEntity extends Entity {
      * x and y coordinates represented by IntegerProperty, so ChangeListeners can be added
      */
     private IntegerProperty x, y;
+    //private ImageView image;
 
     public StaticEntity(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super();
         this.x = x;
         this.y = y;
+        //this.image = image;
     }
 
     public IntegerProperty x() {
@@ -35,4 +36,8 @@ public abstract class StaticEntity extends Entity {
     public int getY() {
         return y().get();
     }
+
+    //public ImageView getImageView() {
+    //    return image;
+    //}
 }

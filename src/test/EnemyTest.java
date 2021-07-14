@@ -128,6 +128,7 @@ public class EnemyTest {
 
         JFXPanel jfxPanel = new JFXPanel();
         //test battle
+        
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
@@ -154,12 +155,10 @@ public class EnemyTest {
         assertTrue(c.getCurrentHealth() == START_HEALTH);
 
     
-        //spawn slug and character next to eachother, should trigger zombie to join
+        //spawn slug and character next to eachother, should trigger vampire to join
         Slug s1 = new Slug(p2);
         d.addBasicEnemy(s1);
         d.runBattles();
-
-  
 
         //d.runBattles(new LoopManiaWorldController(world, initialEntities);
 
@@ -169,5 +168,4 @@ public class EnemyTest {
         assertTrue(s1.getCurrentHealth() < LOW_HEALTH);
         
     }
-
 }

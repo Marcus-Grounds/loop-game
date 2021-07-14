@@ -1,0 +1,47 @@
+package unsw.loopmania.Buildings.BattleBuildings;
+
+import java.io.File;
+
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import unsw.loopmania.MovingEntity;
+
+public class TowerBuilding extends BattleBuilding {
+
+    public static final int HIGH_DAMAGE = 10;
+    public static final int LONG_RADIUS = 5;
+    
+    private int damage;
+
+    public TowerBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        
+        super(x, y);
+        setRadius(LONG_RADIUS);
+        this.damage = HIGH_DAMAGE;
+        
+        setImageView(new ImageView(new Image((new File("src/images/tower.png")).toURI().toString())));
+    }
+
+    public int getDamage() {
+        return this.damage;
+    }
+
+    @Override
+    public boolean checkRadius(MovingEntity entity) {
+        
+        if (Math.pow((entity.getX()-this.getX()), 2) +  Math.pow((entity.getY()-this.getY()), 2) <= Math.pow(getRadius(),2)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void buildingAction(MovingEntity character, MovingEntity enemy) {
+        // attack the enemy by decreasing enemy health by tower damage
+        if (checkRadius(enemy)) {
+            enemy.decreaseHealth(this.damage);
+        }
+    }
+}
