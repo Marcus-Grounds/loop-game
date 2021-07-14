@@ -311,6 +311,106 @@ public class LoopManiaWorld {
         return sword;
     }
 
+     /**
+     * spawn a staff in the world and return the staff entity
+     * @return a staff to be spawned in the controller as a JavaFX node
+     */
+    public Staff addUnequippedStaff(){
+       
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null){
+            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest staff
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+        
+        // now we insert the new staff, as we know we have at least made a slot available...
+        Staff staff = new Staff(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(staff);
+        return staff;
+    }
+
+     /**
+     * spawn a stake in the world and return the stake entity
+     * @return a stake to be spawned in the controller as a JavaFX node
+     */
+    public Stake addUnequippedStake(){
+        
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null){
+            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest stake
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+        
+        // now we insert the new stake, as we know we have at least made a slot available...
+        Stake stake = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(stake);
+        return stake;
+    }
+
+     /**
+     * spawn a shield in the world and return the shield entity
+     * @return a shield to be spawned in the controller as a JavaFX node
+     */
+    public Shield addUnequippedShield(){
+        
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null){
+            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest shield
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+        
+        // now we insert the new shield, as we know we have at least made a slot available...
+        Shield shield = new Shield(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(shield);
+        return shield;
+    }
+
+     /**
+     * spawn a helmet in the world and return the helmet entity
+     * @return a helmet to be spawned in the controller as a JavaFX node
+     */
+    public Helmet addUnequippedHelmet(){
+        
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null){
+            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest helmet
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+        
+        // now we insert the new helmet, as we know we have at least made a slot available...
+        Helmet helmet = new Helmet(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(helmet);
+        return helmet;
+    }
+
+     /**
+     * spawn a armour in the world and return the armour entity
+     * @return a armour to be spawned in the controller as a JavaFX node
+     */
+    public Armour addUnequippedArmour(){
+        
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        if (firstAvailableSlot == null){
+            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
+            // TODO = give some cash/experience rewards for the discarding of the oldest armour
+            removeItemByPositionInUnequippedInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForItem();
+        }
+        
+        // now we insert the new armour, as we know we have at least made a slot available...
+        Armour armour = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        unequippedInventoryItems.add(armour);
+        return armour;
+    }
+
     /**
      * remove an item by x,y coordinates
      * @param x x coordinate from 0 to width-1
