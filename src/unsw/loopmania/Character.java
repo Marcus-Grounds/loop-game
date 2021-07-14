@@ -14,5 +14,4 @@ public class Character extends MovingEntity {
         super(position, new Health(START_HEALTH), new ImageView(new Image((new File("src/images/human_new.png")).toURI().toString())));
         //super(position, new Health(START_HEALTH));
     }
-    
 }

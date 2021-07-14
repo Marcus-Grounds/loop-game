@@ -15,7 +15,7 @@ import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
 
 import unsw.loopmania.Buildings.*;
-
+import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
 import unsw.loopmania.Cards.*;
 
 import unsw.loopmania.Enemies.*;
@@ -113,7 +113,7 @@ public class EnemyTest {
         enemies.add(s2);
 
         BattleEnemyController battleEnemyController = new BattleEnemyController();
-        Battle battle = new Battle(c, battleEnemyController, enemies, s1);
+        Battle battle = new Battle(c, battleEnemyController, enemies, s1, new ArrayList<BattleBuilding>());
         battle.dealDamageOnce();
         
 
@@ -154,7 +154,7 @@ public class EnemyTest {
         Character c = new Character(p2);
 
         //d.runBattles(null);
-        Battle battle = new Battle(c, null, enemies, v1);
+        Battle battle = new Battle(c, null, enemies, v1, new ArrayList<BattleBuilding>());
         battle.dealDamageOnce();
         assertTrue(v1.getCurrentHealth() == HIGH_HEALTH);
         assertTrue(c.getCurrentHealth() == START_HEALTH);
@@ -163,10 +163,8 @@ public class EnemyTest {
         //spawn slug and character next to eachother, should trigger zombie to join
         Slug s1 = new Slug(p1);
         enemies.add(s1);
-        Battle battle1 = new Battle(c, null, enemies, s1);
+        Battle battle1 = new Battle(c, null, enemies, s1,  new ArrayList<BattleBuilding>());
         battle1.dealDamageOnce();
-
-  
 
         //d.runBattles(new LoopManiaWorldController(world, initialEntities);
 
@@ -176,5 +174,4 @@ public class EnemyTest {
         assertTrue(s1.getCurrentHealth() < LOW_HEALTH);
         
     }
-
 }

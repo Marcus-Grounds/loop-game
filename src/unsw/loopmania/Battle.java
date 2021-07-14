@@ -3,6 +3,7 @@ package unsw.loopmania;
 import java.util.ArrayList;
 import java.util.List;
 
+import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
 import unsw.loopmania.Enemies.BasicEnemy;
 
 public class Battle {
@@ -12,13 +13,15 @@ public class Battle {
     //private List<BasicEnemy> defeatedEnemies;
     private List<BasicEnemy> enemies;
     private BasicEnemy mainEnemy;
+    private List<BattleBuilding> battleBuildings;
 
-    public Battle(Character c, BattleEnemyController controller, List<BasicEnemy> enemies, BasicEnemy mainEnemy) {
+    public Battle(Character c, BattleEnemyController controller, List<BasicEnemy> enemies, BasicEnemy mainEnemy,  List<BattleBuilding> battleBuildings) {
         this.c = c;
         this.controller = controller;
         this.enemies = enemies;
         enemiesToFight = new ArrayList<BasicEnemy>();;
         this.mainEnemy = mainEnemy;
+        this.battleBuildings = battleBuildings;
 
         if (Math.pow((c.getX()-mainEnemy.getX()), 2) +  Math.pow((c.getY()-mainEnemy.getY()), 2) <= Math.pow(mainEnemy.getAttackRadius(),2)) {
             enemiesToFight.add(mainEnemy);
@@ -38,6 +41,11 @@ public class Battle {
         //public void dealDamageOnce(List<BasicEnemy> defeatedEnemies){
         boolean allEnemiesDead = true;
         for (BasicEnemy e: enemiesToFight) {
+
+            for (BattleBuilding b : battleBuildings) {
+                b.buildingAction(c, e);
+            }
+    
 
             e.decreaseHealth(5);
             if (e.getCurrentHealth() > 0) {

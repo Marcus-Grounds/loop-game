@@ -19,10 +19,8 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
     //public ImageView image;
 
     
-    public Slug(PathPosition position) {
+    public Slug (PathPosition position) {
         //Image image = new Image((new File("src/images/slug.png")).toURI().toString());
-
-
         //super(position, new Health(LOW_HEALTH), SHORT_RADIUS, SHORT_RADIUS, LOW_DAMAGE, new ImageView(new Image((new File("src/images/slug.png")).toURI().toString())) );
         
         super(position, new Health(LOW_HEALTH), SHORT_RADIUS, SHORT_RADIUS, LOW_DAMAGE, new ImageView(new Image((new File("src/images/slug.png")).toURI().toString())) );
@@ -31,12 +29,6 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
 
         //TODO Auto-generated constructor stub
     }
-
-    /*
-    public ImageView getImageView(){
-        return image;
-    }
-    */
 
     @Override
     public void spawn() {
