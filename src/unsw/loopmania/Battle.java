@@ -72,11 +72,6 @@ public class Battle {
            
         }
     }
-    /*
-    public BasicEnemy getGetEnemy(){
-        return e;
-    }
-    */
 
     public Character getCharacter(){
         return c;
