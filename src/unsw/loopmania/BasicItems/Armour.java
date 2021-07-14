@@ -1,7 +1,6 @@
 package unsw.loopmania.BasicItems;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.StaticEntity;
 import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Vampire;
 import unsw.loopmania.Enemies.Zombie;
@@ -10,20 +9,16 @@ import unsw.loopmania.Character;
 /**
  * represents an equipped or unequipped armour in the backend world
  */
-public class Armour extends StaticEntity implements DefendingStrategy {
+public class Armour extends BasicItem implements DefendingStrategy {
 
     public static final int COST = 5;
 
     public Armour(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y);
+        super(x, y, COST);
     }    
 
     public Armour getArmour() {
         return this;
-    }
-
-    public int getCost() {
-        return COST;
     }
 
     public void reduceSlugDamage(Slug slug, Character c) {
