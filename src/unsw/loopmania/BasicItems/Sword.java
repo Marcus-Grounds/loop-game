@@ -16,15 +16,11 @@ public class Sword extends BasicItem implements AttackingStrategy {
     int damage;
 
     public Sword(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y);
+        super(x, y, COST);
     }    
 
     public Sword getSword() {
         return this;
-    }
-
-    public int getCost() {
-        return COST;
     }
 
     // Damage done by sword is dependent on the number of loops
