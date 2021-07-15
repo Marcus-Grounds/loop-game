@@ -86,7 +86,7 @@ import unsw.loopmania.LoopManiaApplication;
     private List<BasicEnemy> enemies;
 
     //private List<Building> buildingEntities;
-    private Building heroCastle; 
+    private Building heroCastle;
     
     private List<BattleBuilding> battleBuildings;
     private List<PathBuilding>   pathBuildings;
@@ -203,6 +203,30 @@ import unsw.loopmania.LoopManiaApplication;
 
     public List<SpawnBuilding> getAllSpawnBuildings () {
         return this.spawnBuildings;
+    }
+
+    public List<Pair<Integer, Integer>> getOrderedPath () {
+        return this.orderedPath;
+    }
+
+    public boolean isAdjacentToPath (Pair<Integer, Integer> cell) {
+        int value0 = cell.getValue0();
+        int value1 = cell.getValue1();
+        boolean result = false;
+        for (Pair<Integer, Integer> adj : this.orderedPath) {
+            if (adj.getValue0() == value0 && adj.getValue1() == value1) return false;
+            if (isAdjacent(adj.getValue0(), value0) && isAdjacent(adj.getValue1(), value1)) result = true;
+        }
+        return result;
+    }
+
+    public boolean isOnPath (Pair<Integer, Integer> cell) {
+        int value0 = cell.getValue0();
+        int value1 = cell.getValue1();
+        for (Pair<Integer, Integer> adj : this.orderedPath) {
+            if (adj.getValue0() == value0 && adj.getValue1() == value1) return true;
+        }
+        return false;
     }
 
     /**
@@ -684,6 +708,11 @@ import unsw.loopmania.LoopManiaApplication;
         shiftCardsDownFromXCoordinate(cardNodeX);
 
         return newBuilding;
+    }
+
+    public boolean isAdjacent (int x, int y) {
+        if (x == y + 1 || x == y - 1) return true;
+        return false;
     }
     /*
     public List<BasicEnemy> runBattles(LoopManiaWorldController world) {
