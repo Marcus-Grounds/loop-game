@@ -8,8 +8,8 @@ import unsw.loopmania.Enemies.Zombie;
 
 public interface AttackingStrategy {
 
-    public void reduceSlugHealth(Slug slug, LoopManiaWorld d);
-    public void reduceZombieHealth(Zombie zombie, LoopManiaWorld d);
-    public void reduceVampireHealth(Vampire vampire, LoopManiaWorld d);
+    public void reduceSlugHealth(Slug slug, int loopCount);
+    public void reduceZombieHealth(Zombie zombie, int loopCount);
+    public void reduceVampireHealth(Vampire vampire, int loopCount);
     
 }

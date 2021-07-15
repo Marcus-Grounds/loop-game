@@ -30,12 +30,12 @@ public class Sword extends BasicItem implements AttackingStrategy {
     // Damage done by sword is dependent on the number of loops
     // and randomised
 
-    public void reduceSlugHealth(Slug slug, LoopManiaWorld d) {
+    public void reduceSlugHealth(Slug slug, int loopCount) {
 
-        if (d.getLoopCount() >= 0 && d.getLoopCount() <= 30) {
+        if (loopCount >= 0 && loopCount <= 30) {
             damage = (int)Math.floor(Math.random()*(10-5+1)+5);
         }
-        else if (d.getLoopCount() >= 31 && d.getLoopCount() <= 60) {
+        else if (loopCount >= 31 && loopCount <= 60) {
             damage = (int)Math.floor(Math.random()*(15-10+1)+10);
         }
         else {
@@ -45,12 +45,12 @@ public class Sword extends BasicItem implements AttackingStrategy {
         slug.decreaseHealth(damage);
     }
 
-    public void reduceZombieHealth(Zombie zombie, LoopManiaWorld d) {
+    public void reduceZombieHealth(Zombie zombie, int loopCount) {
         
-        if (d.getLoopCount() >= 0 && d.getLoopCount() <= 30) {
+        if (loopCount >= 0 && loopCount <= 30) {
             damage = (int)Math.floor(Math.random()*(10-5+1)+5);
         }
-        else if (d.getLoopCount() >= 31 && d.getLoopCount() <= 60) {
+        else if (loopCount >= 31 && loopCount <= 60) {
             damage = (int)Math.floor(Math.random()*(15-10+1)+10);
         }
         else {
@@ -60,12 +60,12 @@ public class Sword extends BasicItem implements AttackingStrategy {
         zombie.decreaseHealth(damage);
     }
     
-    public void reduceVampireHealth(Vampire vampire, LoopManiaWorld d) {
+    public void reduceVampireHealth(Vampire vampire, int loopCount) {
 
-        if (d.getLoopCount() >= 0 && d.getLoopCount() <= 30) {
+        if (loopCount >= 0 && loopCount <= 30) {
             damage = (int)Math.floor(Math.random()*(10-5+1)+5);
         }
-        else if (d.getLoopCount() >= 31 && d.getLoopCount() <= 60) {
+        else if (loopCount >= 31 && loopCount <= 60) {
             damage = (int)Math.floor(Math.random()*(15-10+1)+10);
         }
         else {

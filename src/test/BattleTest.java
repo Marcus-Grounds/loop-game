@@ -165,7 +165,7 @@ public class BattleTest {
         enemies.add(s2);
 
         BattleEnemyController battleEnemyController = new BattleEnemyController();
-        Battle battle = new Battle(c, battleEnemyController, enemies, s1, new ArrayList<BattleBuilding>());
+        Battle battle = new Battle(c, battleEnemyController, enemies, s1, new ArrayList<BattleBuilding>(), 50);
         battle.dealDamageOnce();
         
 
@@ -206,7 +206,7 @@ public class BattleTest {
         Character c = new Character(p2);
 
         //d.runBattles(null);
-        Battle battle = new Battle(c, null, enemies, v1, new ArrayList<BattleBuilding>());
+        Battle battle = new Battle(c, null, enemies, v1, new ArrayList<BattleBuilding>(), 50);
         battle.dealDamageOnce();
         assertTrue(v1.getCurrentHealth() == HIGH_HEALTH);
         assertTrue(c.getCurrentHealth() == START_HEALTH);
@@ -215,7 +215,7 @@ public class BattleTest {
         //spawn slug and character next to eachother, should trigger zombie to join
         Slug s1 = new Slug(p1);
         enemies.add(s1);
-        Battle battle1 = new Battle(c, null, enemies, s1,  new ArrayList<BattleBuilding>());
+        Battle battle1 = new Battle(c, null, enemies, s1,  new ArrayList<BattleBuilding>(), 50);
         battle1.dealDamageOnce();
 
         //d.runBattles(new LoopManiaWorldController(world, initialEntities);
@@ -255,7 +255,7 @@ public class BattleTest {
         c.changeEquippedWeapon(new Sword(null, null));
 
         //d.runBattles(null);
-        Battle battle = new Battle(c, null, enemies, v1, new ArrayList<BattleBuilding>());
+        Battle battle = new Battle(c, null, enemies, v1, new ArrayList<BattleBuilding>(), 10);
         battle.dealDamageOnce();
         assertTrue(v1.getCurrentHealth() == HIGH_HEALTH);
         assertTrue(c.getCurrentHealth() == START_HEALTH);
@@ -264,7 +264,7 @@ public class BattleTest {
         //spawn slug and character next to eachother, should trigger zombie to join
         Slug s1 = new Slug(p1);
         enemies.add(s1);
-        Battle battle1 = new Battle(c, null, enemies, s1,  new ArrayList<BattleBuilding>());
+        Battle battle1 = new Battle(c, null, enemies, s1,  new ArrayList<BattleBuilding>(), 50);
         battle1.dealDamageOnce();
 
         //d.runBattles(new LoopManiaWorldController(world, initialEntities);
