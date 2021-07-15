@@ -153,9 +153,30 @@ public class EnemyTest {
                 stakeCount2 ++;
             }
         }
-
         //testing that we are more likely to gain stakes when we kill zombie
         assertTrue(stakeCount < stakeCount2);
+
+
+
+        List<BasicItem> lootedItems3 = new ArrayList<BasicItem>();
+        List<Card> cards3 = new ArrayList<Card>();
+        
+        for (int i = 0; i < 1000; i++) {
+            Vampire vampire= new Vampire(null);
+            BasicItem item = vampire.giveWeaponWhenLooted(null, null);
+            Card card = vampire.giveCardWhenLooted(null, null);
+            if (item != null){
+                lootedItems3.add(item);
+            }
+            if (card != null){
+                cards3.add(card);
+            }
+        }
+
+        assertTrue(lootedItems3.size() > 0);
+        assertTrue(lootedItems3.size( ) < 1000);
+        assertTrue(cards3.size() > 0);
+        assertTrue(cards3.size() < 1000);
     }
 
     @Test
