@@ -226,6 +226,52 @@ public class BattleTest {
         assertTrue(s1.getCurrentHealth() < LOW_HEALTH);
         
     }
-    
-    
+
+    @Test
+    public void TestBattleWithWeapons(){
+
+        JFXPanel jfxPanel = new JFXPanel();
+        //test battle
+        //LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(5, 0);
+        
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        PathPosition p1 = new PathPosition(0, orderedPath);
+        PathPosition p2 = new PathPosition(1, orderedPath);
+        PathPosition p3 = new PathPosition(2, orderedPath);
+
+        //spawn a vampire that is 4 units away from character. Within support radius, but not battle radius.
+        Vampire v1 = new Vampire(p3);
+        enemies.add(v1);
+        Character c = new Character(p2);
+        c.changeEquippedWeapon(new Sword(null, null));
+
+        //d.runBattles(null);
+        Battle battle = new Battle(c, null, enemies, v1, new ArrayList<BattleBuilding>());
+        battle.dealDamageOnce();
+        assertTrue(v1.getCurrentHealth() == HIGH_HEALTH);
+        assertTrue(c.getCurrentHealth() == START_HEALTH);
+
+        
+        //spawn slug and character next to eachother, should trigger zombie to join
+        Slug s1 = new Slug(p1);
+        enemies.add(s1);
+        Battle battle1 = new Battle(c, null, enemies, s1,  new ArrayList<BattleBuilding>());
+        battle1.dealDamageOnce();
+
+        //d.runBattles(new LoopManiaWorldController(world, initialEntities);
+
+        //test that after battle, health of both character and slug is decreased
+        assertTrue(v1.getCurrentHealth() < HIGH_HEALTH - c.getBaseDamage());
+        assertTrue(c.getCurrentHealth() < START_HEALTH);
+        assertTrue(s1.getCurrentHealth() < LOW_HEALTH - c.getBaseDamage());
+    }
 }
