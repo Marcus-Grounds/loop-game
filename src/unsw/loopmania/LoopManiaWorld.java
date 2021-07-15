@@ -350,15 +350,26 @@ import unsw.loopmania.LoopManiaApplication;
      * spawn a card in the world and return the card entity
      * @return a card to be spawned in the controller as a JavaFX node
      */
-    public VampireCastleCard loadVampireCard(){
+    public Card loadCard(BasicEnemy enemy){
         // if adding more cards than have, remove the first card...
         if (this.character.getAllCards().size() >= getWidth()){
             // TODO = give some cash/experience/item rewards for the discarding of the oldest card
             removeCard(0);
         }
-        VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(this.character.getAllCards().size()), new SimpleIntegerProperty(0));
-        this.character.getAllCards().add(vampireCastleCard);
-        return vampireCastleCard;
+
+        Card card = enemy.giveCardWhenLooted(new SimpleIntegerProperty(this.character.getAllCards().size()), new SimpleIntegerProperty(0));
+        //BasicItem item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        System.out.println(character.getAllInventoryItems().size());
+        if (card != null){
+            this.character.getAllCards().add(card);
+        }
+
+        return card;
+
+        
+        //VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(this.character.getAllCards().size()), new SimpleIntegerProperty(0));
+        //this.character.getAllCards().add(vampireCastleCard);
+        //return vampireCastleCard;
     }
 
     /**

@@ -18,6 +18,8 @@ import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.Stake;
 import unsw.loopmania.BasicItems.Sword;
 import unsw.loopmania.Cards.Card;
+import unsw.loopmania.Cards.TowerCard;
+import unsw.loopmania.Cards.VillageCard;
 
 
 public class Slug extends BasicEnemy implements SpawnStrategy{
@@ -49,8 +51,7 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
 
     @Override
     public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        
-        //Random random = new Random();
+        //30% change of giving sword, 10% chance of giving stake
         System.out.print("generating random");
         double r = random.nextDouble();
         System.out.print(r);
@@ -66,6 +67,16 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
 
     @Override
     public Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y){
+        //15% chance of giving towerCards, 15% chance of giving villageCard
+        double r = random.nextDouble();
+        System.out.print(r);
+        if (r < 0.15){
+            return new TowerCard(x, y);
+        }
+        else if (r < 0.3) {
+            return new VillageCard(x, y);
+        }
+
         return null;
     }
 }

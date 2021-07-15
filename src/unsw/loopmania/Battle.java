@@ -42,14 +42,13 @@ public class Battle {
         //public void dealDamageOnce(List<BasicEnemy> defeatedEnemies){
         boolean allEnemiesDead = true;
         AttackingStrategy weapon = c.getEquippedWeapon ();
-
+        
         for (BasicEnemy e: enemiesToFight) {
-
+            
             for (BattleBuilding b : battleBuildings) {
                 b.buildingAction(c, e);
             }
-    
-
+            
             e.decreaseHealth(5);
             if (e.getCurrentHealth() > 0) {
                 allEnemiesDead = false;
@@ -71,6 +70,7 @@ public class Battle {
             System.out.println(e.getCurrentHealth());
             
         }
+        //once all enemies are dead, we can return to main screen
         if (allEnemiesDead){
             
             for (BasicEnemy enemy: enemiesToFight){

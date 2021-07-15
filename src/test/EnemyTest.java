@@ -104,6 +104,8 @@ public class EnemyTest {
             }
         }
 
+        //since looting from enemies is not gaurenteed for each attack, the looted items should be greater than 0, but less than
+        //the number of enemies defeated
         assertTrue(lootedItems.size() > 0);
         assertTrue(lootedItems.size( ) < 1000);
         assertTrue(cards.size() > 0);
@@ -121,5 +123,42 @@ public class EnemyTest {
         }
 
         assertTrue(stakeCount < swordCount);
+
+
+
+
+        List<BasicItem> lootedItems2 = new ArrayList<BasicItem>();
+        List<Card> cards2 = new ArrayList<Card>();
+        
+        for (int i = 0; i < 1000; i++) {
+            Zombie zombie= new Zombie(null);
+            BasicItem item = zombie.giveWeaponWhenLooted(null, null);
+            Card card = zombie.giveCardWhenLooted(null, null);
+            if (item != null){
+                lootedItems2.add(item);
+            }
+            if (card != null){
+                cards2.add(card);
+            }
+        }
+
+        assertTrue(lootedItems2.size() > 0);
+        assertTrue(lootedItems2.size( ) < 1000);
+        assertTrue(cards2.size() > 0);
+        assertTrue(cards2.size() < 1000);
+
+        int stakeCount2 = 0;
+        for (BasicItem item: lootedItems2) {
+            if (item instanceof Stake) {
+                stakeCount ++;
+            }
+        }
+
+        //testing that we are more likely to gain stakes w
+        assertTrue(stakeCount < stakeCount2);
+    }
+
+    @Test
+    public void testZombieLoot() {
     }
 }
