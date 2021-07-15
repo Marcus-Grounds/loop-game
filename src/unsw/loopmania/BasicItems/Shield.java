@@ -5,6 +5,7 @@ import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Vampire;
 import unsw.loopmania.Enemies.Zombie;
 import unsw.loopmania.Character;
+import java.util.Random;
 
 
 /**
@@ -31,7 +32,7 @@ public class Shield extends BasicItem implements DefendingStrategy {
     }
 
     public void reduceVampireDamage(Vampire vampire, Character c) {
-        java.util.Random random = new java.util.Random();
+        Random random = new Random();
         double r = random.nextDouble();
 
         // reduces chance of critical bite by 60%
