@@ -95,4 +95,5 @@ public class Character extends MovingEntity {
     public List<Entity> getAllInventoryItems () {
         return this.unequippedInventoryItems;
     }
+
 }

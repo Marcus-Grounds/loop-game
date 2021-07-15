@@ -73,4 +73,8 @@ public abstract class MovingEntity extends Entity {
     public ImageView getImageView(){
         return image;
     }
+
+    public void setHealth(Health health) {
+        this.health = health;
+    }
 }

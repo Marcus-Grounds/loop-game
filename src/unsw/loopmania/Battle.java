@@ -3,6 +3,7 @@ package unsw.loopmania;
 import java.util.ArrayList;
 import java.util.List;
 
+import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
 import unsw.loopmania.Enemies.BasicEnemy;
 
@@ -40,6 +41,8 @@ public class Battle {
     public void dealDamageOnce(){
         //public void dealDamageOnce(List<BasicEnemy> defeatedEnemies){
         boolean allEnemiesDead = true;
+        AttackingStrategy weapon = c.getEquippedWeapon ();
+
         for (BasicEnemy e: enemiesToFight) {
 
             for (BattleBuilding b : battleBuildings) {
@@ -77,6 +80,7 @@ public class Battle {
             if (controller != null) {
                 controller.pauseBattle();
             }
+            return;
            
         }
     }
