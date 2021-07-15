@@ -8,9 +8,9 @@ import java.io.File;
 /**
  * represents a vampire castle card in the backend game world
  */
-public class VillageCard extends Card {
+public class TrapCard extends Card {
     // TODO = add more types of card
-    public VillageCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, new ImageView(new Image((new File("src/images/village_card.png")).toURI().toString())));
+    public TrapCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        super(x, y, new ImageView(new Image((new File("src/images/trap_card.png")).toURI().toString())));
     }    
 }

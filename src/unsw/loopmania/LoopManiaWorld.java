@@ -75,7 +75,6 @@ import unsw.loopmania.LoopManiaApplication;
      */
     private int width;
     private int height;
-
     private int loopCount;
 
     /**
@@ -85,10 +84,9 @@ import unsw.loopmania.LoopManiaApplication;
 
     private Character character;
     private List<BasicEnemy> enemies;
-    private List<Card> cardEntities;
-    private List<Entity> unequippedInventoryItems;
 
     //private List<Building> buildingEntities;
+    private Building heroCastle; 
     
     private List<BattleBuilding> battleBuildings;
     private List<PathBuilding>   pathBuildings;
@@ -110,16 +108,15 @@ import unsw.loopmania.LoopManiaApplication;
     public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
         this.width = width;
         this.height = height;
-        nonSpecifiedEntities = new ArrayList<>();
-        character = null;
-        enemies = new ArrayList<>();
-        cardEntities = new ArrayList<>();
-        unequippedInventoryItems = new ArrayList<>();
+        this.nonSpecifiedEntities = new ArrayList<>();
+        this.character = null;
+        this.enemies = new ArrayList<>();
         this.orderedPath = orderedPath;
-        battleBuildings = new ArrayList<>();
-        pathBuildings = new ArrayList<>();
-        spawnBuildings = new ArrayList<>();
-        allies = new ArrayList<>();
+        this.heroCastle = new HerosCastle(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        this.battleBuildings = new ArrayList<>();
+        this.pathBuildings = new ArrayList<>();
+        this.spawnBuildings = new ArrayList<>();
+        this.allies = new ArrayList<>();
     }
 
     public int getWidth() {
@@ -165,19 +162,23 @@ import unsw.loopmania.LoopManiaApplication;
     }
 
     public void addCard (Card card) {
-        this.cardEntities.add(card);
+        this.character.addCard(card);
     }
 
     public List<Card> getAllCards () {
-        return this.cardEntities;
+        return this.character.getAllCards();
     }
 
     public void addInventoryItem (Entity entity) {
-        this.unequippedInventoryItems.add(entity);
+        this.character.addInventoryItem(entity);
     }
 
     public List<Entity> getAllInventoryItems () {
-        return this.unequippedInventoryItems;
+        return this.character.getAllInventoryItems();
+    }
+
+    public Building getHeroCastle () {
+        return this.heroCastle;
     }
 
     public void addBattleBuilding (BattleBuilding building) {
@@ -208,6 +209,14 @@ import unsw.loopmania.LoopManiaApplication;
      * spawns enemies if the conditions warrant it, adds to world
      * @return list of the enemies to be displayed on screen
      */
+    public void spawnVampires () {
+        if (loopCount % 5 == 0) {
+            // for spawnBuilding b : spawnBuildings
+            // if b.classname = vampireCastleBuilding
+            // b.spawnVampire()
+        }
+    }
+    
     public List<BasicEnemy> possiblySpawnEnemies(){
         // TODO = expand this very basic version
         Pair<Integer, Integer> pos = possiblyGetBasicEnemySpawnPosition();
@@ -226,7 +235,33 @@ import unsw.loopmania.LoopManiaApplication;
         return spawningEnemies;
     }
 
+    public Gold possiblySpawnGold() {
+        Pair<Integer, Integer> pos = possiblySpawnPosition(5);
+        
+        Random random = new Random();
+        double r = random.nextDouble();
 
+        if (r < 0.4 && pos != null) {
+            int indexInPath = orderedPath.indexOf(pos);
+            Gold gold = new Gold(new SimpleIntegerProperty(indexInPath), new SimpleIntegerProperty(indexInPath));
+            return gold;
+        }
+        return null;
+    }
+
+    public HealthPotion possiblySpawnHealthPotion() {
+        Pair<Integer, Integer> pos = possiblySpawnPosition(6);
+        
+        Random random = new Random();
+        double r = random.nextDouble();
+
+        if (r < 0.3 && pos != null) {
+            int indexInPath = orderedPath.indexOf(pos);
+            HealthPotion healthPotion = new HealthPotion(new SimpleIntegerProperty(indexInPath), new SimpleIntegerProperty(indexInPath));
+            return healthPotion;
+        }
+        return null;
+    }
 
     // Run battle once between one enemy and character
     public void runBattle(BasicEnemy enemyToFight) {
@@ -267,29 +302,42 @@ import unsw.loopmania.LoopManiaApplication;
                 battleLoader.setController(battleEnemyController);
                 Parent battleRoot = battleLoader.load();
 
-                controller.setBattleSwitcher( () -> {
-                    controller.pause();
-                    LoopManiaApplication.switchToRoot(scene, battleRoot, primaryStage);
-                    battleEnemyController.startTimer();
-                } );
-
-                battleEnemyController.setGameSwitcher(() -> {  
-                    LoopManiaApplication.switchToRoot(scene, gameRoot, primaryStage);
-                    controller.startTimer();
-                });
+                if (controller != null){
+                    controller.setBattleSwitcher( () -> {
+                        controller.pause();
+                        LoopManiaApplication.switchToRoot(scene, battleRoot, primaryStage);
+                        battleEnemyController.startTimer();
+                    } );
+                }
+                
+                if (scene != null && gameRoot != null && primaryStage != null) {
+                    battleEnemyController.setGameSwitcher(() -> {  
+                        LoopManiaApplication.switchToRoot(scene, gameRoot, primaryStage);
+                        controller.startTimer();
+                    });
+                }
+                
 
                 Battle newBattle = new Battle(character, battleEnemyController, enemies, e, battleBuildings);
                 defeatedEnemies = newBattle.getDefeatedEnemies();
                 battleEnemyController.setBattle(newBattle);
-                try {
-                    controller.switchToBattle();
-                    //return newBattle.getDefeatedEnemies();
-                    System.out.println("Defeated Enemies");
-                    return newBattle.getDefeatedEnemies();
-                    
-                } catch (IOException e2) {
-                    e2.printStackTrace();
+                
+                if (controller != null) {
+                    try {
+                        controller.switchToBattle();
+                        //return newBattle.getDefeatedEnemies();
+                        System.out.println("Defeated Enemies");
+                        return newBattle.getDefeatedEnemies();
+                        
+                    } catch (IOException e2) {
+                        e2.printStackTrace();
+                    }
+
                 }
+                else {
+                    battleEnemyController.startTimer();
+                }
+                
             }
 
         }
@@ -302,15 +350,26 @@ import unsw.loopmania.LoopManiaApplication;
      * spawn a card in the world and return the card entity
      * @return a card to be spawned in the controller as a JavaFX node
      */
-    public VampireCastleCard loadVampireCard(){
+    public Card loadCard(BasicEnemy enemy){
         // if adding more cards than have, remove the first card...
-        if (cardEntities.size() >= getWidth()){
+        if (this.character.getAllCards().size() >= getWidth()){
             // TODO = give some cash/experience/item rewards for the discarding of the oldest card
             removeCard(0);
         }
-        VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
-        cardEntities.add(vampireCastleCard);
-        return vampireCastleCard;
+
+        Card card = enemy.giveCardWhenLooted(new SimpleIntegerProperty(this.character.getAllCards().size()), new SimpleIntegerProperty(0));
+        //BasicItem item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        System.out.println(character.getAllInventoryItems().size());
+        if (card != null){
+            this.character.getAllCards().add(card);
+        }
+
+        return card;
+
+        
+        //VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(this.character.getAllCards().size()), new SimpleIntegerProperty(0));
+        //this.character.getAllCards().add(vampireCastleCard);
+        //return vampireCastleCard;
     }
 
     /**
@@ -318,10 +377,10 @@ import unsw.loopmania.LoopManiaApplication;
      * @param index the index of the card, from 0 to length-1
      */
     private void removeCard(int index){
-        Card c = cardEntities.get(index);
+        Card c = this.character.getAllCards().get(index);
         int x = c.getX();
         c.destroy();
-        cardEntities.remove(index);
+        this.character.getAllCards().remove(index);
         shiftCardsDownFromXCoordinate(x);
     }
 
@@ -329,7 +388,8 @@ import unsw.loopmania.LoopManiaApplication;
      * spawn a sword in the world and return the sword entity
      * @return a sword to be spawned in the controller as a JavaFX node
      */
-    public Sword addUnequippedSword(){
+    public BasicItem addUnequippedItem(BasicEnemy enemy){
+        System.out.println("addUnequippedItem");
         // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
@@ -340,9 +400,15 @@ import unsw.loopmania.LoopManiaApplication;
         }
         
         // now we insert the new sword, as we know we have at least made a slot available...
-        Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        unequippedInventoryItems.add(sword);
-        return sword;
+        BasicItem item = enemy.giveWeaponWhenLooted(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        //BasicItem item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        System.out.println(character.getAllInventoryItems().size());
+        if (item != null){
+            this.character.getAllInventoryItems().add(item);
+        }
+        
+        System.out.println(character.getAllInventoryItems().size());
+        return item;
     }
 
      /**
@@ -361,7 +427,7 @@ import unsw.loopmania.LoopManiaApplication;
         
         // now we insert the new staff, as we know we have at least made a slot available...
         Staff staff = new Staff(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        unequippedInventoryItems.add(staff);
+        this.character.getAllInventoryItems().add(staff);
         return staff;
     }
 
@@ -381,7 +447,7 @@ import unsw.loopmania.LoopManiaApplication;
         
         // now we insert the new stake, as we know we have at least made a slot available...
         Stake stake = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        unequippedInventoryItems.add(stake);
+        this.character.getAllInventoryItems().add(stake);
         return stake;
     }
 
@@ -401,7 +467,7 @@ import unsw.loopmania.LoopManiaApplication;
         
         // now we insert the new shield, as we know we have at least made a slot available...
         Shield shield = new Shield(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        unequippedInventoryItems.add(shield);
+        this.character.getAllInventoryItems().add(shield);
         return shield;
     }
 
@@ -421,7 +487,7 @@ import unsw.loopmania.LoopManiaApplication;
         
         // now we insert the new helmet, as we know we have at least made a slot available...
         Helmet helmet = new Helmet(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        unequippedInventoryItems.add(helmet);
+        this.character.getAllInventoryItems().add(helmet);
         return helmet;
     }
 
@@ -441,7 +507,7 @@ import unsw.loopmania.LoopManiaApplication;
         
         // now we insert the new armour, as we know we have at least made a slot available...
         Armour armour = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        unequippedInventoryItems.add(armour);
+        this.character.getAllInventoryItems().add(armour);
         return armour;
     }
 
@@ -497,7 +563,7 @@ import unsw.loopmania.LoopManiaApplication;
      */
     private void removeUnequippedInventoryItem(Entity item){
         item.destroy();
-        unequippedInventoryItems.remove(item);
+        this.character.getAllInventoryItems().remove(item);
     }
 
     /**
@@ -508,7 +574,7 @@ import unsw.loopmania.LoopManiaApplication;
      * @return unequipped inventory item at the input position
      */
     private Entity getUnequippedInventoryItemEntityByCoordinates(int x, int y){
-        for (Entity e: unequippedInventoryItems){
+        for (Entity e:  this.character.getAllInventoryItems()){
             if ((e.getX() == x) && (e.getY() == y)){
                 return e;
             }
@@ -521,9 +587,9 @@ import unsw.loopmania.LoopManiaApplication;
      * @param index index from 0 to length-1
      */
     private void removeItemByPositionInUnequippedInventoryItems(int index){
-        Entity item = unequippedInventoryItems.get(index);
+        Entity item =  this.character.getAllInventoryItems().get(index);
         item.destroy();
-        unequippedInventoryItems.remove(index);
+         this.character.getAllInventoryItems().remove(index);
     }
 
     /**
@@ -548,7 +614,7 @@ import unsw.loopmania.LoopManiaApplication;
      * @param x x coordinate which can range from 0 to width-1
      */
     private void shiftCardsDownFromXCoordinate(int x){
-        for (Card c: cardEntities){
+        for (Card c: this.character.getAllCards()){
             if (c.getX() >= x){
                 c.x().set(c.getX()-1);
             }
@@ -563,6 +629,33 @@ import unsw.loopmania.LoopManiaApplication;
         for (BasicEnemy e: enemies){
             e.move();
         }
+    }
+
+    private Pair<Integer, Integer> possiblySpawnPosition(int scale){
+        // TODO = modify this
+        
+        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
+        Random rand = new Random();
+        int choice = rand.nextInt(scale);
+        // TODO = change based on spec... currently low value for dev purposes...
+        // TODO = change based on spec
+        if ((choice == 0) && (enemies.size() < 2)){
+            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+            // inclusive start and exclusive end of range of positions not allowed
+            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+            // note terminating condition has to be != rather than < since wrap around...
+            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+                orderedPathSpawnCandidates.add(orderedPath.get(i));
+            }
+
+            // choose random choice
+            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+
+            return spawnPosition;
+        }
+        return null;
     }
 
     /**
@@ -605,7 +698,7 @@ import unsw.loopmania.LoopManiaApplication;
     public Building convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
         // start by getting card
         Card card = null;
-        for (Card c: cardEntities){
+        for (Card c: this.character.getAllCards()){
             if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)) {
                 card = c;
                 break;
@@ -618,7 +711,7 @@ import unsw.loopmania.LoopManiaApplication;
 
         // destroy the card
         card.destroy();
-        cardEntities.remove(card);
+        this.character.getAllCards().remove(card);
         shiftCardsDownFromXCoordinate(cardNodeX);
 
         return newBuilding;

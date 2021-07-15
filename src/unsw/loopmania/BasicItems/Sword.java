@@ -5,6 +5,10 @@ import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Vampire;
 import unsw.loopmania.Enemies.Zombie;
 import unsw.loopmania.LoopManiaWorld;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.File;
+
 
 
 /**
@@ -16,7 +20,7 @@ public class Sword extends BasicItem implements AttackingStrategy {
     int damage;
 
     public Sword(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, COST);
+        super(x, y, COST, new ImageView(new Image((new File("src/images/basic_sword.png")).toURI().toString())) );
     }    
 
     public Sword getSword() {

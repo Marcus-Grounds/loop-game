@@ -1,6 +1,9 @@
 package unsw.loopmania;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.File;
 
 /**
  * Basic Items
@@ -8,6 +11,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 public class TheOneRing extends StaticEntity  {
     
     public TheOneRing(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x,y);
+        super(x,y,new ImageView(new Image((new File("src/images/the_one_ring.png")).toURI().toString())) );
     }
 }

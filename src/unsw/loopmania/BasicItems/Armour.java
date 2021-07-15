@@ -5,6 +5,10 @@ import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Vampire;
 import unsw.loopmania.Enemies.Zombie;
 import unsw.loopmania.Character;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.File;
+
 
 /**
  * represents an equipped or unequipped armour in the backend world
@@ -14,7 +18,7 @@ public class Armour extends BasicItem implements DefendingStrategy {
     public static final int COST = 5;
 
     public Armour(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, COST);
+        super(x, y, COST, new ImageView(new Image((new File("src/images/slug.png")).toURI().toString())));
     }    
 
     public Armour getArmour() {

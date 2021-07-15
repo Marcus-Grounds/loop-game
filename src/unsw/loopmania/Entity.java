@@ -25,14 +25,16 @@ public abstract class Entity {
      * This is why we don't have to track which JavaFX node corresponds to which backend entity explicitly! (for example, in a Hashmap)
      */
     private BooleanProperty shouldExist;
-    
+    private ImageView image;
+
 
     /**
      * create an Entity
      * this constructor should be called for subclass Entities
      */
-    public Entity(){
+    public Entity(ImageView image){
         shouldExist = new SimpleBooleanProperty(true);
+        this.image = image;
         //this.image = image;
     }
 
@@ -82,6 +84,9 @@ public abstract class Entity {
      */
     public abstract int getY();
 
+    public ImageView getImageView(){
+        return image;
+    }
     
     
 }

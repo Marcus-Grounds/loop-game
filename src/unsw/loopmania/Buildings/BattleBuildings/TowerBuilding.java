@@ -16,11 +16,10 @@ public class TowerBuilding extends BattleBuilding {
 
     public TowerBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         
-        super(x, y);
+        super(x, y, new ImageView(new Image((new File("src/images/tower.png")).toURI().toString())));
         setRadius(LONG_RADIUS);
         this.damage = HIGH_DAMAGE;
         
-        setImageView(new ImageView(new Image((new File("src/images/tower.png")).toURI().toString())));
     }
 
     public int getDamage() {
