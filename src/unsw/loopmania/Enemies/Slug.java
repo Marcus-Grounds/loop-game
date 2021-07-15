@@ -13,6 +13,7 @@ import jdk.dynalink.beans.StaticClass;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
+import unsw.loopmania.BasicItems.Armour;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.Stake;
@@ -55,11 +56,14 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
         System.out.print("generating random");
         double r = random.nextDouble();
         System.out.print(r);
-        if (r < 0.3){
+        if (r < 0.1){
             return new Sword(x, y);
         }
-        else if (r < 0.4) {
+        else if (r < 0.15) {
             return new Stake(x, y);
+        }
+        else if (r < 0.25){
+            return new Armour(x, y);
         }
 
         return null;

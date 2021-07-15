@@ -150,11 +150,11 @@ public class EnemyTest {
         int stakeCount2 = 0;
         for (BasicItem item: lootedItems2) {
             if (item instanceof Stake) {
-                stakeCount ++;
+                stakeCount2 ++;
             }
         }
 
-        //testing that we are more likely to gain stakes w
+        //testing that we are more likely to gain stakes when we kill zombie
         assertTrue(stakeCount < stakeCount2);
     }
 
