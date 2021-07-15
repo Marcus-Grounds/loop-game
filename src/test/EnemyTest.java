@@ -16,6 +16,7 @@ import unsw.loopmania.BasicItems.*;
 
 import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
+import unsw.loopmania.Buildings.PathBuildings.TrapBuilding;
 import unsw.loopmania.Cards.*;
 
 import unsw.loopmania.Enemies.*;
@@ -177,6 +178,19 @@ public class EnemyTest {
         assertTrue(lootedItems3.size( ) < 1000);
         assertTrue(cards3.size() > 0);
         assertTrue(cards3.size() < 1000);
+
+        int trapCount = 0;
+        int campFireCount = 0;
+        
+        for (Card card: cards3) {
+            if (card instanceof TrapCard) {
+                trapCount ++;
+            }
+            else if (card instanceof CampfireCard){
+                campFireCount ++;
+            }
+        }
+        assertTrue(trapCount < campFireCount);
     }
 
     @Test
