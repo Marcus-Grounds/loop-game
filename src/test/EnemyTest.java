@@ -190,7 +190,7 @@ public class EnemyTest {
                 campFireCount ++;
             }
         }
-        assertTrue(trapCount < campFireCount);
+        assertTrue(trapCount > campFireCount);
     }
 
     @Test
