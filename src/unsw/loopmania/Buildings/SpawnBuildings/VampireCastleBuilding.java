@@ -14,7 +14,6 @@ import unsw.loopmania.Buildings.Building;
 public class VampireCastleBuilding extends SpawnBuilding {
     // TODO = add more types of building, and make sure buildings have effects on entities as required by the spec
     public VampireCastleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y);
-        setImageView(new ImageView(new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString())));
+        super(x, y, new ImageView(new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString())));
     }
 }

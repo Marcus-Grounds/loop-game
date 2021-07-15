@@ -2,6 +2,9 @@ package unsw.loopmania.Buildings.PathBuildings;
 
 import java.util.List;
 
+import java.io.File;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.MovingEntity;
 import unsw.loopmania.Enemies.BasicEnemy;
@@ -9,7 +12,7 @@ import unsw.loopmania.Enemies.BasicEnemy;
 public class TrapBuilding extends PathBuilding {
 
     public TrapBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y);
+        super(x, y, new ImageView(new Image((new File("src/images/trap.png")).toURI().toString()))) ;
     }
 
     @Override

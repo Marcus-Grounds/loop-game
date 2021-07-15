@@ -5,6 +5,10 @@ import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Vampire;
 import unsw.loopmania.Enemies.Zombie;
 import unsw.loopmania.Character;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.File;
+
 
 
 /**
@@ -15,7 +19,7 @@ public class Helmet extends BasicItem implements DefendingStrategy {
     public static final int COST = 10;
     
     public Helmet(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, COST);
+        super(x, y, COST, new ImageView(new Image((new File("src/images/helmet.png")).toURI().toString())));
     }    
 
     public Helmet getHelmet() {

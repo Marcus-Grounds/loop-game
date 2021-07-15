@@ -96,4 +96,5 @@ public class Character extends MovingEntity {
         return this.unequippedInventoryItems;
     }
 
+    
 }

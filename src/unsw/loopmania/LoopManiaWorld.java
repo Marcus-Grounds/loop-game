@@ -364,7 +364,7 @@ import unsw.loopmania.LoopManiaApplication;
      * spawn a sword in the world and return the sword entity
      * @return a sword to be spawned in the controller as a JavaFX node
      */
-    public Sword addUnequippedSword(){
+    public StaticEntity addUnequippedSword(BasicEnemy enemy){
         // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
@@ -375,9 +375,9 @@ import unsw.loopmania.LoopManiaApplication;
         }
         
         // now we insert the new sword, as we know we have at least made a slot available...
-        Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        this.character.getAllInventoryItems().add(sword);
-        return sword;
+        StaticEntity weapon = enemy.giveWeaponWhenLooted(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        this.character.getAllInventoryItems().add(weapon);
+        return weapon;
     }
 
      /**

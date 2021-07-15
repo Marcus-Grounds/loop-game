@@ -3,12 +3,19 @@ package unsw.loopmania.Enemies;
 import unsw.loopmania.LoopManiaWorld;
 
 import java.io.File;
-
-import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.util.Random;
+
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.embed.swing.JFXPanel;
+import jdk.dynalink.beans.StaticClass;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.StaticEntity;
+import unsw.loopmania.BasicItems.AttackingStrategy;
+import unsw.loopmania.BasicItems.Stake;
+import unsw.loopmania.BasicItems.Sword;
 
 
 public class Slug extends BasicEnemy implements SpawnStrategy{
@@ -35,5 +42,18 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
         // TODO Auto-generated method stub
         
     }
-    
+
+    @Override
+    public StaticEntity giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        Random random = new Random();
+        double r = random.nextDouble();
+        if (r <= 0.3){
+            return new Sword(x, y);
+        }
+        else if (r <= 0.4) {
+            return new Stake(x, y);
+        }
+
+        return null;
+    }
 }

@@ -2,14 +2,16 @@ package unsw.loopmania.Enemies;
 
 import java.util.Random;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.ImageView;
 import unsw.loopmania.*;
+import unsw.loopmania.BasicItems.AttackingStrategy;
 
 
 /**
  * a basic form of enemy in the world
  */
-public class BasicEnemy extends MovingEntity {
+public abstract class BasicEnemy extends MovingEntity {
     // TODO = modify this, and add additional forms of enemy
     private int attackRadius;
     private int supportRadius;
@@ -51,10 +53,6 @@ public class BasicEnemy extends MovingEntity {
             moveDownPath();
         }
     }
-    /*
-    public ImageView getImageView(){
-        return image;
-    }
-    */
-
+    
+    public abstract StaticEntity giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y);
 }

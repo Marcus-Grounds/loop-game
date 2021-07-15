@@ -12,9 +12,8 @@ public class CampfireBuilding extends BattleBuilding {
     public static final int MED_RADIUS = 3;
 
     public CampfireBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y);
+        super(x, y, new ImageView(new Image((new File("src/images/campfire.png")).toURI().toString())));
         setRadius(MED_RADIUS);
-        setImageView(new ImageView(new Image((new File("src/images/tower.png")).toURI().toString())));
     }
 
     @Override

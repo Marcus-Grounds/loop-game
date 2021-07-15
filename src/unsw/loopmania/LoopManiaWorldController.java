@@ -340,11 +340,11 @@ public class LoopManiaWorldController {
     /**
      * load a sword from the world, and pair it with an image in the GUI
      */
-    private void loadSword(){
+    private void loadWeapon(BasicEnemy enemy){
         // TODO = load more types of weapon
         // start by getting first available coordinates
-        Sword sword = world.addUnequippedSword();
-        onLoad(sword);
+        StaticEntity weapon = world.addUnequippedSword(enemy);
+        onLoad(weapon);
     }
 
     /**
@@ -355,7 +355,7 @@ public class LoopManiaWorldController {
         // react to character defeating an enemy
         // in starter code, spawning extra card/weapon...
         // TODO = provide different benefits to defeating the enemy based on the type of enemy
-        loadSword();
+        loadWeapon(enemy);
         loadVampireCard();
     }
 
@@ -382,10 +382,10 @@ public class LoopManiaWorldController {
      * and load the image into the unequippedInventory GridPane.
      * @param sword
      */
-    private void onLoad(Sword sword) {
+    private void onLoad(StaticEntity weapon) {
         ImageView view = new ImageView(swordImage);
         addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
-        addEntity(sword, view);
+        addEntity(weapon, view);
         unequippedInventory.getChildren().add(view);
     }
 

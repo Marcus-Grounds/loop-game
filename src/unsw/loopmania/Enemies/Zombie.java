@@ -2,10 +2,13 @@ package unsw.loopmania.Enemies;
 
 import java.io.File;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.StaticEntity;
+import unsw.loopmania.BasicItems.AttackingStrategy;
 
 public class Zombie extends BasicEnemy implements SpawnStrategy {
 
@@ -23,5 +26,11 @@ public class Zombie extends BasicEnemy implements SpawnStrategy {
     public void spawn() {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public StaticEntity giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+
+        return null;
     }
 }
