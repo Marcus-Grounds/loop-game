@@ -14,8 +14,10 @@ import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
 import unsw.loopmania.BasicItems.AttackingStrategy;
+import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.Stake;
 import unsw.loopmania.BasicItems.Sword;
+import unsw.loopmania.Cards.Card;
 
 
 public class Slug extends BasicEnemy implements SpawnStrategy{
@@ -24,6 +26,7 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
     public static final int SHORT_RADIUS = 1;
     public static final int LOW_DAMAGE = 2;
     //public ImageView image;
+    public static Random random;
 
     
     public Slug (PathPosition position) {
@@ -35,6 +38,7 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
         //this.image = new ImageView(new Image((new File("src/images/slug.png")).toURI().toString()));
 
         //TODO Auto-generated constructor stub
+        random = new Random();
     }
 
     @Override
@@ -44,16 +48,24 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
     }
 
     @Override
-    public StaticEntity giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        Random random = new Random();
+    public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        
+        //Random random = new Random();
+        System.out.print("generating random");
         double r = random.nextDouble();
-        if (r <= 0.3){
+        System.out.print(r);
+        if (r < 0.3){
             return new Sword(x, y);
         }
-        else if (r <= 0.4) {
+        else if (r < 0.4) {
             return new Stake(x, y);
         }
 
+        return null;
+    }
+
+    @Override
+    public Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y){
         return null;
     }
 }

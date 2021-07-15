@@ -283,6 +283,7 @@ public class LoopManiaWorldController {
                 e1.printStackTrace();
             }
             for (BasicEnemy e: defeatedEnemies){
+                System.out.println("about to react to enemy defeat");
                 reactToEnemyDefeat(e);
             }
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
@@ -302,7 +303,10 @@ public class LoopManiaWorldController {
     public void pause(){
         isPaused = true;
         System.out.println("pausingggggg");
-        timeline.stop();
+        if (timeline != null){
+            timeline.stop();
+        }
+        
     }
     /*
     public void pauseForBattle(){
@@ -340,22 +344,27 @@ public class LoopManiaWorldController {
     /**
      * load a sword from the world, and pair it with an image in the GUI
      */
-    private void loadWeapon(BasicEnemy enemy){
+    private void loadItem(BasicEnemy enemy){
         // TODO = load more types of weapon
         // start by getting first available coordinates
-        StaticEntity weapon = world.addUnequippedSword(enemy);
-        onLoad(weapon);
+        System.out.println("Load Item");
+        BasicItem item = world.addUnequippedItem(enemy);
+        if (item != null){
+            onLoad(item);
+        }
+        
     }
 
     /**
      * run GUI events after an enemy is defeated, such as spawning items/experience/gold
      * @param enemy defeated enemy for which we should react to the death of
      */
-    private void reactToEnemyDefeat(BasicEnemy enemy){
+    public void reactToEnemyDefeat(BasicEnemy enemy){
+        System.out.println("react to enemy defeat");
         // react to character defeating an enemy
         // in starter code, spawning extra card/weapon...
         // TODO = provide different benefits to defeating the enemy based on the type of enemy
-        loadWeapon(enemy);
+        loadItem(enemy);
         loadVampireCard();
     }
 
@@ -380,14 +389,26 @@ public class LoopManiaWorldController {
      * load a sword into the GUI.
      * Particularly, we must connect to the drag detection event handler,
      * and load the image into the unequippedInventory GridPane.
-     * @param sword
+     * @param weapon
      */
-    private void onLoad(StaticEntity weapon) {
-        ImageView view = new ImageView(swordImage);
-        addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
-        addEntity(weapon, view);
-        unequippedInventory.getChildren().add(view);
+    private void onLoad(BasicItem weapon) {
+        System.out.println("ONLOAD BASIC ITEM");
+        //ImageView view = new ImageView(swordImage);
+        if (weapon != null) {
+            System.out.println("Not Null");
+            ImageView view = weapon.getImageView();
+            addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
+            addEntity(weapon, view);
+            unequippedInventory.getChildren().add(view);
+        }
+        else {
+            System.out.println("null");
+        }
+
+        
     }
+
+   
 
     /**
      * load an enemy into the GUI

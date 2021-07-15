@@ -9,6 +9,8 @@ import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
 import unsw.loopmania.BasicItems.AttackingStrategy;
+import unsw.loopmania.BasicItems.BasicItem;
+import unsw.loopmania.Cards.Card;
 
 public class Zombie extends BasicEnemy implements SpawnStrategy {
 
@@ -29,8 +31,13 @@ public class Zombie extends BasicEnemy implements SpawnStrategy {
     }
 
     @Override
-    public StaticEntity giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
 
+        return null;
+    }
+    
+    @Override
+    public Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y){
         return null;
     }
 }

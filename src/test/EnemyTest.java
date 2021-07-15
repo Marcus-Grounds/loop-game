@@ -84,94 +84,42 @@ public class EnemyTest {
         assertEquals(d.getAllBasicEnemies(), dummyList);
     }
 
-    @Test
-    public void TestBattleSlug(){
-        JFXPanel jfxPanel = new JFXPanel();
-        //test battle
-        List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
-        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
-        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
-        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(5, 0);
-        
-        orderedPath.add(path1);
-        orderedPath.add(path2);
-        orderedPath.add(path3);
-
-        PathPosition p1 = new PathPosition(0, orderedPath);
-        PathPosition p2 = new PathPosition(1, orderedPath);
-        PathPosition p3 = new PathPosition(2, orderedPath);
-
-        //spawn slug and character next to eachother
-        Slug s1 = new Slug(p1);
-        enemies.add(s1);
-        Character c = new Character(p2);
-
-        //spawn another slug far away from character
-        Slug s2 = new Slug(p3);
-        enemies.add(s2);
-
-        BattleEnemyController battleEnemyController = new BattleEnemyController();
-        Battle battle = new Battle(c, battleEnemyController, enemies, s1, new ArrayList<BattleBuilding>());
-        battle.dealDamageOnce();
-        
-
-       
-        //test that after battle, health of both character and slug is decreased
-        assertTrue(s1.getCurrentHealth() < LOW_HEALTH);
-        assertTrue(c.getCurrentHealth() < START_HEALTH);
-
-        //slug2 uneffected because it's far away from battle
-        assertEquals(s2.getCurrentHealth(), LOW_HEALTH);
-
-    }
+    
 
     @Test
-    public void TestBattleSupportRadius(){
-
+    public void testLoot() {
         JFXPanel jfxPanel = new JFXPanel();
-        //test battle
-        //LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
-        List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
-        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        List<BasicItem> lootedItems = new ArrayList<BasicItem>();
+        List<Card> cards = new ArrayList<Card>();
         
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
-        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
-        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(5, 0);
-        
-        orderedPath.add(path1);
-        orderedPath.add(path2);
-        orderedPath.add(path3);
+        for (int i = 0; i < 1000; i++) {
+            Slug slug = new Slug(null);
+            BasicItem item = slug.giveWeaponWhenLooted(null, null);
+            Card card = slug.giveCardWhenLooted(null, null);
+            if (item != null){
+                lootedItems.add(item);
+            }
+            if (card != null){
+                cards.add(card);
+            }
+        }
 
-        PathPosition p1 = new PathPosition(0, orderedPath);
-        PathPosition p2 = new PathPosition(1, orderedPath);
-        PathPosition p3 = new PathPosition(2, orderedPath);
+        assertTrue(lootedItems.size() > 0);
+        assertTrue(lootedItems.size( ) < 1000);
+        assertTrue(cards.size() > 0);
+        assertTrue(cards.size() < 1000);
 
-        //spawn a vampire that is 4 units away from character. Within support radius, but not battle radius.
-        Vampire v1 = new Vampire(p3);
-        enemies.add(v1);
-        Character c = new Character(p2);
+        int swordCount = 0;
+        int stakeCount = 0;
+        for (BasicItem item: lootedItems) {
+            if (item instanceof Sword) {
+                swordCount ++;
+            }
+            else if (item instanceof Stake) {
+                stakeCount ++;
+            }
+        }
 
-        //d.runBattles(null);
-        Battle battle = new Battle(c, null, enemies, v1, new ArrayList<BattleBuilding>());
-        battle.dealDamageOnce();
-        assertTrue(v1.getCurrentHealth() == HIGH_HEALTH);
-        assertTrue(c.getCurrentHealth() == START_HEALTH);
-
-        
-        //spawn slug and character next to eachother, should trigger zombie to join
-        Slug s1 = new Slug(p1);
-        enemies.add(s1);
-        Battle battle1 = new Battle(c, null, enemies, s1,  new ArrayList<BattleBuilding>());
-        battle1.dealDamageOnce();
-
-        //d.runBattles(new LoopManiaWorldController(world, initialEntities);
-
-        //test that after battle, health of both character and slug is decreased
-        assertTrue(v1.getCurrentHealth() < HIGH_HEALTH);
-        assertTrue(c.getCurrentHealth() < START_HEALTH);
-        assertTrue(s1.getCurrentHealth() < LOW_HEALTH);
-        
+        assertTrue(stakeCount < swordCount);
     }
 }

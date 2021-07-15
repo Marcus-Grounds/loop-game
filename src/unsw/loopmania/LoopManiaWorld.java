@@ -302,29 +302,42 @@ import unsw.loopmania.LoopManiaApplication;
                 battleLoader.setController(battleEnemyController);
                 Parent battleRoot = battleLoader.load();
 
-                controller.setBattleSwitcher( () -> {
-                    controller.pause();
-                    LoopManiaApplication.switchToRoot(scene, battleRoot, primaryStage);
-                    battleEnemyController.startTimer();
-                } );
-
-                battleEnemyController.setGameSwitcher(() -> {  
-                    LoopManiaApplication.switchToRoot(scene, gameRoot, primaryStage);
-                    controller.startTimer();
-                });
+                if (controller != null){
+                    controller.setBattleSwitcher( () -> {
+                        controller.pause();
+                        LoopManiaApplication.switchToRoot(scene, battleRoot, primaryStage);
+                        battleEnemyController.startTimer();
+                    } );
+                }
+                
+                if (scene != null && gameRoot != null && primaryStage != null) {
+                    battleEnemyController.setGameSwitcher(() -> {  
+                        LoopManiaApplication.switchToRoot(scene, gameRoot, primaryStage);
+                        controller.startTimer();
+                    });
+                }
+                
 
                 Battle newBattle = new Battle(character, battleEnemyController, enemies, e, battleBuildings);
                 defeatedEnemies = newBattle.getDefeatedEnemies();
                 battleEnemyController.setBattle(newBattle);
-                try {
-                    controller.switchToBattle();
-                    //return newBattle.getDefeatedEnemies();
-                    System.out.println("Defeated Enemies");
-                    return newBattle.getDefeatedEnemies();
-                    
-                } catch (IOException e2) {
-                    e2.printStackTrace();
+                
+                if (controller != null) {
+                    try {
+                        controller.switchToBattle();
+                        //return newBattle.getDefeatedEnemies();
+                        System.out.println("Defeated Enemies");
+                        return newBattle.getDefeatedEnemies();
+                        
+                    } catch (IOException e2) {
+                        e2.printStackTrace();
+                    }
+
                 }
+                else {
+                    battleEnemyController.startTimer();
+                }
+                
             }
 
         }
@@ -364,7 +377,8 @@ import unsw.loopmania.LoopManiaApplication;
      * spawn a sword in the world and return the sword entity
      * @return a sword to be spawned in the controller as a JavaFX node
      */
-    public StaticEntity addUnequippedSword(BasicEnemy enemy){
+    public BasicItem addUnequippedItem(BasicEnemy enemy){
+        System.out.println("addUnequippedItem");
         // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
@@ -375,9 +389,15 @@ import unsw.loopmania.LoopManiaApplication;
         }
         
         // now we insert the new sword, as we know we have at least made a slot available...
-        StaticEntity weapon = enemy.giveWeaponWhenLooted(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        this.character.getAllInventoryItems().add(weapon);
-        return weapon;
+        BasicItem item = enemy.giveWeaponWhenLooted(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        //BasicItem item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        System.out.println(character.getAllInventoryItems().size());
+        if (item != null){
+            this.character.getAllInventoryItems().add(item);
+        }
+        
+        System.out.println(character.getAllInventoryItems().size());
+        return item;
     }
 
      /**

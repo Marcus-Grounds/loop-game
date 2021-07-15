@@ -2,10 +2,13 @@ package unsw.loopmania.Enemies;
 
 import java.util.Random;
 
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.ImageView;
 import unsw.loopmania.*;
 import unsw.loopmania.BasicItems.AttackingStrategy;
+import unsw.loopmania.BasicItems.BasicItem;
+import unsw.loopmania.Cards.Card;
 
 
 /**
@@ -54,5 +57,6 @@ public abstract class BasicEnemy extends MovingEntity {
         }
     }
     
-    public abstract StaticEntity giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y);
+    public abstract BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y);
+    public abstract Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y);
 }

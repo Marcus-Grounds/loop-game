@@ -20,7 +20,7 @@ public class Sword extends BasicItem implements AttackingStrategy {
     int damage;
 
     public Sword(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, COST, new ImageView(new Image((new File("src/images/sword.png")).toURI().toString())) );
+        super(x, y, COST, new ImageView(new Image((new File("src/images/basic_sword.png")).toURI().toString())) );
     }    
 
     public Sword getSword() {
