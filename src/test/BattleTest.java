@@ -248,30 +248,132 @@ public class BattleTest {
         PathPosition p2 = new PathPosition(1, orderedPath);
         PathPosition p3 = new PathPosition(2, orderedPath);
 
-        //spawn a vampire that is 4 units away from character. Within support radius, but not battle radius.
         Vampire v1 = new Vampire(p3);
         enemies.add(v1);
+        Slug s1 = new Slug(p1);
+        enemies.add(s1);
+        Zombie z1 = new Zombie(p1);
+        enemies.add(z1);
+
         Character c = new Character(p2);
         c.changeEquippedWeapon(new Sword(null, null));
 
-        //d.runBattles(null);
-        Battle battle = new Battle(c, null, enemies, v1, new ArrayList<BattleBuilding>(), 10);
-        battle.dealDamageOnce();
-        assertTrue(v1.getCurrentHealth() == HIGH_HEALTH);
-        assertTrue(c.getCurrentHealth() == START_HEALTH);
+        Battle battle1 = new Battle(c, null, enemies, s1,  new ArrayList<BattleBuilding>(), 50);
+        battle1.dealDamageOnce();
 
+        //d.runBattles(new LoopManiaWorldController(world, initialEntities);
+
+        //test that after battle, health of both character and slug is decreased to more than the basic damage
+        assertTrue(v1.getCurrentHealth() < HIGH_HEALTH - c.getBaseDamage());
+        assertTrue(c.getCurrentHealth() < START_HEALTH);
+        assertTrue(s1.getCurrentHealth() < LOW_HEALTH - c.getBaseDamage());
+        assertTrue(z1.getCurrentHealth() < MED_HEALTH - c.getBaseDamage());
+    }
+
+
+
+    @Test
+    public void TestBattleWithArmour(){
+
+        JFXPanel jfxPanel = new JFXPanel();
+        //test battle
+        //LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         
-        //spawn slug and character next to eachother, should trigger zombie to join
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(5, 0);
+        
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        PathPosition p1 = new PathPosition(0, orderedPath);
+        PathPosition p2 = new PathPosition(1, orderedPath);
+        PathPosition p3 = new PathPosition(2, orderedPath);
+
+        Vampire v1 = new Vampire(p3);
+        enemies.add(v1);
         Slug s1 = new Slug(p1);
         enemies.add(s1);
+        Zombie z1 = new Zombie(p1);
+        enemies.add(z1);
+
+        Character c = new Character(p2);
+        c.changeEquippedDefence(new Armour(null, null));
         Battle battle1 = new Battle(c, null, enemies, s1,  new ArrayList<BattleBuilding>(), 50);
         battle1.dealDamageOnce();
 
         //d.runBattles(new LoopManiaWorldController(world, initialEntities);
 
         //test that after battle, health of both character and slug is decreased
-        assertTrue(v1.getCurrentHealth() < HIGH_HEALTH - c.getBaseDamage());
-        assertTrue(c.getCurrentHealth() < START_HEALTH);
-        assertTrue(s1.getCurrentHealth() < LOW_HEALTH - c.getBaseDamage());
+       
+        assertTrue(v1.getCurrentHealth() == HIGH_HEALTH - c.getBaseDamage());
+        assertTrue(c.getCurrentHealth() > START_HEALTH - v1.getDamage() - s1.getDamage() - z1.getDamage() );
+        assertTrue(s1.getCurrentHealth() == LOW_HEALTH - c.getBaseDamage());
+        assertTrue(z1.getCurrentHealth() == MED_HEALTH - c.getBaseDamage());
+    }
+
+
+    @Test
+    public void TestBattleWithShield(){
+
+        JFXPanel jfxPanel = new JFXPanel();
+        //test battle
+        //LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
+        
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+
+        PathPosition p1 = new PathPosition(0, orderedPath);
+        PathPosition p2 = new PathPosition(1, orderedPath);
+
+        Character c = new Character(p2);
+        c.changeEquippedWeapon(new Stake(null, null));
+
+        //count number of battle won if there is shield
+        int battlesWonNoShield = 0;
+        for (int i = 0; i < 1000; i ++){
+            c.increaseHealth(100);
+            List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
+            Vampire v1 = new Vampire(p1);
+            enemies.add(v1);
+
+            Battle battle1 = new Battle(c, null, enemies, v1,  new ArrayList<BattleBuilding>(), 50);
+            while (c.getCurrentHealth() > 0 && v1.getCurrentHealth() > 0) {
+                battle1.dealDamageOnce();
+            }
+            if (c.getCurrentHealth() > 0){
+                battlesWonNoShield++;
+            } 
+        }
+        
+        c.changeEquippedDefence(new Shield(null, null));
+        //count the number of battles won if character has shield
+        int battlesWonWithShield = 0;
+        for (int i = 0; i < 1000; i ++){
+            c.increaseHealth(100);
+            List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
+            Vampire v1 = new Vampire(p1);
+            enemies.add(v1);
+
+            Battle battle1 = new Battle(c, null, enemies, v1,  new ArrayList<BattleBuilding>(), 50);
+            while (c.getCurrentHealth() > 0 && v1.getCurrentHealth() > 0) {
+                battle1.dealDamageOnce();
+            }
+            if (c.getCurrentHealth() > 0){
+                battlesWonWithShield ++;
+            }
+            
+        }
+        System.out.println(battlesWonNoShield);
+        assertTrue(battlesWonNoShield < battlesWonWithShield);
+
     }
 }

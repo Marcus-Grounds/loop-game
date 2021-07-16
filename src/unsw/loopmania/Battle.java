@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import unsw.loopmania.BasicItems.AttackingStrategy;
+import unsw.loopmania.BasicItems.DefendingStrategy;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
 import unsw.loopmania.Enemies.BasicEnemy;
 import unsw.loopmania.Enemies.Slug;
@@ -48,6 +49,7 @@ public class Battle {
         boolean allEnemiesDead = true;
         AttackingStrategy weapon = c.getEquippedWeapon ();
         
+        
         for (BasicEnemy e: enemiesToFight) {
             
             for (BattleBuilding b : battleBuildings) {
@@ -69,7 +71,6 @@ public class Battle {
                     weapon.reduceVampireHealth(vampire, loopCount);
                 }
             }
-            
 
             if (e.getCurrentHealth() > 0) {
                 allEnemiesDead = false;
