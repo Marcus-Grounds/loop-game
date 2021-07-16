@@ -69,7 +69,7 @@ public class BattleEnemyController {
         System.out.println("starting timer enemy fight");
         
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
-        timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(0.0001), event -> {
             battle.dealDamageOnce();
         }));
     
