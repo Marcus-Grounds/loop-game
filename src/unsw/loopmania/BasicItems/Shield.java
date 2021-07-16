@@ -38,8 +38,8 @@ public class Shield extends BasicItem implements DefendingStrategy {
         Random random = new Random();
         double r = random.nextDouble();
 
-        // reduces chance of critical bite by 60%
-        if (r <= 0.4) {
+        // reduces chance of critical bite by 60%, original chance is 30%, now the chance is 12%
+        if (r <= 0.12) {
             c.decreaseHealth(30);
         }
         else {

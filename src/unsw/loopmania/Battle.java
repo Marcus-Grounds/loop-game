@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import unsw.loopmania.BasicItems.AttackingStrategy;
+import unsw.loopmania.BasicItems.DefendingStrategy;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
 import unsw.loopmania.Enemies.BasicEnemy;
+import unsw.loopmania.Enemies.Slug;
+import unsw.loopmania.Enemies.Zombie;
+import unsw.loopmania.Enemies.Vampire;
 
 public class Battle {
     private List<BasicEnemy> enemiesToFight;
@@ -15,14 +19,16 @@ public class Battle {
     private List<BasicEnemy> enemies;
     private BasicEnemy mainEnemy;
     private List<BattleBuilding> battleBuildings;
+    private int loopCount;
 
-    public Battle(Character c, BattleEnemyController controller, List<BasicEnemy> enemies, BasicEnemy mainEnemy,  List<BattleBuilding> battleBuildings) {
+    public Battle(Character c, BattleEnemyController controller, List<BasicEnemy> enemies, BasicEnemy mainEnemy,  List<BattleBuilding> battleBuildings, int loopCount) {
         this.c = c;
         this.controller = controller;
         this.enemies = enemies;
         enemiesToFight = new ArrayList<BasicEnemy>();;
         this.mainEnemy = mainEnemy;
         this.battleBuildings = battleBuildings;
+        this.loopCount = loopCount;
 
         if (Math.pow((c.getX()-mainEnemy.getX()), 2) +  Math.pow((c.getY()-mainEnemy.getY()), 2) <= Math.pow(mainEnemy.getAttackRadius(),2)) {
             enemiesToFight.add(mainEnemy);
@@ -42,6 +48,8 @@ public class Battle {
         //public void dealDamageOnce(List<BasicEnemy> defeatedEnemies){
         boolean allEnemiesDead = true;
         AttackingStrategy weapon = c.getEquippedWeapon ();
+        DefendingStrategy defence = c.getEquippedDefence();
+        
         
         for (BasicEnemy e: enemiesToFight) {
             
@@ -49,7 +57,22 @@ public class Battle {
                 b.buildingAction(c, e);
             }
             
-            e.decreaseHealth(5);
+            e.decreaseHealth(c.getBaseDamage());
+            if (weapon != null){
+                if (e instanceof Slug){
+                    Slug slug = (Slug) e;
+                    weapon.reduceSlugHealth(slug, loopCount);
+                }
+                else if (e instanceof Zombie){
+                    Zombie zombie = (Zombie) e;
+                    weapon.reduceZombieHealth(zombie, loopCount);
+                }
+                else if (e instanceof Vampire){
+                    Vampire vampire = (Vampire) e;
+                    weapon.reduceVampireHealth(vampire, loopCount);
+                }
+            }
+
             if (e.getCurrentHealth() > 0) {
                 allEnemiesDead = false;
             }
@@ -57,7 +80,24 @@ public class Battle {
                 System.out.println("Enemy DEAD");
             }
 
-            c.decreaseHealth(e.getDamage());
+            if (defence == null){
+                c.decreaseHealth(e.getDamage());
+            }
+            else {
+                if (e instanceof Slug){
+                    Slug slug = (Slug) e;
+                    defence.reduceSlugDamage(slug, c);
+                }
+                else if (e instanceof Zombie){
+                    Zombie zombie = (Zombie) e;
+                    defence.reduceZombieDamage(zombie, c);
+                }
+                else if (e instanceof Vampire){
+                    Vampire vampire = (Vampire) e;
+                    defence.reduceVampireDamage(vampire, c);
+                }
+            }
+           
             
 
             if (c.getCurrentHealth() <= 0) {
