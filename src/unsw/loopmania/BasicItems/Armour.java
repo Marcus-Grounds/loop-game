@@ -18,7 +18,7 @@ public class Armour extends BasicItem implements DefendingStrategy {
     public static final int COST = 5;
 
     public Armour(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, COST, new ImageView(new Image((new File("src/images/slug.png")).toURI().toString())));
+        super(x, y, COST, new ImageView(new Image((new File("src/images/armour.png")).toURI().toString())));
     }    
 
     public Armour getArmour() {

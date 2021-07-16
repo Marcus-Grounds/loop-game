@@ -76,4 +76,13 @@ public class Vampire extends BasicEnemy implements SpawnStrategy{
         
         return null;
     }
+
+    @Override
+    public void move(){
+        double directionChoice = (new Random()).nextDouble();
+        if (directionChoice < 0.9){
+            moveDownPath();
+        }
+        
+    }
 }

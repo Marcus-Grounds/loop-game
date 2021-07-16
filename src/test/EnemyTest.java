@@ -194,6 +194,43 @@ public class EnemyTest {
     }
 
     @Test
-    public void testZombieLoot() {
+    public void testSlugMove() {
+
+        JFXPanel jfxPanel = new JFXPanel();
+        //test battle
+        //List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+
+        for (int i = 0; i < 1000; i++){
+            orderedPath.add(new Pair<Integer,Integer>(0, i));
+        }
+
+
+        Slug slug = new Slug( new PathPosition(0, orderedPath) );
+        for (int i = 0; i < 500; i++){
+            slug.move();
+            slug.getPathPosition().resetCoordinatesBasedOnPositionInPath();
+        }
+
+        Zombie zombie= new Zombie( new PathPosition(0, orderedPath) );
+        for (int i = 0; i < 500; i++){
+            zombie.move();
+            zombie.getPathPosition().resetCoordinatesBasedOnPositionInPath();
+        }
+
+        Vampire vampire = new Vampire( new PathPosition(0, orderedPath) );
+        for (int i = 0; i < 500; i++){
+            vampire.move();
+            vampire.getPathPosition().resetCoordinatesBasedOnPositionInPath();
+        }
+        
+        //slug should have remained at the same spot approximately, zombie whould have moved forwrds slowly, vampire 
+        
+        System.out.println(slug.getY());
+        System.out.println(zombie.getY());
+        System.out.println(vampire.getY());
+
+        assertTrue(slug.getY() < zombie.getY());
+        assertTrue(zombie.getY() < vampire.getY());
     }
 }

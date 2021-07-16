@@ -62,4 +62,12 @@ public class Zombie extends BasicEnemy implements SpawnStrategy {
         
         return null;
     }
+
+    @Override
+    public void move(){
+        int directionChoice = (new Random()).nextInt(2);
+        if (directionChoice == 0){
+            moveDownPath();
+        }
+    }
 }

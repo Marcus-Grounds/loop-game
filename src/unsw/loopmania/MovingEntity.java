@@ -77,4 +77,8 @@ public abstract class MovingEntity extends Entity {
     public void setX(SimpleIntegerProperty x){
 
     }
+
+    public PathPosition getPathPosition() {
+        return this.position;
+    }
 }
