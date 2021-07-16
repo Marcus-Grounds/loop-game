@@ -83,4 +83,15 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
 
         return null;
     }
+
+    @Override
+    public void move(){
+        int directionChoice = (new Random()).nextInt(2);
+        if (directionChoice == 0){
+            moveUpPath();
+        }
+        else if (directionChoice == 1){
+            moveDownPath();
+        }
+    }
 }
