@@ -36,28 +36,22 @@ public class LoopManiaApplication extends Application {
         // alternatively, you could allow rescaling of the game (you'd have to program resizing of the JavaFX nodes)
         primaryStage.setResizable(false);
 
-        /*
-        //load battle screen
-        battleEnemyController = new BattleEnemyController();
-        FXMLLoader battleLoader = new FXMLLoader(getClass().getResource("Battle.fxml"));
-        battleLoader.setController(battleEnemyController);
-        Parent battleRoot = battleLoader.load();
-        */
-
-        // load the main game
-
         // load the main menu
         MainMenuController mainMenuController = new MainMenuController();
         FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("MainMenuView.fxml"));
         menuLoader.setController(mainMenuController);
         Parent mainMenuRoot = menuLoader.load();
+
         
-        // create new scene with the main menu (so we start with the main menu)
-        Scene scene = new Scene(mainMenuRoot);
-        
+        //load battle screen
+        BattleEnemyController battleEnemyController = new BattleEnemyController();
+        FXMLLoader battleLoader = new FXMLLoader(getClass().getResource("Battle.fxml"));
+        battleLoader.setController(battleEnemyController);
+        Parent battleRoot = battleLoader.load();
         
 
-        LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("world_with_twists_and_turns.json", scene, primaryStage);
+        Scene scene = new Scene(mainMenuRoot);
+        LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("world_with_twists_and_turns.json", battleEnemyController);
     
 
         //LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("basic_world_with_player.json");
@@ -68,6 +62,7 @@ public class LoopManiaApplication extends Application {
         
 
         mainController.setGameRoot(gameRoot);
+        
         
 
 
@@ -81,14 +76,17 @@ public class LoopManiaApplication extends Application {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
-
-        //mainController.setBattleSwitcher( () -> {switchToRoot(scene, battleRoot, primaryStage);} );
-        /*
-        battleEnemyController.setGameSwitcher(() -> {
+       
+        battleEnemyController.setGameSwitcher(() -> {  
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
-        */
+        mainController.setBattleSwitcher(() -> {  
+            switchToRoot(scene, battleRoot, primaryStage);
+            mainController.pause();
+            battleEnemyController.startTimer();
+        });
+        
 
         
         // deploy the main onto the stage
@@ -96,8 +94,6 @@ public class LoopManiaApplication extends Application {
         //battleRoot.requestFocus();
         primaryStage.setScene(scene);
         primaryStage.show();
-
-        
     }
     
     @Override

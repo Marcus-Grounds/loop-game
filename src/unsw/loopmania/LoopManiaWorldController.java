@@ -183,6 +183,8 @@ public class LoopManiaWorldController {
     private Stage primaryStage;
 
     private Parent gameRoot;
+
+    BattleEnemyController battleEnemyController;
     /*
     public void setBattleEnemyScreen (BattleEnemyScreen battleEnemyScreen){
         this.battleEnemyScreen = battleEnemyScreen;
@@ -193,11 +195,8 @@ public class LoopManiaWorldController {
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
      */
-    public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities, Scene scene, Parent gameRoot, Stage primaryStage) {
+    public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities, BattleEnemyController battleEnemyController) {
         this.world = world;
-        this.scene = scene;
-        this.gameRoot = gameRoot;
-        this.primaryStage = primaryStage;
         entityImages = new ArrayList<>(initialEntities);
         basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
         swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
@@ -218,6 +217,7 @@ public class LoopManiaWorldController {
         gridPaneNodeSetOnDragExited = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
 
         //battleEnemyScreen = new BattleEnemyScreen();
+        this.battleEnemyController = battleEnemyController;
     }
 
     @FXML
@@ -277,7 +277,7 @@ public class LoopManiaWorldController {
             //List<BasicEnemy> defeatedEnemies = world.runBattles(this);
             List<BasicEnemy> defeatedEnemies = new ArrayList<>();
             try {
-                defeatedEnemies = world.runBattles(this, scene, gameRoot, primaryStage);
+                defeatedEnemies = world.runBattles(this);
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
@@ -290,6 +290,18 @@ public class LoopManiaWorldController {
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
+            
+            Gold gold = world.possiblySpawnGold();
+            if (gold != null){
+                onLoad(gold);
+            }
+
+            HealthPotion potion = world.possiblySpawnHealthPotion();
+            if (potion != null){
+                onLoad(potion);
+            }
+            
+
             printThreadingNotes("HANDLED TIMER");
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -408,9 +420,20 @@ public class LoopManiaWorldController {
         else {
             System.out.println("null");
         }
-
-        
     }
+
+    private void onLoad(Gold gold){
+        ImageView view = gold.getImageView();
+        addEntity(gold, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(HealthPotion potion){
+        ImageView view = potion.getImageView();
+        addEntity(potion, view);
+        squares.getChildren().add(view);
+    }
+
 
    
 
@@ -818,5 +841,9 @@ public class LoopManiaWorldController {
 
     public void setGameRoot(Parent gameRoot){
         this.gameRoot = gameRoot;
+    }
+
+    public BattleEnemyController getBattleController(){
+        return this.battleEnemyController;
     }
 }
