@@ -1,6 +1,7 @@
 package unsw.loopmania.Buildings.BattleBuildings;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.ImageView;
 import unsw.loopmania.MovingEntity;
 import unsw.loopmania.Buildings.Building;
 
@@ -8,8 +9,8 @@ public abstract class BattleBuilding extends Building {
     
     private int radius;
 
-    public BattleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y);
+    public BattleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y, ImageView image) {
+        super(x, y, image);
     }
 
     public abstract boolean checkRadius(MovingEntity entity);

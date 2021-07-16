@@ -8,15 +8,7 @@ public class Building extends StaticEntity {
     
     private ImageView image;
     
-    public Building(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x,y);
-    }
-
-    public void setImageView(ImageView image) {
-        this.image = image;
-    }
-
-    public ImageView getImageView() {  
-        return this.image;
+    public Building(SimpleIntegerProperty x, SimpleIntegerProperty y, ImageView image) {
+        super(x,y, image);
     }
 }

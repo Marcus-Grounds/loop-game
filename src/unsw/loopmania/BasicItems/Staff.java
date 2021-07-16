@@ -5,6 +5,10 @@ import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Vampire;
 import unsw.loopmania.Enemies.Zombie;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.File;
+
 
 /**
  * represents an equipped or unequipped staff in the backend world
@@ -15,7 +19,7 @@ public class Staff extends BasicItem implements AttackingStrategy {
     int damage = 2;
 
     public Staff(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, COST);
+        super(x, y, COST,new ImageView(new Image((new File("src/images/staff.png")).toURI().toString())));
     }   
     
     public Staff getStaff() {

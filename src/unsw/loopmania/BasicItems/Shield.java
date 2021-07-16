@@ -6,6 +6,9 @@ import unsw.loopmania.Enemies.Vampire;
 import unsw.loopmania.Enemies.Zombie;
 import unsw.loopmania.Character;
 import java.util.Random;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.File;
 
 
 /**
@@ -16,7 +19,7 @@ public class Shield extends BasicItem implements DefendingStrategy {
     public static final int COST = 20;
     
     public Shield(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, COST);
+        super(x, y, COST, new ImageView(new Image((new File("src/images/shield.png")).toURI().toString())));
     }    
 
     public Shield getShield() {

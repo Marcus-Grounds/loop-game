@@ -7,10 +7,15 @@ import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.StaticEntity;
+
 import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Buildings.BattleBuildings.*;
 import unsw.loopmania.Buildings.PathBuildings.*;
 import unsw.loopmania.Buildings.SpawnBuildings.*;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.File;
 
 /**
  * a Card in the world
@@ -20,8 +25,8 @@ public abstract class Card extends StaticEntity {
     // TODO = implement other varieties of card than VampireCastleCard
 
     private PlacementStrategy placementStrategy;
-    public Card(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y);
+    public Card(SimpleIntegerProperty x, SimpleIntegerProperty y, ImageView image) {
+        super(x, y, image);
         this.placementStrategy = null;
     }
 
