@@ -232,6 +232,8 @@ import unsw.loopmania.LoopManiaApplication;
             spawningEnemies.add(enemy);
             //spawningEnemies.add(enemy1);
         }
+       
+
         return spawningEnemies;
     }
 
