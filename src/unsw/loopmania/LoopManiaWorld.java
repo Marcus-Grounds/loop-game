@@ -226,11 +226,12 @@ import unsw.loopmania.LoopManiaApplication;
             //at the momeny we only spawn slug, will change later
             Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             
-            //Vampire enemy1 = new Vampire(new PathPosition(indexInPath, orderedPath));
+            
+            Vampire enemy1 = new Vampire(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
-            //enemies.add(enemy1);
+            enemies.add(enemy1);
             spawningEnemies.add(enemy);
-            //spawningEnemies.add(enemy1);
+            spawningEnemies.add(enemy1);
         }
        
 

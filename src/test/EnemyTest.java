@@ -205,16 +205,23 @@ public class EnemyTest {
             orderedPath.add(new Pair<Integer,Integer>(0, i));
         }
 
-        PathPosition p1 = new PathPosition(100, orderedPath);
 
-        Slug slug = new Slug(p1);
-        Zombie zombie= new Zombie(p1);
-        Vampire vampire = new Vampire(p1);
-
-        for (int i = 0; i < 1000; i++){
+        Slug slug = new Slug( new PathPosition(0, orderedPath) );
+        for (int i = 0; i < 500; i++){
             slug.move();
+            slug.getPathPosition().resetCoordinatesBasedOnPositionInPath();
+        }
+
+        Zombie zombie= new Zombie( new PathPosition(0, orderedPath) );
+        for (int i = 0; i < 500; i++){
             zombie.move();
+            zombie.getPathPosition().resetCoordinatesBasedOnPositionInPath();
+        }
+
+        Vampire vampire = new Vampire( new PathPosition(0, orderedPath) );
+        for (int i = 0; i < 500; i++){
             vampire.move();
+            vampire.getPathPosition().resetCoordinatesBasedOnPositionInPath();
         }
         
         //slug should have remained at the same spot approximately, zombie whould have moved forwrds slowly, vampire 
