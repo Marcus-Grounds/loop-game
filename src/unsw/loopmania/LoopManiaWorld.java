@@ -91,6 +91,7 @@ import unsw.loopmania.LoopManiaApplication;
     private List<BattleBuilding> battleBuildings;
     private List<PathBuilding>   pathBuildings;
     private List<SpawnBuilding>  spawnBuildings;
+    private List<Building> buildingsList;
 
     private List<Ally> allies;
     /**
@@ -744,6 +745,7 @@ import unsw.loopmania.LoopManiaApplication;
             } else if (newBuilding instanceof PathBuilding) {
                 pathBuildings.add((PathBuilding)newBuilding);
             }
+            buildingsList.add(newBuilding);
         }
         // destroy the card
         card.destroy();
