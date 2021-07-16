@@ -48,6 +48,7 @@ public class Battle {
         //public void dealDamageOnce(List<BasicEnemy> defeatedEnemies){
         boolean allEnemiesDead = true;
         AttackingStrategy weapon = c.getEquippedWeapon ();
+        DefendingStrategy defence = c.getEquippedDefence();
         
         
         for (BasicEnemy e: enemiesToFight) {
@@ -79,7 +80,24 @@ public class Battle {
                 System.out.println("Enemy DEAD");
             }
 
-            c.decreaseHealth(e.getDamage());
+            if (defence == null){
+                c.decreaseHealth(e.getDamage());
+            }
+            else {
+                if (e instanceof Slug){
+                    Slug slug = (Slug) e;
+                    defence.reduceSlugDamage(slug, c);
+                }
+                else if (e instanceof Zombie){
+                    Zombie zombie = (Zombie) e;
+                    defence.reduceZombieDamage(zombie, c);
+                }
+                else if (e instanceof Vampire){
+                    Vampire vampire = (Vampire) e;
+                    defence.reduceVampireDamage(vampire, c);
+                }
+            }
+           
             
 
             if (c.getCurrentHealth() <= 0) {

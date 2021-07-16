@@ -176,8 +176,46 @@ public class BattleTest {
 
         //slug2 uneffected because it's far away from battle
         assertEquals(s2.getCurrentHealth(), LOW_HEALTH);
+    }
+
+    @Test
+    public void TestVampireCritical(){
+        JFXPanel jfxPanel = new JFXPanel();
+        //test battle
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
+        
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+
+        PathPosition p1 = new PathPosition(0, orderedPath);
+        PathPosition p2 = new PathPosition(1, orderedPath);
+
+        boolean criticalOccured = false;
+        for(int i = 0; i < 1000; i++) {
+            List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
+            //spawn slug and character next to eachother
+            Vampire v1 = new Vampire(p1);
+            enemies.add(v1);
+            Character c = new Character(p2);
+
+            //spawn another slug far away from character
+
+            BattleEnemyController battleEnemyController = new BattleEnemyController();
+            Battle battle = new Battle(c, battleEnemyController, enemies, v1, new ArrayList<BattleBuilding>(), 0);
+            battle.dealDamageOnce();
+
+            if (c.getCurrentHealth() < 100 - HIGH_DAMAGE) {
+                criticalOccured = true;
+            }
+        }
+        assertTrue(criticalOccured);
 
     }
+
+
 
     @Test
     public void TestBattleSupportRadius(){
@@ -334,46 +372,41 @@ public class BattleTest {
         PathPosition p1 = new PathPosition(0, orderedPath);
         PathPosition p2 = new PathPosition(1, orderedPath);
 
-        Character c = new Character(p2);
-        c.changeEquippedWeapon(new Stake(null, null));
-
+        
+        //c.changeEquippedWeapon(new Stake(null, null));
+        int c1HigherHealth = 0;
+        int c2HigherHealth = 0;
         //count number of battle won if there is shield
         int battlesWonNoShield = 0;
         for (int i = 0; i < 1000; i ++){
-            c.increaseHealth(100);
-            List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
+            //two battles occur, exactly the same except on has shield and one doesnt
+            Character c1 = new Character(p2);
+            List<BasicEnemy> enemies1 = new ArrayList<BasicEnemy>();
             Vampire v1 = new Vampire(p1);
-            enemies.add(v1);
+            enemies1.add(v1);
 
-            Battle battle1 = new Battle(c, null, enemies, v1,  new ArrayList<BattleBuilding>(), 50);
-            while (c.getCurrentHealth() > 0 && v1.getCurrentHealth() > 0) {
-                battle1.dealDamageOnce();
+            Character c2 = new Character(p2);
+            c2.changeEquippedDefence(new Shield(null, null));
+            List<BasicEnemy> enemies2 = new ArrayList<BasicEnemy>();
+            Vampire v2 = new Vampire(p1);
+            enemies2.add(v2);
+
+            Battle battle1 = new Battle(c1, null, enemies1, v1,  new ArrayList<BattleBuilding>(), 50);
+            battle1.dealDamageOnce();
+
+            Battle battle2 = new Battle(c2, null, enemies2, v2,  new ArrayList<BattleBuilding>(), 50);
+            battle2.dealDamageOnce();
+
+            if (c1.getCurrentHealth() < c2.getCurrentHealth()) {
+                c2HigherHealth ++;
             }
-            if (c.getCurrentHealth() > 0){
-                battlesWonNoShield++;
-            } 
+            else if (c2.getCurrentHealth() < c1.getCurrentHealth()) {
+                c1HigherHealth ++;
+            }
         }
         
-        c.changeEquippedDefence(new Shield(null, null));
-        //count the number of battles won if character has shield
-        int battlesWonWithShield = 0;
-        for (int i = 0; i < 1000; i ++){
-            c.increaseHealth(100);
-            List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
-            Vampire v1 = new Vampire(p1);
-            enemies.add(v1);
-
-            Battle battle1 = new Battle(c, null, enemies, v1,  new ArrayList<BattleBuilding>(), 50);
-            while (c.getCurrentHealth() > 0 && v1.getCurrentHealth() > 0) {
-                battle1.dealDamageOnce();
-            }
-            if (c.getCurrentHealth() > 0){
-                battlesWonWithShield ++;
-            }
-            
-        }
-        System.out.println(battlesWonNoShield);
-        assertTrue(battlesWonNoShield < battlesWonWithShield);
-
+        System.out.println(c1HigherHealth);
+        System.out.println(c2HigherHealth);
+        assertTrue(c1HigherHealth < c2HigherHealth);
     }
 }
