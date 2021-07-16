@@ -81,6 +81,8 @@ import unsw.loopmania.LoopManiaApplication;
      * generic entitites - i.e. those which don't have dedicated fields
      */
     private List<Entity> nonSpecifiedEntities;
+    private List<Gold> goldCollection;
+    private HealthPotion thePotion;
 
     private Character character;
     private List<BasicEnemy> enemies;
@@ -94,6 +96,8 @@ import unsw.loopmania.LoopManiaApplication;
     private List<Building> buildingsList;
 
     private List<Ally> allies;
+
+
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
      */
@@ -118,6 +122,8 @@ import unsw.loopmania.LoopManiaApplication;
         this.pathBuildings = new ArrayList<>();
         this.spawnBuildings = new ArrayList<>();
         this.allies = new ArrayList<>();
+        this.goldCollection = new ArrayList<>();
+        thePotion = null;
     }
 
     public int getWidth() {
@@ -268,32 +274,62 @@ import unsw.loopmania.LoopManiaApplication;
     }
 
     public Gold possiblySpawnGold() {
-        Pair<Integer, Integer> pos = possiblySpawnPosition(5);
-        
         Random random = new Random();
         double r = random.nextDouble();
 
-        if (r < 0.4 && pos != null) {
+        if (r < 0.05) {
+            Pair<Integer, Integer> pos = getRandomPosition();
             int indexInPath = orderedPath.indexOf(pos);
-            Gold gold = new Gold(new SimpleIntegerProperty(indexInPath), new SimpleIntegerProperty(indexInPath));
+            PathPosition position = new PathPosition(indexInPath, orderedPath);
+            Gold gold = new Gold(position.getX(), position.getY());
+            gold.increaseGold(1);
+            goldCollection.add(gold);
             return gold;
         }
         return null;
     }
 
+    public void possiblyCollectGold() {
+        for (Gold g: goldCollection){
+            if (g.getX() == character.getX() && g.getY() == character.getY()){
+                System.out.println("GOLDCOUNT");
+                System.out.println(character.increaseGold(g));
+                
+                g.destroy();
+                
+            }
+        }
+    }
+    
+    
     public HealthPotion possiblySpawnHealthPotion() {
-        Pair<Integer, Integer> pos = possiblySpawnPosition(6);
-        
         Random random = new Random();
         double r = random.nextDouble();
 
-        if (r < 0.3 && pos != null) {
+        if (r < 0.50 && thePotion == null) {
+            Pair<Integer, Integer> pos = getRandomPosition();
             int indexInPath = orderedPath.indexOf(pos);
-            HealthPotion healthPotion = new HealthPotion(new SimpleIntegerProperty(indexInPath), new SimpleIntegerProperty(indexInPath));
-            return healthPotion;
+            PathPosition position = new PathPosition(indexInPath, orderedPath);
+            HealthPotion potion = new HealthPotion(position.getX(), position.getY());
+            this.thePotion = potion;
+            return potion;
         }
         return null;
     }
+
+    public void possiblyCollectPotion() {
+        if(thePotion != null){
+            if (thePotion.getX() == character.getX() && thePotion.getY() == character.getY()){
+                System.out.println("drinkPotion");
+                //System.out.println(character.increaseGold(g));
+                character.increaseHealth(100);
+                thePotion.destroy();
+                thePotion = null;
+            }
+        }
+    }
+    
+
 
     // Run battle once between one enemy and character
     public void runBattle(BasicEnemy enemyToFight) {
@@ -560,6 +596,8 @@ import unsw.loopmania.LoopManiaApplication;
     
         character.moveDownPath();;
         moveBasicEnemies();
+        possiblyCollectGold();
+        possiblyCollectPotion();
         
         for (PathBuilding p : pathBuildings) {
             p.pathAction(character, enemies);
@@ -662,62 +700,39 @@ import unsw.loopmania.LoopManiaApplication;
             e.move();
         }
     }
-
-    private Pair<Integer, Integer> possiblySpawnPosition(int scale){
-        // TODO = modify this
-        
-        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
-        Random rand = new Random();
-        int choice = rand.nextInt(scale);
-        // TODO = change based on spec... currently low value for dev purposes...
-        // TODO = change based on spec
-        if ((choice == 0) && (enemies.size() < 2)){
-            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
-            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
-            // inclusive start and exclusive end of range of positions not allowed
-            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
-            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
-            // note terminating condition has to be != rather than < since wrap around...
-            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
-                orderedPathSpawnCandidates.add(orderedPath.get(i));
-            }
-
-            // choose random choice
-            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
-
-            return spawnPosition;
-        }
-        return null;
-    }
+  
 
     /**
      * get a randomly generated position which could be used to spawn an enemy
      * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
      */
     private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition(){
-        // TODO = modify this
-        
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
         // TODO = change based on spec
         if ((choice == 0) && (enemies.size() < 2)){
-            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
-            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
-            // inclusive start and exclusive end of range of positions not allowed
-            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
-            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
-            // note terminating condition has to be != rather than < since wrap around...
-            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
-                orderedPathSpawnCandidates.add(orderedPath.get(i));
-            }
-
-            // choose random choice
-            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
-
-            return spawnPosition;
+            return getRandomPosition();
         }
         return null;
+    }
+    
+    private Pair<Integer, Integer> getRandomPosition() {
+        Random rand = new Random();
+        List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+        int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+        // inclusive start and exclusive end of range of positions not allowed
+        int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+        int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+        // note terminating condition has to be != rather than < since wrap around...
+        for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+            orderedPathSpawnCandidates.add(orderedPath.get(i));
+        }
+
+        // choose random choice
+        Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+
+        return spawnPosition;
     }
 
     /**

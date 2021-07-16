@@ -290,6 +290,18 @@ public class LoopManiaWorldController {
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
+            
+            Gold gold = world.possiblySpawnGold();
+            if (gold != null){
+                onLoad(gold);
+            }
+
+            HealthPotion potion = world.possiblySpawnHealthPotion();
+            if (potion != null){
+                onLoad(potion);
+            }
+            
+
             printThreadingNotes("HANDLED TIMER");
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -408,9 +420,20 @@ public class LoopManiaWorldController {
         else {
             System.out.println("null");
         }
-
-        
     }
+
+    private void onLoad(Gold gold){
+        ImageView view = gold.getImageView();
+        addEntity(gold, view);
+        squares.getChildren().add(view);
+    }
+
+    private void onLoad(HealthPotion potion){
+        ImageView view = potion.getImageView();
+        addEntity(potion, view);
+        squares.getChildren().add(view);
+    }
+
 
    
 
