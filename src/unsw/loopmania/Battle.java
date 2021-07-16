@@ -118,6 +118,7 @@ public class Battle {
                 killEnemy(enemy);
             }
             if (controller != null) {
+                System.out.println("allEnemiesDead");
                 controller.pauseBattle();
             }
             return;

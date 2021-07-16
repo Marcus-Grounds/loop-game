@@ -355,7 +355,7 @@ import unsw.loopmania.LoopManiaApplication;
      * @throws IOException
      */
     //public List<BasicEnemy> runBattles(LoopManiaWorldController world) {
-    public List<BasicEnemy> runBattles(LoopManiaWorldController controller, Scene scene, Parent gameRoot, Stage primaryStage) throws IOException {
+    public List<BasicEnemy> runBattles(LoopManiaWorldController controller) throws IOException {
 
         List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
         
@@ -363,49 +363,21 @@ import unsw.loopmania.LoopManiaApplication;
             
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= Math.pow(e.getAttackRadius(),2)){
-            
-                //creates a new battleEnemeyController and screen
-                BattleEnemyController battleEnemyController = new BattleEnemyController();
-                FXMLLoader battleLoader = new FXMLLoader(getClass().getResource("Battle.fxml"));
-                battleLoader.setController(battleEnemyController);
-                Parent battleRoot = battleLoader.load();
+                BattleEnemyController battleEnemyController = controller.getBattleController();
 
-                if (controller != null){
-                    controller.setBattleSwitcher( () -> {
-                        controller.pause();
-                        LoopManiaApplication.switchToRoot(scene, battleRoot, primaryStage);
-                        battleEnemyController.startTimer();
-                    } );
+                Battle battle = new Battle(character, battleEnemyController, enemies, e, battleBuildings, loopCount);
+                battleEnemyController.setBattle(battle);
+                try {
+                    controller.switchToBattle();
+                    //return newBattle.getDefeatedEnemies();
+                    System.out.println("Defeated Enemies");
+                    return battle.getDefeatedEnemies();
+                    
+                } catch (IOException e2) {
+                    e2.printStackTrace();
                 }
-                
-                if (scene != null && gameRoot != null && primaryStage != null) {
-                    battleEnemyController.setGameSwitcher(() -> {  
-                        LoopManiaApplication.switchToRoot(scene, gameRoot, primaryStage);
-                        controller.startTimer();
-                    });
-                }
-                
+                defeatedEnemies = battle.getDefeatedEnemies();
 
-                Battle newBattle = new Battle(character, battleEnemyController, enemies, e, battleBuildings, loopCount);
-                defeatedEnemies = newBattle.getDefeatedEnemies();
-                battleEnemyController.setBattle(newBattle);
-                
-                if (controller != null) {
-                    try {
-                        controller.switchToBattle();
-                        //return newBattle.getDefeatedEnemies();
-                        System.out.println("Defeated Enemies");
-                        return newBattle.getDefeatedEnemies();
-                        
-                    } catch (IOException e2) {
-                        e2.printStackTrace();
-                    }
-
-                }
-                else {
-                    battleEnemyController.startTimer();
-                }
-                
             }
 
         }

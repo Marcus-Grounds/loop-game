@@ -80,8 +80,9 @@ public class BattleEnemyController {
 
     public void pauseBattle() {
         try {
-            //System.out.println("hi2");
+            System.out.println("hi2");
             timeline.stop();
+
             switchToGame();
         } catch (IOException e) {
             e.printStackTrace();
