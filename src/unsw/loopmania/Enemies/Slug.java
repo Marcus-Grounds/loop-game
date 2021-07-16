@@ -56,13 +56,13 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
         System.out.print("generating random");
         double r = random.nextDouble();
         System.out.print(r);
-        if (r < 0.1){
+        if (r < 0.4){
             return new Sword(x, y);
         }
-        else if (r < 0.15) {
+        else if (r < 0.8) {
             return new Stake(x, y);
         }
-        else if (r < 0.25){
+        else if (r < 1){
             return new Armour(x, y);
         }
 
@@ -74,10 +74,10 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
         //15% chance of giving towerCards, 15% chance of giving villageCard
         double r = random.nextDouble();
         System.out.print(r);
-        if (r < 0.15){
+        if (r < 0.5){
             return new TowerCard(x, y);
         }
-        else if (r < 0.3) {
+        else if (r < 1) {
             return new VillageCard(x, y);
         }
 
