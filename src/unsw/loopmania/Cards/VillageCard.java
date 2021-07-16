@@ -9,5 +9,6 @@ public class VillageCard extends Card {
     // TODO = add more types of card
     public VillageCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
+        this.setPlacementStrategy(new OnlyOnPathStrategy());
     }    
 }

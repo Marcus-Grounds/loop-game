@@ -5,10 +5,10 @@ import javafx.beans.property.SimpleIntegerProperty;
 /**
  * represents a vampire castle card in the backend game world
  */
-public class TowerCard extends Card {
+public class TrapCard extends Card {
     // TODO = add more types of card
-    public TowerCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    public TrapCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
-        this.setPlacementStrategy(new AdjacentToPathStrategy());
+        this.setPlacementStrategy(new OnlyOnPathStrategy());
     }    
 }

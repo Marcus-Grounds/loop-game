@@ -84,6 +84,10 @@ public class Character extends MovingEntity {
         this.cardEntities.add(card);
     }
 
+    public Card getCardByIndex (int index) {
+        return this.cardEntities.get(index);
+    }
+
     public List<Card> getAllCards () {
         return this.cardEntities;
     }

@@ -9,5 +9,6 @@ public class BarracksCard extends Card {
     // TODO = add more types of card
     public BarracksCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
+        this.setPlacementStrategy(new OnlyOnPathStrategy());
     }    
 }

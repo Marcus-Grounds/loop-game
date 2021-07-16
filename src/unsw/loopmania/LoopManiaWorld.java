@@ -165,6 +165,10 @@ import unsw.loopmania.LoopManiaApplication;
         this.character.addCard(card);
     }
 
+    public Card getCardByIndex (int index) {
+        return this.character.getCardByIndex(index);
+    }
+
     public List<Card> getAllCards () {
         return this.character.getAllCards();
     }
@@ -697,11 +701,19 @@ import unsw.loopmania.LoopManiaApplication;
                 break;
             }
         }
-        
+        Building newBuilding = null;
         // now spawn building
-        SpawnBuilding newBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
-        spawnBuildings.add(newBuilding);
-
+        if (card.isPlaceable(buildingNodeX, buildingNodeY, this.orderedPath)) {
+            newBuilding = card.generateEntity(new SimpleIntegerProperty(buildingNodeX),
+             new SimpleIntegerProperty(buildingNodeX));
+            if (newBuilding instanceof SpawnBuilding) {
+                spawnBuildings.add((SpawnBuilding) newBuilding);
+            } else if (newBuilding instanceof BattleBuilding) {
+                battleBuildings.add((BattleBuilding) newBuilding);
+            } else if (newBuilding instanceof PathBuilding) {
+                pathBuildings.add((PathBuilding)newBuilding);
+            }
+        }
         // destroy the card
         card.destroy();
         this.character.getAllCards().remove(card);

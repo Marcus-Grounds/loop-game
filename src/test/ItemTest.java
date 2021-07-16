@@ -612,7 +612,7 @@ public class ItemTest {
         Gold gold = new Gold(new SimpleIntegerProperty(2), new SimpleIntegerProperty(2));
 
         int currGold = gold.getGoldCount();
-        gold.deccreaseGold(shield.getCost());
+        gold.decreaseGold(shield.getCost());
         assertEquals(gold.getGoldCount(), currGold-20);
 
     }

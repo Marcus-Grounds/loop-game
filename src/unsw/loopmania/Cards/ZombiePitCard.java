@@ -9,5 +9,6 @@ public class ZombiePitCard extends Card {
     // TODO = add more types of card
     public ZombiePitCard(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
+        this.setPlacementStrategy(new AdjacentToPathStrategy());
     }    
 }
