@@ -20,7 +20,7 @@ import unsw.loopmania.Buildings.PathBuildings.TrapBuilding;
 import unsw.loopmania.Cards.*;
 
 import unsw.loopmania.Enemies.*;
-
+import unsw.loopmania.Enemies.Zombie;
 import unsw.loopmania.GameMode.*;
 
 public class EnemyTest {

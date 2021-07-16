@@ -347,7 +347,7 @@ import unsw.loopmania.LoopManiaApplication;
                 }
                 
 
-                Battle newBattle = new Battle(character, battleEnemyController, enemies, e, battleBuildings);
+                Battle newBattle = new Battle(character, battleEnemyController, enemies, e, battleBuildings, loopCount);
                 defeatedEnemies = newBattle.getDefeatedEnemies();
                 battleEnemyController.setBattle(newBattle);
                 

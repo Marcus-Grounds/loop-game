@@ -33,6 +33,18 @@ public class Vampire extends BasicEnemy implements SpawnStrategy{
     }
 
     @Override
+    public int getDamage() {
+        Random random = new Random();
+        double r = random.nextDouble();
+        if (r < 0.3) {
+            return 30;
+        }
+
+        return 10;
+    }
+
+
+    @Override
     public void spawn() {
         // TODO Auto-generated method stub
         
