@@ -86,11 +86,12 @@ import unsw.loopmania.LoopManiaApplication;
     private List<BasicEnemy> enemies;
 
     //private List<Building> buildingEntities;
-    private Building heroCastle; 
+    private Building heroCastle;
     
     private List<BattleBuilding> battleBuildings;
     private List<PathBuilding>   pathBuildings;
     private List<SpawnBuilding>  spawnBuildings;
+    private List<Building> buildingsList;
 
     private List<Ally> allies;
     /**
@@ -165,6 +166,10 @@ import unsw.loopmania.LoopManiaApplication;
         this.character.addCard(card);
     }
 
+    public Card getCardByIndex (int index) {
+        return this.character.getCardByIndex(index);
+    }
+
     public List<Card> getAllCards () {
         return this.character.getAllCards();
     }
@@ -203,6 +208,30 @@ import unsw.loopmania.LoopManiaApplication;
 
     public List<SpawnBuilding> getAllSpawnBuildings () {
         return this.spawnBuildings;
+    }
+
+    public List<Pair<Integer, Integer>> getOrderedPath () {
+        return this.orderedPath;
+    }
+
+    public boolean isAdjacentToPath (Pair<Integer, Integer> cell) {
+        int value0 = cell.getValue0();
+        int value1 = cell.getValue1();
+        boolean result = false;
+        for (Pair<Integer, Integer> adj : this.orderedPath) {
+            if (adj.getValue0() == value0 && adj.getValue1() == value1) return false;
+            if (isAdjacent(adj.getValue0(), value0) && isAdjacent(adj.getValue1(), value1)) result = true;
+        }
+        return result;
+    }
+
+    public boolean isOnPath (Pair<Integer, Integer> cell) {
+        int value0 = cell.getValue0();
+        int value1 = cell.getValue1();
+        for (Pair<Integer, Integer> adj : this.orderedPath) {
+            if (adj.getValue0() == value0 && adj.getValue1() == value1) return true;
+        }
+        return false;
     }
 
     /**
@@ -704,17 +733,31 @@ import unsw.loopmania.LoopManiaApplication;
                 break;
             }
         }
-        
+        Building newBuilding = null;
         // now spawn building
-        SpawnBuilding newBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
-        spawnBuildings.add(newBuilding);
-
+        if (card.isPlaceable(buildingNodeX, buildingNodeY, this.orderedPath)) {
+            newBuilding = card.generateEntity(new SimpleIntegerProperty(buildingNodeX),
+             new SimpleIntegerProperty(buildingNodeX));
+            if (newBuilding instanceof SpawnBuilding) {
+                spawnBuildings.add((SpawnBuilding) newBuilding);
+            } else if (newBuilding instanceof BattleBuilding) {
+                battleBuildings.add((BattleBuilding) newBuilding);
+            } else if (newBuilding instanceof PathBuilding) {
+                pathBuildings.add((PathBuilding)newBuilding);
+            }
+            buildingsList.add(newBuilding);
+        }
         // destroy the card
         card.destroy();
         this.character.getAllCards().remove(card);
         shiftCardsDownFromXCoordinate(cardNodeX);
 
         return newBuilding;
+    }
+
+    public boolean isAdjacent (int x, int y) {
+        if (x == y + 1 || x == y - 1) return true;
+        return false;
     }
     /*
     public List<BasicEnemy> runBattles(LoopManiaWorldController world) {
