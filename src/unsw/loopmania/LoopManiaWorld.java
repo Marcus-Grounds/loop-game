@@ -117,6 +117,7 @@ import unsw.loopmania.LoopManiaApplication;
         this.battleBuildings = new ArrayList<>();
         this.pathBuildings = new ArrayList<>();
         this.spawnBuildings = new ArrayList<>();
+        this.buildingsList = new ArrayList<>();
         this.allies = new ArrayList<>();
     }
 
@@ -208,6 +209,14 @@ import unsw.loopmania.LoopManiaApplication;
 
     public List<SpawnBuilding> getAllSpawnBuildings () {
         return this.spawnBuildings;
+    }
+
+    public void addBuilding (Building building) {
+        this.buildingsList.add(building);
+    }
+
+    public List<Building> getAllBuildings () {
+        return this.buildingsList;
     }
 
     public List<Pair<Integer, Integer>> getOrderedPath () {
@@ -729,6 +738,7 @@ import unsw.loopmania.LoopManiaApplication;
      */
     public Building convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
         // start by getting card
+        
         Card card = null;
         for (Card c: this.character.getAllCards()){
             if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)) {
@@ -740,7 +750,7 @@ import unsw.loopmania.LoopManiaApplication;
         // now spawn building
         if (card.isPlaceable(buildingNodeX, buildingNodeY, this.orderedPath)) {
             newBuilding = card.generateEntity(new SimpleIntegerProperty(buildingNodeX),
-             new SimpleIntegerProperty(buildingNodeX));
+             new SimpleIntegerProperty(buildingNodeY));
             if (newBuilding instanceof SpawnBuilding) {
                 spawnBuildings.add((SpawnBuilding) newBuilding);
             } else if (newBuilding instanceof BattleBuilding) {
@@ -749,12 +759,11 @@ import unsw.loopmania.LoopManiaApplication;
                 pathBuildings.add((PathBuilding)newBuilding);
             }
             buildingsList.add(newBuilding);
+            card.destroy();
+            this.character.getAllCards().remove(card);
+            shiftCardsDownFromXCoordinate(cardNodeX);
         }
         // destroy the card
-        card.destroy();
-        this.character.getAllCards().remove(card);
-        shiftCardsDownFromXCoordinate(cardNodeX);
-
         return newBuilding;
     }
 
