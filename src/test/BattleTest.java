@@ -53,6 +53,7 @@ public class BattleTest {
     public static final int SHORT_RADIUS = 1;
     public static final int MED_RADIUS = 3;
     public static final int LONG_RADIUS = 5;
+    private static final BasicEnemy Slug = null;
 
 
 
@@ -409,4 +410,66 @@ public class BattleTest {
         System.out.println(c2HigherHealth);
         assertTrue(c1HigherHealth < c2HigherHealth);
     }
+
+    /*
+    @Test
+    public void testLoopManiaWorldBattle() throws IOException {
+        JFXPanel jfxPanel = new JFXPanel();
+        //Stage primaryStage = new Stage();
+        
+        
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+
+        PathPosition p1 = new PathPosition(0, orderedPath);
+        PathPosition p2 = new PathPosition(0, orderedPath);
+
+        LoopManiaWorld world = new LoopManiaWorld(50, 30, orderedPath);
+
+        BattleEnemyController battleController = new BattleEnemyController();
+        FXMLLoader battleLoader = new FXMLLoader(getClass().getResource("Battle.fxml"));
+        battleLoader.setController(battleController);
+        Parent battleRoot = battleLoader.load();
+
+        LoopManiaWorldController worldController = new LoopManiaWorldController(world, new ArrayList<ImageView>(), battleController);
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
+        gameLoader.setController(worldController);
+        Parent gameRoot = gameLoader.load();
+
+
+        battleController.setGameSwitcher(() -> {  
+            LoopManiaApplication.switchToRoot(null, gameRoot, null);
+            worldController.startTimer();
+        });
+        worldController.setBattleSwitcher(() -> {  
+            LoopManiaApplication.switchToRoot(null, battleRoot, null);
+            worldController.pause();
+            battleController.startTimer();
+        });
+        
+
+
+        world.setCharacter(new Character(p1));
+
+        Slug slug = new Slug(p2);
+        world.addBasicEnemy(slug);
+
+        try {
+            world.runBattles(worldController);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+
+        assertTrue(slug.getCurrentHealth() < 10);
+
+
+
+    }
+    */
 }
