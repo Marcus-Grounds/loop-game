@@ -7,6 +7,8 @@ Tiles and Paths:
 Building:
 1. Tower’s shooting radius: LONG_RADIUS = 5.
 2. Campfire’s support radius:  MED_RADIUS= 3.
+3. Village heals character for 20 health.
+4. Trap decreases enemy health by 20 percent;
 
 Enemy and allied soldier:
 1. Health: LOW_HEALTH = 10, MED_HEALTH = 30, HIGH_HEALTH = 100.

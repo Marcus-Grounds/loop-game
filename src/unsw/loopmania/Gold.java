@@ -1,25 +1,29 @@
 package unsw.loopmania;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.File;
 
 public class Gold extends StaticEntity {
 
     int goldCount;
     
     public Gold(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x,y);
+        super(x,y,new ImageView(new Image((new File("src/images/gold_pile.png")).toURI().toString())) );
+        this.goldCount = 0;
     }
 
     public int getGoldCount() {
-        return goldCount;
+        return this.goldCount;
     }
 
     public void increaseGold(int amountToIncrease) {
-        goldCount = goldCount + amountToIncrease;
+        this.goldCount = this.goldCount + amountToIncrease;
     }
 
-    public void deccreaseGold(int amountToDecrease) {
-        goldCount = goldCount - amountToDecrease;
+    public void decreaseGold(int amountToDecrease) {
+        this.goldCount -= amountToDecrease;
+        if (this.goldCount < 0) this.goldCount = 0;
     }
-
 }

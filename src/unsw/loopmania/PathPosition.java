@@ -55,7 +55,7 @@ public class PathPosition{
      * change the x and y SimpleIntegerProperties to reflect the current values of
      * the current position in the path, and the ordered path.
      */
-    private void resetCoordinatesBasedOnPositionInPath(){
+    public void resetCoordinatesBasedOnPositionInPath(){
         x.set(orderedPath.get(currentPositionInPath).getValue0());
         y.set(orderedPath.get(currentPositionInPath).getValue1());
     }

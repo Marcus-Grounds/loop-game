@@ -9,16 +9,18 @@ import java.util.*;
 import org.junit.jupiter.api.Test;
 
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.image.ImageView;
 import unsw.loopmania.*;
 import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
 
 import unsw.loopmania.Buildings.*;
-
+import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
+import unsw.loopmania.Buildings.PathBuildings.TrapBuilding;
 import unsw.loopmania.Cards.*;
 
 import unsw.loopmania.Enemies.*;
-
+import unsw.loopmania.Enemies.Zombie;
 import unsw.loopmania.GameMode.*;
 
 public class EnemyTest {
@@ -83,91 +85,152 @@ public class EnemyTest {
         assertEquals(d.getAllBasicEnemies(), dummyList);
     }
 
-    @Test
-    public void TestBattleSlug(){
-        JFXPanel jfxPanel = new JFXPanel();
-        //test battle
-        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
-        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
-        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
-        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(5, 0);
-        
-        orderedPath.add(path1);
-        orderedPath.add(path2);
-        orderedPath.add(path3);
-
-        PathPosition p1 = new PathPosition(0, orderedPath);
-        PathPosition p2 = new PathPosition(1, orderedPath);
-        PathPosition p3 = new PathPosition(2, orderedPath);
-
-        //spawn slug and character next to eachother
-        Slug s1 = new Slug(p1);
-        d.addBasicEnemy(s1);
-        Character c = new Character(p2);
-        d.setCharacter(c);
-
-        //spawn another slug far away from character
-        Slug s2 = new Slug(p3);
-        d.addBasicEnemy(s2);
-
-        //d.runBattles(new LoopManiaWorldController(world, initialEntities);
-        d.runBattles();
-        //test that after battle, health of both character and slug is decreased
-        assertTrue(s1.getCurrentHealth() < LOW_HEALTH);
-        assertTrue(c.getCurrentHealth() < START_HEALTH);
-
-        //slug2 uneffected because it's far away from battle
-        assertEquals(s2.getCurrentHealth(), LOW_HEALTH);
-
-    }
-
-    @Test
-    public void TestBattleSupportRadius(){
-
-        JFXPanel jfxPanel = new JFXPanel();
-        //test battle
-        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
-        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
-        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
-        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(5, 0);
-        
-        orderedPath.add(path1);
-        orderedPath.add(path2);
-        orderedPath.add(path3);
-
-        PathPosition p1 = new PathPosition(0, orderedPath);
-        PathPosition p2 = new PathPosition(1, orderedPath);
-        PathPosition p3 = new PathPosition(2, orderedPath);
-
-        //spawn a vampire that is 4 units away from character. Within support radius, but not battle radius.
-        Vampire v1 = new Vampire(p3);
-        d.addBasicEnemy(v1);
-        Character c = new Character(p2);
-        d.setCharacter(c);
-
-        d.runBattles();
-        assertTrue(v1.getCurrentHealth() == HIGH_HEALTH);
-        assertTrue(c.getCurrentHealth() == START_HEALTH);
-
     
-        //spawn slug and character next to eachother, should trigger zombie to join
-        Slug s1 = new Slug(p2);
-        d.addBasicEnemy(s1);
-        d.runBattles();
 
-  
-
-        //d.runBattles(new LoopManiaWorldController(world, initialEntities);
-
-        //test that after battle, health of both character and slug is decreased
-        assertTrue(v1.getCurrentHealth() < HIGH_HEALTH);
-        assertTrue(c.getCurrentHealth() < START_HEALTH);
-        assertTrue(s1.getCurrentHealth() < LOW_HEALTH);
+    @Test
+    public void testLoot() {
+        JFXPanel jfxPanel = new JFXPanel();
+        List<BasicItem> lootedItems = new ArrayList<BasicItem>();
+        List<Card> cards = new ArrayList<Card>();
         
+        for (int i = 0; i < 1000; i++) {
+            Slug slug = new Slug(null);
+            BasicItem item = slug.giveWeaponWhenLooted(null, null);
+            Card card = slug.giveCardWhenLooted(null, null);
+            if (item != null){
+                lootedItems.add(item);
+            }
+            if (card != null){
+                cards.add(card);
+            }
+        }
+
+        //since looting from enemies is not gaurenteed for each attack, the looted items should be greater than 0, but less than
+        //the number of enemies defeated
+        assertTrue(lootedItems.size() > 0);
+        assertTrue(lootedItems.size( ) < 1000);
+        assertTrue(cards.size() > 0);
+        assertTrue(cards.size() < 1000);
+
+        int swordCount = 0;
+        int stakeCount = 0;
+        for (BasicItem item: lootedItems) {
+            if (item instanceof Sword) {
+                swordCount ++;
+            }
+            else if (item instanceof Stake) {
+                stakeCount ++;
+            }
+        }
+
+        assertTrue(stakeCount < swordCount);
+
+
+
+
+        List<BasicItem> lootedItems2 = new ArrayList<BasicItem>();
+        List<Card> cards2 = new ArrayList<Card>();
+        
+        for (int i = 0; i < 1000; i++) {
+            Zombie zombie= new Zombie(null);
+            BasicItem item = zombie.giveWeaponWhenLooted(null, null);
+            Card card = zombie.giveCardWhenLooted(null, null);
+            if (item != null){
+                lootedItems2.add(item);
+            }
+            if (card != null){
+                cards2.add(card);
+            }
+        }
+
+        assertTrue(lootedItems2.size() > 0);
+        assertTrue(lootedItems2.size( ) < 1000);
+        assertTrue(cards2.size() > 0);
+        assertTrue(cards2.size() < 1000);
+
+        int stakeCount2 = 0;
+        for (BasicItem item: lootedItems2) {
+            if (item instanceof Stake) {
+                stakeCount2 ++;
+            }
+        }
+        //testing that we are more likely to gain stakes when we kill zombie
+        assertTrue(stakeCount < stakeCount2);
+
+
+
+        List<BasicItem> lootedItems3 = new ArrayList<BasicItem>();
+        List<Card> cards3 = new ArrayList<Card>();
+        
+        for (int i = 0; i < 1000; i++) {
+            Vampire vampire= new Vampire(null);
+            BasicItem item = vampire.giveWeaponWhenLooted(null, null);
+            Card card = vampire.giveCardWhenLooted(null, null);
+            if (item != null){
+                lootedItems3.add(item);
+            }
+            if (card != null){
+                cards3.add(card);
+            }
+        }
+
+        assertTrue(lootedItems3.size() > 0);
+        assertTrue(lootedItems3.size( ) < 1000);
+        assertTrue(cards3.size() > 0);
+        assertTrue(cards3.size() < 1000);
+
+        int trapCount = 0;
+        int campFireCount = 0;
+        
+        for (Card card: cards3) {
+            if (card instanceof TrapCard) {
+                trapCount ++;
+            }
+            else if (card instanceof CampfireCard){
+                campFireCount ++;
+            }
+        }
+        assertTrue(trapCount > campFireCount);
     }
 
+    @Test
+    public void testSlugMove() {
+
+        JFXPanel jfxPanel = new JFXPanel();
+        //test battle
+        //List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+
+        for (int i = 0; i < 1000; i++){
+            orderedPath.add(new Pair<Integer,Integer>(0, i));
+        }
+
+
+        Slug slug = new Slug( new PathPosition(0, orderedPath) );
+        for (int i = 0; i < 500; i++){
+            slug.move();
+            slug.getPathPosition().resetCoordinatesBasedOnPositionInPath();
+        }
+
+        Zombie zombie= new Zombie( new PathPosition(0, orderedPath) );
+        for (int i = 0; i < 500; i++){
+            zombie.move();
+            zombie.getPathPosition().resetCoordinatesBasedOnPositionInPath();
+        }
+
+        Vampire vampire = new Vampire( new PathPosition(0, orderedPath) );
+        for (int i = 0; i < 500; i++){
+            vampire.move();
+            vampire.getPathPosition().resetCoordinatesBasedOnPositionInPath();
+        }
+        
+        //slug should have remained at the same spot approximately, zombie whould have moved forwrds slowly, vampire 
+        
+        System.out.println(slug.getY());
+        System.out.println(zombie.getY());
+        System.out.println(vampire.getY());
+
+        assertTrue(slug.getY() < zombie.getY());
+        assertTrue(zombie.getY() < vampire.getY());
+    }
 }

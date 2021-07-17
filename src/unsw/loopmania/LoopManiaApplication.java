@@ -25,6 +25,7 @@ public class LoopManiaApplication extends Application {
      * the controller for the game. Stored as a field so can terminate it when click exit button
      */
     private LoopManiaWorldController mainController;
+    //private BattleEnemyController battleEnemyController;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -35,38 +36,66 @@ public class LoopManiaApplication extends Application {
         // alternatively, you could allow rescaling of the game (you'd have to program resizing of the JavaFX nodes)
         primaryStage.setResizable(false);
 
-        // load the main game
-        LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("world_with_twists_and_turns.json");
-
-        //LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("basic_world_with_player.json");
-        mainController = loopManiaLoader.loadController();
-        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
-        gameLoader.setController(mainController);
-        Parent gameRoot = gameLoader.load();
-
         // load the main menu
         MainMenuController mainMenuController = new MainMenuController();
         FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("MainMenuView.fxml"));
         menuLoader.setController(mainMenuController);
         Parent mainMenuRoot = menuLoader.load();
 
-        // create new scene with the main menu (so we start with the main menu)
-        Scene scene = new Scene(mainMenuRoot);
         
+        //load battle screen
+        BattleEnemyController battleEnemyController = new BattleEnemyController();
+        FXMLLoader battleLoader = new FXMLLoader(getClass().getResource("Battle.fxml"));
+        battleLoader.setController(battleEnemyController);
+        Parent battleRoot = battleLoader.load();
+        
+
+        Scene scene = new Scene(mainMenuRoot);
+        LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("world_with_twists_and_turns.json", battleEnemyController);
+    
+
+        //LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("basic_world_with_player.json");
+        mainController = loopManiaLoader.loadController();
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
+        gameLoader.setController(mainController);
+        Parent gameRoot = gameLoader.load();
+        
+
+        mainController.setGameRoot(gameRoot);
+        
+        
+
+
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
-        mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
+        mainController.setMainMenuSwitcher(() -> {
+            mainController.pause();
+            switchToRoot(scene, mainMenuRoot, primaryStage);
+            });
         mainMenuController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
+       
+        battleEnemyController.setGameSwitcher(() -> {  
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+        });
+        mainController.setBattleSwitcher(() -> {  
+            switchToRoot(scene, battleRoot, primaryStage);
+            mainController.pause();
+            battleEnemyController.startTimer();
+        });
+        
+
         
         // deploy the main onto the stage
         gameRoot.requestFocus();
+        //battleRoot.requestFocus();
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
+    
     @Override
     public void stop(){
         // wrap up activities when exit program
@@ -76,7 +105,7 @@ public class LoopManiaApplication extends Application {
     /**
      * switch to a different Root
      */
-    private void switchToRoot(Scene scene, Parent root, Stage stage){
+    public static void switchToRoot(Scene scene, Parent root, Stage stage){
         scene.setRoot(root);
         root.requestFocus();
         stage.setScene(scene);

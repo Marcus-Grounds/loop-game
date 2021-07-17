@@ -2,14 +2,19 @@ package unsw.loopmania.Enemies;
 
 import java.util.Random;
 
+
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.ImageView;
 import unsw.loopmania.*;
+import unsw.loopmania.BasicItems.AttackingStrategy;
+import unsw.loopmania.BasicItems.BasicItem;
+import unsw.loopmania.Cards.Card;
 
 
 /**
  * a basic form of enemy in the world
  */
-public class BasicEnemy extends MovingEntity {
+public abstract class BasicEnemy extends MovingEntity {
     // TODO = modify this, and add additional forms of enemy
     private int attackRadius;
     private int supportRadius;
@@ -40,20 +45,10 @@ public class BasicEnemy extends MovingEntity {
     /**
      * move the enemy
      */
-    public void move(){
-        // TODO = modify this, since this implementation doesn't provide the expected enemy behaviour
-        // this basic enemy moves in a random direction... 25% chance up or down, 50% chance not at all...
-        int directionChoice = (new Random()).nextInt(2);
-        if (directionChoice == 0){
-            moveUpPath();
-        }
-        else if (directionChoice == 1){
-            moveDownPath();
-        }
-    }
-    /*
-    public ImageView getImageView(){
-        return image;
-    }
-    */
+    
+    
+    
+    public abstract BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y);
+    public abstract Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y);
+    public abstract void move();
 }
