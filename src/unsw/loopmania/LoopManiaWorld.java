@@ -116,7 +116,7 @@ import unsw.loopmania.LoopManiaApplication;
         this.character = null;
         this.enemies = new ArrayList<>();
         this.orderedPath = orderedPath;
-        this.heroCastle = new HerosCastle(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        this.heroCastle = new HerosCastle(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
         this.battleBuildings = new ArrayList<>();
         this.pathBuildings = new ArrayList<>();
         this.spawnBuildings = new ArrayList<>();
@@ -124,6 +124,7 @@ import unsw.loopmania.LoopManiaApplication;
         this.allies = new ArrayList<>();
         this.goldCollection = new ArrayList<>();
         thePotion = null;
+        loopCount = 0;
     }
 
     public int getWidth() {
@@ -136,15 +137,23 @@ import unsw.loopmania.LoopManiaApplication;
 
     ////////// CASTLE METHODS ///////////////
     public boolean checkCharacterOnCastle (MovingEntity character) {
-        
+        /*
         if ((character.getX() == heroCastle.getX()) && (character.getY() == heroCastle.getY())) {
             return true;
         } else {
             return false;
         }
+        */
+        PathPosition position = new PathPosition(0, orderedPath);
+        if (character.getX() == position.getX().getValue() && character.getY() == position.getY().getValue() ) {
+            return true;
+        } else {
+            return false;
+        }
+            
     }
     
-    public void updateLoopCount (MovingEntity character) {
+    public void updateLoopCount (Character character) {
         if (checkCharacterOnCastle(character)) {
             this.loopCount = this.loopCount + 1;
         }
@@ -305,6 +314,9 @@ import unsw.loopmania.LoopManiaApplication;
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
+
+        System.out.println("SPAWNING BIULDINGS");
+        System.out.println(spawnBuildings.size());
 
         for (SpawnBuilding b : spawnBuildings) {
             BasicEnemy enemy = b.spawnAction(loopCount, checkCharacterOnCastle(character), b.findPathToSpawn(orderedPath), orderedPath);
@@ -647,6 +659,9 @@ import unsw.loopmania.LoopManiaApplication;
         for (PathBuilding p : pathBuildings) {
             p.pathAction(character, enemies);
         }
+
+        updateLoopCount(character);
+       
     }
 
     // Created for testing purposes
