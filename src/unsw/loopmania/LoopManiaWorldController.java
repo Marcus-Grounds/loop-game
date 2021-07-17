@@ -629,15 +629,15 @@ public class LoopManiaWorldController {
                 draggedEntity.relocateToPoint(new Point2D(event.getSceneX(), event.getSceneY()));
                 switch (draggableType){
                     case CARD:
-                        draggedEntity.setImage(draggedEntity.getImage());
+                        Image view1 = view.getImage();
+                        draggedEntity.setImage(view1);
                         break;
                     case ITEM:
-                        draggedEntity.setImage(draggedEntity.getImage());
-                        break;
+                        Image view2 = view.getImage();
+                        draggedEntity.setImage(view2);
                     default:
                         break;
                 }
-                
                 draggedEntity.setVisible(true);
                 draggedEntity.setMouseTransparent(true);
                 draggedEntity.toFront();

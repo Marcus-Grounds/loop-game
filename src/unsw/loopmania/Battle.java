@@ -57,6 +57,19 @@ public class Battle {
                 b.buildingAction(c, e);
             }
             
+            List<Ally> allies = c.getAllies();
+            if (allies.size() > 0){
+                Ally lastAlly = allies.get(allies.size() - 1);
+                e.decreaseHealth(5);
+
+                lastAlly.decreaseHealth(100);
+                if (lastAlly.getCurrentHealth() <= 0){
+                    lastAlly.destroy();
+                    allies.remove(lastAlly);  
+                }
+            }
+
+
             e.decreaseHealth(c.getBaseDamage());
             if (weapon != null){
                 if (e instanceof Slug){
@@ -79,6 +92,10 @@ public class Battle {
             else if (e.getCurrentHealth() <= 0){
                 System.out.println("Enemy DEAD");
             }
+
+
+            
+
 
             if (defence == null){
                 c.decreaseHealth(e.getDamage());

@@ -68,7 +68,7 @@ public class PathPosition{
         return y;
     }
 
-    public PathPosition getPreviousPathPosition() {
-        return new PathPosition(currentPositionInPath-1, orderedPath);
+    public PathPosition getPreviousPathPosition(int stepsBehind) {
+        return new PathPosition(currentPositionInPath - stepsBehind, orderedPath);
     }
 }
