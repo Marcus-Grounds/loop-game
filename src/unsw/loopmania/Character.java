@@ -63,10 +63,6 @@ public class Character extends MovingEntity {
         return this.gold;
     }
 
-    public int getGoldCount () {
-        return this.gold.getGoldCount();
-    }
-
     public int decreaseGold (Gold goldToSpend) {
         this.gold.decreaseGold(goldToSpend.getGoldCount());
         return this.gold.getGoldCount();
