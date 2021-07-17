@@ -47,10 +47,16 @@ public class LoopManiaApplication extends Application {
         FXMLLoader battleLoader = new FXMLLoader(getClass().getResource("Battle.fxml"));
         battleLoader.setController(battleEnemyController);
         Parent battleRoot = battleLoader.load();
+
+        //shop sell screen
+        ShopSellController shopSellController = new ShopSellController();
+        FXMLLoader shopSellLoader = new FXMLLoader(getClass().getResource("ShopSellView.fxml"));
+        shopSellLoader.setController(shopSellController);
+        Parent shopSellRoot = shopSellLoader.load();
         
 
         Scene scene = new Scene(mainMenuRoot);
-        LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("world_with_twists_and_turns.json", battleEnemyController);
+        LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("world_with_twists_and_turns.json", battleEnemyController, null);
     
 
         //LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("basic_world_with_player.json");
@@ -72,15 +78,24 @@ public class LoopManiaApplication extends Application {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
+        mainController.setBattleSwitcher(() -> {  
+            switchToRoot(scene, battleRoot, primaryStage);
+            mainController.pause();
+            battleEnemyController.startTimer();
+        });
+        mainController.setShopSellSwitcher(() -> {  
+            switchToRoot(scene, shopSellRoot, primaryStage);
+            mainController.pause();
+            shopSellController.startTimer();
+        });
        
         battleEnemyController.setGameSwitcher(() -> {  
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
-        mainController.setBattleSwitcher(() -> {  
-            switchToRoot(scene, battleRoot, primaryStage);
-            mainController.pause();
-            battleEnemyController.startTimer();
+        shopSellController.setGameSwitcher(() -> {  
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
         });
         
         // deploy the main onto the stage

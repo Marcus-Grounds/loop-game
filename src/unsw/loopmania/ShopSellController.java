@@ -38,11 +38,36 @@ public class ShopSellController {
     @FXML // fx:id="buyItem"
     private Button buyItem; // Value injected by FXMLLoader
 
+    private MenuSwitcher gameSwitcher;
+
+    private Timeline timeline;
+
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         this.inventory = new GridPane();
         assert inventory != null : "fx:id=\"inventory\" was not injected: check your FXML file 'ShopSellView.fxml'.";
         assert buyItem != null : "fx:id=\"buyItem\" was not injected: check your FXML file 'ShopSellView.fxml'.";
 
+    }
+
+    public void startTimer(){
+        // TODO = handle more aspects of the behaviour required by the specification
+        System.out.println("starting timer enemy fight");
+        
+        // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
+        timeline = new Timeline(new KeyFrame(Duration.seconds(2)));
+    
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
+    public void setGameSwitcher(MenuSwitcher gameSwitcher){
+        this.gameSwitcher = gameSwitcher;
+    }
+
+    @FXML
+    private void switchToGame() throws IOException {
+        
+        gameSwitcher.switchMenu();
     }
 }
