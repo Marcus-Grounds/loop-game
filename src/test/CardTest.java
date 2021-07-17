@@ -73,7 +73,95 @@ public class CardTest {
     }
 
     @Test
-    public void Test3(){
+    public void TestvampireCastle1(){
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 2);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(1, 3);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(10, 10, orderedPath);
+        Character c = new Character(null);
+        d.setCharacter(c);
+
+        Card vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        d.addCard(vampireCastleCard);
+        d.convertCardToBuildingByCoordinates(5, 5, 1, 4);
+        assertEquals(0, d.getAllCards().size());
+        assertEquals(1, d.getAllSpawnBuildings().size());
+    }
+
+    @Test
+    public void TestvampireCastle2(){
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 2);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(1, 3);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(10, 10, orderedPath);
+        Character c = new Character(null);
+        d.setCharacter(c);
+
+        Card vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        d.addCard(vampireCastleCard);
+        d.convertCardToBuildingByCoordinates(5, 5, 1, 3);
+        assertEquals(1, d.getAllCards().size());
+        assertEquals(0, d.getAllSpawnBuildings().size());
+    }
+
+    @Test
+    public void TestZombiePit1(){
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 2);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(1, 3);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(10, 10, orderedPath);
+        Character c = new Character(null);
+        d.setCharacter(c);
+
+        Card zombiePitCard = new ZombiePitCard(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        d.addCard(zombiePitCard);
+        d.convertCardToBuildingByCoordinates(5, 5, 1, 4);
+        assertEquals(0, d.getAllCards().size());
+        assertEquals(1, d.getAllSpawnBuildings().size());
+    }
+
+    @Test
+    public void TestZombiePit2(){
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 2);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(1, 3);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(10, 10, orderedPath);
+        Character c = new Character(null);
+        d.setCharacter(c);
+
+        Card zombiePitCard = new ZombiePitCard(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        d.addCard(zombiePitCard);
+        d.convertCardToBuildingByCoordinates(5, 5, 1, 3);
+        assertEquals(1, d.getAllCards().size());
+        assertEquals(0, d.getAllSpawnBuildings().size());
+    }
+
+    @Test
+    public void TestTower1(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
         Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 2);
@@ -92,11 +180,10 @@ public class CardTest {
         d.convertCardToBuildingByCoordinates(5, 5, 1, 4);
         assertEquals(0, d.getAllCards().size());
         assertEquals(1, d.getAllBattleBuildings().size());
-        assertEquals(1, d.getAllBuildings().size());
     }
 
     @Test
-    public void Test4(){
+    public void TestTower2(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
         Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 2);
@@ -115,6 +202,181 @@ public class CardTest {
         d.convertCardToBuildingByCoordinates(5, 5, 1, 3);
         assertEquals(1, d.getAllCards().size());
         assertEquals(0, d.getAllBattleBuildings().size());
-        assertEquals(0, d.getAllBuildings().size());
+    }
+
+    @Test
+    public void TestVillage1(){
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 2);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(1, 3);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(10, 10, orderedPath);
+        Character c = new Character(null);
+        d.setCharacter(c);
+
+        Card villageCard = new VillageCard(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        d.addCard(villageCard);
+        d.convertCardToBuildingByCoordinates(5, 5, 1, 2);
+        assertEquals(0, d.getAllCards().size());
+        assertEquals(1, d.getAllPathBuildings().size());
+    }
+
+    @Test
+    public void TestVillage2(){
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 2);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(1, 3);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(10, 10, orderedPath);
+        Character c = new Character(null);
+        d.setCharacter(c);
+
+        Card villageCard = new VillageCard(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        d.addCard(villageCard);
+        d.convertCardToBuildingByCoordinates(5, 5, 1, 4);
+        assertEquals(1, d.getAllCards().size());
+        assertEquals(0, d.getAllPathBuildings().size());
+    }
+
+    @Test
+    public void TestBarracks1(){
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 2);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(1, 3);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(10, 10, orderedPath);
+        Character c = new Character(null);
+        d.setCharacter(c);
+
+        Card barracksCard = new BarracksCard(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        d.addCard(barracksCard);
+        d.convertCardToBuildingByCoordinates(5, 5, 1, 2);
+        assertEquals(0, d.getAllCards().size());
+        assertEquals(1, d.getAllPathBuildings().size());
+    }
+
+    @Test
+    public void TestBarracks2(){
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 2);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(1, 3);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(10, 10, orderedPath);
+        Character c = new Character(null);
+        d.setCharacter(c);
+
+        Card barracksCard = new BarracksCard(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        d.addCard(barracksCard);
+        d.convertCardToBuildingByCoordinates(5, 5, 1, 4);
+        assertEquals(1, d.getAllCards().size());
+        assertEquals(0, d.getAllPathBuildings().size());
+    }
+
+    @Test
+    public void TestTrap1(){
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 2);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(1, 3);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(10, 10, orderedPath);
+        Character c = new Character(null);
+        d.setCharacter(c);
+
+        Card trapCard = new TrapCard(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        d.addCard(trapCard);
+        d.convertCardToBuildingByCoordinates(5, 5, 1, 2);
+        assertEquals(0, d.getAllCards().size());
+        assertEquals(1, d.getAllPathBuildings().size());
+    }
+
+    @Test
+    public void TestTrap2(){
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 2);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(1, 3);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(10, 10, orderedPath);
+        Character c = new Character(null);
+        d.setCharacter(c);
+
+        Card trapCard = new TrapCard(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        d.addCard(trapCard);
+        d.convertCardToBuildingByCoordinates(5, 5, 1, 4);
+        assertEquals(1, d.getAllCards().size());
+        assertEquals(0, d.getAllPathBuildings().size());
+    }
+
+    @Test
+    public void TestCampfire1(){
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 2);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(1, 3);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(10, 10, orderedPath);
+        Character c = new Character(null);
+        d.setCharacter(c);
+
+        Card campfireCard = new CampfireCard(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        d.addCard(campfireCard);
+        d.convertCardToBuildingByCoordinates(5, 5, 5, 5);
+        assertEquals(0, d.getAllCards().size());
+        assertEquals(1, d.getAllBattleBuildings().size());
+    }
+
+    @Test
+    public void TestCampfire2(){
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 2);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(1, 3);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(10, 10, orderedPath);
+        Character c = new Character(null);
+        d.setCharacter(c);
+
+        Card campfireCard = new CampfireCard(new SimpleIntegerProperty(5), new SimpleIntegerProperty(5));
+        d.addCard(campfireCard);
+        d.convertCardToBuildingByCoordinates(5, 5, 1, 2);
+        assertEquals(1, d.getAllCards().size());
+        assertEquals(0, d.getAllBattleBuildings().size());
     }
 }
