@@ -10,6 +10,8 @@ import unsw.loopmania.MovingEntity;
 public class CampfireBuilding extends BattleBuilding {
 
     public static final int MED_RADIUS = 3;
+    public static final int BASE_DAMAGE = 5;
+
 
     public CampfireBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y);
@@ -30,7 +32,7 @@ public class CampfireBuilding extends BattleBuilding {
     @Override
     public void buildingAction(MovingEntity character, MovingEntity enemy) {
         if (checkRadius(character)) {
-            enemy.decreaseHealth(5); //needs to be changed to suit actual characters // might need to be changed for multiple camp fires
+            enemy.decreaseHealth(BASE_DAMAGE); //needs to be changed to suit actual characters // might need to be changed for multiple camp fires
         
         } else { 
             

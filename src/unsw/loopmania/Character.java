@@ -24,6 +24,7 @@ public class Character extends MovingEntity {
     private List<Entity> unequippedInventoryItems;
     
     public Character(PathPosition position) {
+        
         super(position, new Health(START_HEALTH), new ImageView(new Image((new File("src/images/human_new.png")).toURI().toString())));
         this.gold = new Gold(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
         this.experience = new Experience();
@@ -49,6 +50,10 @@ public class Character extends MovingEntity {
     public int decreaseGold (int goldToSpend) {
         this.gold.decreaseGold(goldToSpend);
         return this.gold.getGoldCount();
+    }
+
+    public Gold getCharacterGold () {
+        return this.gold;
     }
 
     public int decreaseGold (Gold goldToSpend) {
