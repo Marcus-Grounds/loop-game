@@ -10,4 +10,9 @@ public class TheOneRing extends StaticEntity  {
     public TheOneRing(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x,y);
     }
+
+    public void setCharacterHealthToMAX(Character c) {
+        c.increaseHealth(100);
+    }
+   
 }
