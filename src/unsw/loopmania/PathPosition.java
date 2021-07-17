@@ -67,4 +67,8 @@ public class PathPosition{
     public SimpleIntegerProperty getY(){
         return y;
     }
+
+    public PathPosition getPreviousPathPosition(int stepsBehind) {
+        return new PathPosition(currentPositionInPath - stepsBehind, orderedPath);
+    }
 }

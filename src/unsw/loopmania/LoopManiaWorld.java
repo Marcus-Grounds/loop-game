@@ -167,6 +167,7 @@ import unsw.loopmania.LoopManiaApplication;
      */
     public void setCharacter(Character character) {
         this.character = character;
+        this.allies = character.getAllies();
     }
 
     public Character getCharacter () {
@@ -354,6 +355,17 @@ import unsw.loopmania.LoopManiaApplication;
         }
         
         return spawningEnemies;
+    }
+
+    public Ally pathBuildingAction() {
+        Ally ally = null;
+        for (PathBuilding p : pathBuildings) {
+            Ally possiblyAlly = p.pathAction(character, enemies);
+            if (possiblyAlly != null){
+                ally = possiblyAlly;
+            }
+        }
+        return ally;
     }
 
     private Pair<Integer, Integer> possiblySpawnPosition (int scale){
@@ -676,14 +688,14 @@ import unsw.loopmania.LoopManiaApplication;
      */
     public void runTickMoves() {
     
-        character.moveDownPath();;
+        character.moveDownPath();
+        
+        for (Ally ally : allies) {
+            ally.moveDownPath();
+        }
         moveBasicEnemies();
         possiblyCollectGold();
         possiblyCollectPotion();
-        
-        for (PathBuilding p : pathBuildings) {
-            p.pathAction(character, enemies);
-        }
 
         updateLoopCount(character);
        
@@ -846,13 +858,8 @@ import unsw.loopmania.LoopManiaApplication;
         if (x == y + 1 || x == y - 1) return true;
         return false;
     }
-    /*
-    public List<BasicEnemy> runBattles(LoopManiaWorldController world) {
-        return null;
-    }
-    */
 
-    public ArrayList<Pair<Integer, Integer>> getAllAllies() {
-        return null;
+    public List<Ally> getAllAllies() {
+        return character.getAllies();
     }
 }

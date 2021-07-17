@@ -4,6 +4,8 @@ import java.util.List;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.MovingEntity;
+import unsw.loopmania.Ally;
+import unsw.loopmania.Character;
 import unsw.loopmania.Enemies.BasicEnemy;
 import java.io.File;
 import javafx.scene.image.Image;
@@ -16,11 +18,12 @@ public class VillageBuilding extends PathBuilding {
     }
 
     @Override
-    public void pathAction(MovingEntity character, List<BasicEnemy> enemies) {
+    public Ally pathAction(Character character, List<BasicEnemy> enemies) {
         
         if (checkOnPath(character)) {
             character.increaseHealth(20);
         }
         
+        return null;
     }
 }
