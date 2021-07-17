@@ -28,10 +28,12 @@ public class ItemTest {
     }
 
 
-                 /////////////////***** Tests for Attacking weapons ****///////////////////
+                 ///////////////// Tests for Attacking weapons///////////////////
 
-    // Test weapons attacks on slug
-    /*
+    /**
+     * Test sword attack on slug
+     * When loopCount is between 0 and 30
+     */
     @Test
     public void TestAttackOnSlugBySword1() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -48,11 +50,15 @@ public class ItemTest {
         assertEquals(10, enemy.getCurrentHealth());
 
         if (d.getLoopCount() <= 30) {
-            sword.reduceSlugHealth(enemy, d);
+            sword.reduceSlugHealth(enemy, d.getLoopCount());
             assertTrue(0 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 10);
         }
     }
 
+    /**
+     * Test sword attack on slug
+     * When loopCount is between 31 and 60
+     */
     @Test
     public void TestAttackOnSlugBySword2() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -69,13 +75,17 @@ public class ItemTest {
         assertEquals(10, enemy.getCurrentHealth());
 
         if (d.getLoopCount() >= 31 && d.getLoopCount() <= 60) {
-            sword.reduceSlugHealth(enemy, d);
+            sword.reduceSlugHealth(enemy, d.getLoopCount());
             assertEquals(0, enemy.getCurrentHealth());
         }
         
 
     }
 
+    /**
+     * Test sword attack on slug
+     * When loopCount is between 61 and 100
+     */
     @Test
     public void TestAttackOnSlugBySword3() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -92,12 +102,15 @@ public class ItemTest {
         assertEquals(10, enemy.getCurrentHealth());
 
         if (d.getLoopCount() >= 61 && d.getLoopCount() <= 100) {
-            sword.reduceSlugHealth(enemy, d);
+            sword.reduceSlugHealth(enemy, d.getLoopCount());
             assertEquals(0, enemy.getCurrentHealth());
         }
 
     }
 
+    /**
+     * Test stake attack on slug
+     */
     @Test
     public void TestAttackOnSlugByStake() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -113,12 +126,15 @@ public class ItemTest {
         Slug enemy = new Slug(new PathPosition(1, orderedPath));
 
         assertEquals(10, enemy.getCurrentHealth());
-        stake.reduceSlugHealth(enemy, d);
+        stake.reduceSlugHealth(enemy, d.getLoopCount());
 
         assertTrue(5 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 8);
 
     }
 
+    /**
+     * Test staff attack on slug
+     */
     @Test
     public void TestAttackOnSlugByStaff() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -134,11 +150,15 @@ public class ItemTest {
         Slug enemy = new Slug(new PathPosition(1, orderedPath));
 
         assertEquals(10, enemy.getCurrentHealth());
-        staff.reduceSlugHealth(enemy, d);
+        staff.reduceSlugHealth(enemy, d.getLoopCount());
         assertEquals(8, enemy.getCurrentHealth());
 
     }
 
+    /**
+     * Test that the Slug Health cannot be increased beyond
+     * its maximum health.
+     */
     @Test
     public void TestIncreaseSlugHealthBeyondMaximum() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -159,8 +179,10 @@ public class ItemTest {
     }
 
 
-    // Test weapons attacks on vampire
-
+    /**
+     * Test sword attack on Vampire
+     * When loopCount is between 0 and 30
+     */
     @Test
     public void TestAttackOnVampireBySword1() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -177,11 +199,15 @@ public class ItemTest {
         assertEquals(100, enemy.getCurrentHealth());
 
         if (d.getLoopCount() <= 30) {
-            sword.reduceVampireHealth(enemy, d);
+            sword.reduceVampireHealth(enemy, d.getLoopCount());
             assertTrue(90 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 95);
         }
     }
 
+    /**
+     * Test sword attack on Vampire
+     * When loopCount is between 31 and 60
+     */
     @Test
     public void TestAttackOnVampireBySword2() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -198,11 +224,15 @@ public class ItemTest {
         assertEquals(100, enemy.getCurrentHealth());
 
         if (d.getLoopCount() >= 31 && d.getLoopCount() <= 60) {
-            sword.reduceVampireHealth(enemy, d);
+            sword.reduceVampireHealth(enemy, d.getLoopCount());
             assertTrue(85 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 90);
         }
     }
 
+    /**
+     * Test sword attack on Vampire
+     * When loopCount is between 61 and 100
+     */
     @Test
     public void TestAttackOnVampireBySword3() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -219,11 +249,14 @@ public class ItemTest {
         assertEquals(100, enemy.getCurrentHealth());
 
         if (d.getLoopCount() >= 61 && d.getLoopCount() <= 100) {
-            sword.reduceVampireHealth(enemy, d);
+            sword.reduceVampireHealth(enemy, d.getLoopCount());
             assertTrue(80 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 85);
         }
     }
 
+    /**
+     * Test stake attack on Vampire
+     */
     @Test
     public void TestAttackOnVampireByStake() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -238,12 +271,15 @@ public class ItemTest {
         Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
 
         assertEquals(100, enemy.getCurrentHealth());
-        stake.reduceVampireHealth(enemy, d);
+        stake.reduceVampireHealth(enemy, d.getLoopCount());
 
         assertEquals(70, enemy.getCurrentHealth());
 
     }
 
+    /**
+     * Test staff attack on Vampire
+     */
     @Test
     public void TestAttackOnVampireByStaff() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -258,12 +294,16 @@ public class ItemTest {
         Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
 
         assertEquals(100, enemy.getCurrentHealth());
-        staff.reduceVampireHealth(enemy, d);
+        staff.reduceVampireHealth(enemy, d.getLoopCount());
 
         assertEquals(98, enemy.getCurrentHealth());
 
     }
 
+    /**
+     * Test that Vampire Health cannot be increased beyond 
+     * its maximum health
+     */
     @Test
     public void TestIncreaseVampireHealthBeyondMaximum() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -283,8 +323,11 @@ public class ItemTest {
         assertEquals(100, enemy.getCurrentHealth());
     }
 
-    // Test weapons attacks on zombie 
-
+   
+    /**
+     * Test sword attack on zombie
+     * When loopCount is between 0 and 30
+     */
     @Test
     public void TestAttackOnZombieBySword1() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -301,11 +344,15 @@ public class ItemTest {
         assertEquals(30, enemy.getCurrentHealth());
 
         if (d.getLoopCount() <= 30) {
-            sword.reduceZombieHealth(enemy, d);
+            sword.reduceZombieHealth(enemy, d.getLoopCount());
             assertTrue(20 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 25);
         }
     }
 
+    /**
+     * Test sword attack on zombie
+     * When loopCount is between 31 and 60
+     */
     @Test
     public void TestAttackOnZombieBySword2() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -322,11 +369,15 @@ public class ItemTest {
         assertEquals(30, enemy.getCurrentHealth());
 
         if (d.getLoopCount() >= 31 && d.getLoopCount() <= 60) {
-            sword.reduceZombieHealth(enemy, d);
+            sword.reduceZombieHealth(enemy, d.getLoopCount());
             assertTrue(15 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 20);
         }
     }
 
+    /**
+     * Test sword attack on zombie
+     * When loopCount is between 61 and 100
+     */
     @Test
     public void TestAttackOnZombieBySword3() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -343,11 +394,14 @@ public class ItemTest {
         assertEquals(30, enemy.getCurrentHealth());
 
         if (d.getLoopCount() >= 61 && d.getLoopCount() <= 100) {
-            sword.reduceZombieHealth(enemy, d);
+            sword.reduceZombieHealth(enemy, d.getLoopCount());
             assertTrue(10 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 15);
         }
     }
 
+    /**
+     * Test stake attack on zombie
+     */
     @Test
     public void TestAttackOnZombieByStake() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -363,12 +417,15 @@ public class ItemTest {
         Zombie enemy = new Zombie(new PathPosition(1, orderedPath));
 
         assertEquals(30, enemy.getCurrentHealth());
-        stake.reduceZombieHealth(enemy, d);
+        stake.reduceZombieHealth(enemy, d.getLoopCount());
 
         assertTrue(25 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 28);
 
     }
 
+    /**
+     * Test staff attack on zombie
+     */
     @Test
     public void TestAttackOnZombieByStaff() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -384,12 +441,16 @@ public class ItemTest {
         Zombie enemy = new Zombie(new PathPosition(1, orderedPath));
 
         assertEquals(30, enemy.getCurrentHealth());
-        staff.reduceZombieHealth(enemy, d);
+        staff.reduceZombieHealth(enemy, d.getLoopCount());
 
         assertEquals(28, enemy.getCurrentHealth());
 
     }
 
+    /**
+     * Test that the Zombie Health cannot be increased beyond
+     * its maximum health
+     */
     @Test
     public void TestIncreaseZombieHealthBeyondMaximum() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -413,8 +474,9 @@ public class ItemTest {
                 ///////////////////// Tests for Defending weapons ///////////////////////
 
                 
-    // Tests for Helmet
-
+    /**
+     * Test helmet defence against slug
+     */
     @Test
     public void TestHelmetDefencetoSlug() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -436,6 +498,9 @@ public class ItemTest {
 
     }
 
+    /**
+     * Test helmet defence against zombie
+     */
     @Test
     public void TestHelmetDefencetoZombie() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -456,6 +521,9 @@ public class ItemTest {
         assertEquals(97, c.getCurrentHealth());
     }
 
+    /**
+     * Test helmet defence against vampire
+     */
     @Test
     public void TestHelmetDefencetoVampire() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -476,7 +544,9 @@ public class ItemTest {
         assertEquals(95, c.getCurrentHealth());
     }
 
-    // Tests for Armour
+    /**
+     * Test armour defence against slug
+     */
 
     @Test
     public void TestArmourDefencetoSlug() {
@@ -499,6 +569,9 @@ public class ItemTest {
 
     }
 
+    /**
+     * Test armour defence against zombie
+     */
     @Test
     public void TestArmourDefencetoZombie() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -519,6 +592,9 @@ public class ItemTest {
         assertEquals(97, c.getCurrentHealth());
     }
 
+    /**
+     * Test armour defence against vampire
+     */
     @Test
     public void TestArmourDefencetoVampire() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -541,8 +617,9 @@ public class ItemTest {
 
 
 
-    // Tests for Shield
-
+    /**
+     * Test shield defence against slug
+     */
     @Test
     public void TestShieldDefencetoSlug() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -564,6 +641,9 @@ public class ItemTest {
 
     }
 
+    /**
+     * Test shield defence against zombie
+     */
     @Test
     public void TestShieldDefencetoZombie() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -584,6 +664,9 @@ public class ItemTest {
         assertEquals(97, c.getCurrentHealth());
     }
 
+    /**
+     * Test shield defence against vampire
+     */
     @Test
     public void TestShieldDefencetoVampire() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -604,7 +687,9 @@ public class ItemTest {
         assertTrue(c.getCurrentHealth() == 95 || c.getCurrentHealth() == 70);
     }
 
-    // Tests for gold
+    /**
+     * Test to decrease gold
+     */
     @Test
     public void TestDecreaseGold() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -618,6 +703,9 @@ public class ItemTest {
 
     }
     
+    /**
+     * Test to increase gold
+     */
     @Test
     public void TestIncreaseGold() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -630,8 +718,9 @@ public class ItemTest {
         assertEquals(gold.getGoldCount(), currGold+5);
     }
 
-
-    // Test for HealthPotion refilling Character health
+    /**
+     * Test for HealthPotion refilling Character health
+     */
     @Test
     public void TestHealthPotion() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -651,5 +740,5 @@ public class ItemTest {
         assertEquals(100, c.getCurrentHealth());
 
     }
-    */
+    
 }
