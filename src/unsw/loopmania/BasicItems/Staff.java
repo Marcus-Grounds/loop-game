@@ -26,14 +26,23 @@ public class Staff extends BasicItem implements AttackingStrategy {
         return this;
     }
 
+    /**
+     * Reduces slug health by 2
+     */
     public void reduceSlugHealth(Slug slug, int loopCount) {
         slug.decreaseHealth(damage);
     }
 
+    /**
+     * Reduces zombie health by 2
+     */
     public void reduceZombieHealth(Zombie zombie, int loopCount) {
         zombie.decreaseHealth(damage);
     }
     
+    /**
+     * Reduces vampire health by 2
+     */
     public void reduceVampireHealth(Vampire vampire, int loopCount) {
         vampire.decreaseHealth(damage);
     }

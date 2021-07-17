@@ -27,9 +27,12 @@ public class Sword extends BasicItem implements AttackingStrategy {
         return this;
     }
 
-    // Damage done by sword is dependent on the number of loops
-    // and randomised
-
+    /**
+     * Sword damage is dependent on the number of loops completed
+     * by the character
+     * Reduces slug health by a random value between 5 and 20
+     * depending on @param loopCount
+     */
     public void reduceSlugHealth(Slug slug, int loopCount) {
 
         if (loopCount >= 0 && loopCount <= 30) {
@@ -45,6 +48,10 @@ public class Sword extends BasicItem implements AttackingStrategy {
         slug.decreaseHealth(damage);
     }
 
+    /**
+     * Reduces zombie health by a random value between 5 and 20
+     * depending on @param loopCount
+     */
     public void reduceZombieHealth(Zombie zombie, int loopCount) {
         
         if (loopCount >= 0 && loopCount <= 30) {
@@ -60,6 +67,10 @@ public class Sword extends BasicItem implements AttackingStrategy {
         zombie.decreaseHealth(damage);
     }
     
+    /**
+     * Reduces vampire health by a random value between 5 and 20
+     * depending on @param loopCount
+     */
     public void reduceVampireHealth(Vampire vampire, int loopCount) {
 
         if (loopCount >= 0 && loopCount <= 30) {
