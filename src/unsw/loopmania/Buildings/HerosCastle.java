@@ -22,15 +22,13 @@ public class HerosCastle extends Building {
         this.fillShop();
     }
 
-    public void fillShop() {
-        while (this.items.size() < 3) {
-            this.items.add(generateRandomItem());
-        }
-    }
-
     public List<BasicItem> getAllItems() {
         this.fillShop();
         return this.items;
+    }
+
+    public BasicItem getItemByIndex(int index) {
+        return this.items.get(index);
     }
 
     public BasicItem buyItemByIndex(int index) {
@@ -38,6 +36,12 @@ public class HerosCastle extends Building {
         this.items.remove(item);
         this.fillShop();
         return item;
+    }
+
+    public void fillShop() {
+        while (this.items.size() < 3) {
+            this.items.add(generateRandomItem());
+        }
     }
 
     public BasicItem generateRandomItem () {

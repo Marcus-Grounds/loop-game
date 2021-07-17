@@ -18,12 +18,14 @@ public class Gold extends StaticEntity {
         return this.goldCount;
     }
 
-    public void increaseGold(int amountToIncrease) {
+    public int increaseGold(int amountToIncrease) {
         this.goldCount = this.goldCount + amountToIncrease;
+        return this.goldCount;
     }
 
-    public void decreaseGold(int amountToDecrease) {
+    public int decreaseGold(int amountToDecrease) {
         this.goldCount -= amountToDecrease;
         if (this.goldCount < 0) this.goldCount = 0;
+        return this.goldCount;
     }
 }

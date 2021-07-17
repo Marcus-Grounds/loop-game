@@ -85,7 +85,7 @@ import unsw.loopmania.LoopManiaApplication;
     private List<BasicEnemy> enemies;
 
     //private List<Building> buildingEntities;
-    private Building heroCastle;
+    private HerosCastle heroCastle;
     
     private List<BattleBuilding> battleBuildings;
     private List<PathBuilding>   pathBuildings;
@@ -159,7 +159,7 @@ import unsw.loopmania.LoopManiaApplication;
         }
     }
 
-    public void setCastle (Building castle) {
+    public void setCastle (HerosCastle castle) {
         this.heroCastle = castle;
     }
     ////////// MOVING ENTITIES //////////////
@@ -211,6 +211,37 @@ import unsw.loopmania.LoopManiaApplication;
         return this.character.getAllInventoryItems();
     }
 
+    public List<BasicItem> getAllItemsFromShop() {
+        return this.heroCastle.getAllItems();
+    }
+
+    public BasicItem buyItemByIndexFromShop (int index) {
+        BasicItem item = this.heroCastle.getItemByIndex(index);
+        if (item.getCost() <= this.getGoldCount()) {
+            this.heroCastle.buyItemByIndex(index);
+            this.addInventoryItem(item);
+            this.decreaseGold(item.getCost());
+            return item;
+        } else {
+            return null;
+        }
+    }
+
+    public BasicItem sellItemByIndex(int index) {
+        return this.character.sellItemByIndex(index);
+    }
+
+    public int getGoldCount() {
+        return this.character.getGoldCount();
+    }
+
+    public int increaseGold (int gold) {
+        return this.character.increaseGold(gold);
+    }
+
+    public int decreaseGold (int gold) {
+        return this.character.decreaseGold(gold);
+    }
 
     // BUILDINGS STUFF
     public void addBattleBuilding (BattleBuilding building) {
