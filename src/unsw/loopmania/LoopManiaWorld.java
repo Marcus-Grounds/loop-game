@@ -171,6 +171,10 @@ import unsw.loopmania.LoopManiaApplication;
         this.character = character;
     }
 
+    public Character getCharacter () {
+        return this.character;
+    }
+
     public void addBasicEnemy (BasicEnemy basicEnemy) {
         this.enemies.add(basicEnemy);
     }

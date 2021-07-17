@@ -17,6 +17,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -36,6 +37,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import unsw.loopmania.BasicItems.Sword;
@@ -112,6 +114,15 @@ public class LoopManiaWorldController {
 
     @FXML
     private GridPane unequippedInventory;
+
+    @FXML
+    private Label healthNumber;
+
+    @FXML
+    private Label goldNumber;
+    
+    @FXML
+    private Label expNumber;
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -262,6 +273,10 @@ public class LoopManiaWorldController {
         draggedEntity.setVisible(false);
         draggedEntity.setOpacity(0.7);
         anchorPaneRoot.getChildren().add(draggedEntity);
+
+        healthNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getCurrentHealth()).asString());
+        goldNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getGoldCount()).asString());
+        expNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getExperience()).asString());
     }
 
     /**
@@ -301,7 +316,9 @@ public class LoopManiaWorldController {
                 onLoad(potion);
             }
             
-
+            healthNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getCurrentHealth()).asString());
+            goldNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getGoldCount()).asString());
+            expNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getExperience()).asString());
             printThreadingNotes("HANDLED TIMER");
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -433,9 +450,6 @@ public class LoopManiaWorldController {
         addEntity(potion, view);
         squares.getChildren().add(view);
     }
-
-
-   
 
     /**
      * load an enemy into the GUI

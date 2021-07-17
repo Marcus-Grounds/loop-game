@@ -42,7 +42,6 @@ public class LoopManiaApplication extends Application {
         menuLoader.setController(mainMenuController);
         Parent mainMenuRoot = menuLoader.load();
 
-        
         //load battle screen
         BattleEnemyController battleEnemyController = new BattleEnemyController();
         FXMLLoader battleLoader = new FXMLLoader(getClass().getResource("Battle.fxml"));
@@ -62,9 +61,6 @@ public class LoopManiaApplication extends Application {
         
 
         mainController.setGameRoot(gameRoot);
-        
-        
-
 
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
@@ -86,8 +82,6 @@ public class LoopManiaApplication extends Application {
             mainController.pause();
             battleEnemyController.startTimer();
         });
-        
-
         
         // deploy the main onto the stage
         gameRoot.requestFocus();
