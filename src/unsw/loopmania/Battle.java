@@ -62,7 +62,7 @@ public class Battle {
                 Ally lastAlly = allies.get(allies.size() - 1);
                 e.decreaseHealth(5);
 
-                lastAlly.decreaseHealth(100);
+                lastAlly.decreaseHealth(5);
                 if (lastAlly.getCurrentHealth() <= 0){
                     lastAlly.destroy();
                     allies.remove(lastAlly);  
@@ -90,7 +90,8 @@ public class Battle {
                 allEnemiesDead = false;
             }
             else if (e.getCurrentHealth() <= 0){
-                System.out.println("Enemy DEAD");
+                return;
+                //System.out.println("Enemy DEAD");
             }
 
 

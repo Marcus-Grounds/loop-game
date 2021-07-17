@@ -46,17 +46,6 @@ public class AllyTest {
         d.setCharacter(c);
         d.addPathBuilding(new BarracksBuilding(p2.getX(), p2.getY()));
 
-        //test fight withough allies
-        List<BasicEnemy> enemyList = new ArrayList();
-        Slug slug1 = new Slug(p1);
-        enemyList.add(slug1);
-        d.addBasicEnemy(slug1);
-        Battle battle = new Battle(c, null, enemyList, slug1, new ArrayList<BattleBuilding>(), 0);
-        battle.dealDamageOnce();
-        battle.dealDamageOnce();
-        int healthOfCharacterWithoutAlly = c.getCurrentHealth();
-        AssertT
-
 
         //test that ally will not spaw if character not on barrack
         Ally ally1 = d.pathBuildingAction();
@@ -77,6 +66,43 @@ public class AllyTest {
 
         //now test allie in fight
         
+    }
+    @Test
+    public void testBattleWithAlly() {
+        JFXPanel jfxPanel = new JFXPanel();
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+            
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(0, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(0, 2);
+        
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+
+        PathPosition p1 = new PathPosition(0, orderedPath);
+        PathPosition p2 = new PathPosition(1, orderedPath);
+
+        Character c = new Character(p1);
+        //test fight withough allies
+        List<BasicEnemy> enemyList = new ArrayList();
+        Slug slug1 = new Slug(p1);
+        enemyList.add(slug1);
+        Battle battle = new Battle(c, null, enemyList, slug1, new ArrayList<BattleBuilding>(), 0);
+        battle.dealDamageOnce();
+        battle.dealDamageOnce();
+        int healthOfCharacterWithoutAlly = c.getCurrentHealth();
+        
+        //now battle with ally
+        Character c2 = new Character(p1);
+        c2.addAlly(new Ally(p1, 100));
+        List<BasicEnemy> enemyList2 = new ArrayList();
+        Slug slug2 = new Slug(p1);
+        enemyList.add(slug2);
+        Battle battle2 = new Battle(c2, null, enemyList2, slug2, new ArrayList<BattleBuilding>(), 0);
+        battle2.dealDamageOnce();
+        battle2.dealDamageOnce();
+        int healthOfCharacterWithAlly = c2.getCurrentHealth();
+
+        assertTrue(healthOfCharacterWithoutAlly < healthOfCharacterWithAlly);
     }
 
 
