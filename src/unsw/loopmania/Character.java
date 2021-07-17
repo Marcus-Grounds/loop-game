@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import unsw.loopmania.BasicItems.AttackingStrategy;
+import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.DefendingStrategy;
 import unsw.loopmania.Cards.Card;
 
@@ -22,8 +23,8 @@ public class Character extends MovingEntity {
     private AttackingStrategy equippedWeapon;
     private DefendingStrategy equippedDefence;
     private List<Card> cardEntities;
-    private List<Entity> unequippedInventoryItems;
     private List<Ally> allies;
+    private List<BasicItem> unequippedInventoryItems;
     
     public Character(PathPosition position) {
         
@@ -45,14 +46,20 @@ public class Character extends MovingEntity {
         this.baseDamage = baseDamage;
     }
 
-    public int increaseGold (Gold goldOnGorund) {
-        this.gold.increaseGold(goldOnGorund.getGoldCount());
+    public int getGoldCount() {
         return this.gold.getGoldCount();
     }
 
+    public int increaseGold (Gold goldOnGorund) {
+        return this.gold.increaseGold(goldOnGorund.getGoldCount());
+    }
+
+    public int increaseGold (int goldOnGorund) {
+        return this.gold.increaseGold(goldOnGorund);
+    }
+
     public int decreaseGold (int goldToSpend) {
-        this.gold.decreaseGold(goldToSpend);
-        return this.gold.getGoldCount();
+        return this.gold.decreaseGold(goldToSpend);
     }
 
     public Gold getCharacterGold () {
@@ -100,11 +107,11 @@ public class Character extends MovingEntity {
         return this.cardEntities;
     }
 
-    public void addInventoryItem (Entity entity) {
-        this.unequippedInventoryItems.add(entity);
+    public void addInventoryItem (BasicItem item) {
+        this.unequippedInventoryItems.add(item);
     }
 
-    public List<Entity> getAllInventoryItems () {
+    public List<BasicItem> getAllInventoryItems () {
         return this.unequippedInventoryItems;
     }
 
@@ -117,4 +124,10 @@ public class Character extends MovingEntity {
     }
 
 
+    public BasicItem sellItemByIndex(int index) {
+        BasicItem item = this.unequippedInventoryItems.get(index);
+        this.unequippedInventoryItems.remove(index);
+        this.gold.increaseGold(item.getCost());
+        return item;
+    }
 }

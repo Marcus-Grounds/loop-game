@@ -34,8 +34,6 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
     private Image pathTilesImage;
     private BattleEnemyController battleEnemyController;
 
-    
-
     public LoopManiaWorldControllerLoader(String filename, BattleEnemyController battleEnemyController)
             throws FileNotFoundException {
         super(filename);
