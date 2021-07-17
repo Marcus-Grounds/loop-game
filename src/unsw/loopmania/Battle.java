@@ -90,7 +90,7 @@ public class Battle {
                 allEnemiesDead = false;
             }
             else if (e.getCurrentHealth() <= 0){
-                return;
+                //return;
                 //System.out.println("Enemy DEAD");
             }
 
