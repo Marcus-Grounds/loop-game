@@ -90,7 +90,6 @@ import unsw.loopmania.LoopManiaApplication;
     private List<BattleBuilding> battleBuildings;
     private List<PathBuilding>   pathBuildings;
     private List<SpawnBuilding>  spawnBuildings;
-    private List<Building> buildingsList;
 
     private List<Ally> allies;
 
@@ -120,7 +119,6 @@ import unsw.loopmania.LoopManiaApplication;
         this.battleBuildings = new ArrayList<>();
         this.pathBuildings = new ArrayList<>();
         this.spawnBuildings = new ArrayList<>();
-        this.buildingsList = new ArrayList<>();
         this.allies = new ArrayList<>();
         this.goldCollection = new ArrayList<>();
         thePotion = null;
@@ -270,14 +268,6 @@ import unsw.loopmania.LoopManiaApplication;
 
     public List<SpawnBuilding> getAllSpawnBuildings () {
         return this.spawnBuildings;
-    }
-
-    public void addBuilding (Building building) {
-        this.buildingsList.add(building);
-    }
-
-    public List<Building> getAllBuildings () {
-        return this.buildingsList;
     }
 
     public List<Pair<Integer, Integer>> getOrderedPath () {
@@ -844,7 +834,6 @@ import unsw.loopmania.LoopManiaApplication;
             } else if (newBuilding instanceof PathBuilding) {
                 pathBuildings.add((PathBuilding)newBuilding);
             }
-            buildingsList.add(newBuilding);
             card.destroy();
             this.character.getAllCards().remove(card);
             shiftCardsDownFromXCoordinate(cardNodeX);
