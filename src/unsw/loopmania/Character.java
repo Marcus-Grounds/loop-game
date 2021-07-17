@@ -43,14 +43,20 @@ public class Character extends MovingEntity {
         this.baseDamage = baseDamage;
     }
 
-    public int increaseGold (Gold goldOnGorund) {
-        this.gold.increaseGold(goldOnGorund.getGoldCount());
+    public int getGoldCount() {
         return this.gold.getGoldCount();
     }
 
+    public int increaseGold (Gold goldOnGorund) {
+        return this.gold.increaseGold(goldOnGorund.getGoldCount());
+    }
+
+    public int increaseGold (int goldOnGorund) {
+        return this.gold.increaseGold(goldOnGorund);
+    }
+
     public int decreaseGold (int goldToSpend) {
-        this.gold.decreaseGold(goldToSpend);
-        return this.gold.getGoldCount();
+        return this.gold.decreaseGold(goldToSpend);
     }
 
     public Gold getCharacterGold () {
@@ -104,5 +110,12 @@ public class Character extends MovingEntity {
 
     public List<BasicItem> getAllInventoryItems () {
         return this.unequippedInventoryItems;
+    }
+
+    public BasicItem sellItemByIndex(int index) {
+        BasicItem item = this.unequippedInventoryItems.get(index);
+        this.unequippedInventoryItems.remove(index);
+        this.gold.increaseGold(item.getCost());
+        return item;
     }
 }
