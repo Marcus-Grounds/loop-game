@@ -290,6 +290,11 @@ public class LoopManiaWorldController {
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
+            Ally ally = world.pathBuildingAction();
+            if (ally != null) {
+                System.out.print("loadAlly");
+                onLoad(ally);
+            }
             
             Gold gold = world.possiblySpawnGold();
             if (gold != null){
@@ -439,13 +444,13 @@ public class LoopManiaWorldController {
 
     /**
      * load an enemy into the GUI
-     * @param enemy
+     * @param movingEntity
      */
-    private void onLoad(BasicEnemy enemy) {
+    private void onLoad(MovingEntity movingEntity) {
         //ImageView view = new ImageView(basicEnemyImage);
-        ImageView view = enemy.getImageView();
+        ImageView view = movingEntity.getImageView();
         
-        addEntity(enemy, view);
+        addEntity(movingEntity, view);
         squares.getChildren().add(view);
     }
 
@@ -624,10 +629,10 @@ public class LoopManiaWorldController {
                 draggedEntity.relocateToPoint(new Point2D(event.getSceneX(), event.getSceneY()));
                 switch (draggableType){
                     case CARD:
-                        draggedEntity.setImage(vampireCastleCardImage);
+                        draggedEntity.setImage(draggedEntity.getImage());
                         break;
                     case ITEM:
-                        draggedEntity.setImage(swordImage);
+                        draggedEntity.setImage(draggedEntity.getImage());
                         break;
                     default:
                         break;

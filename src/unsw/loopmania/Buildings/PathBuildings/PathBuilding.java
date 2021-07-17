@@ -5,6 +5,8 @@ import java.util.List;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.ImageView;
 import unsw.loopmania.MovingEntity;
+import unsw.loopmania.Ally;
+import unsw.loopmania.Character;
 import unsw.loopmania.Buildings.Building;
 import unsw.loopmania.Enemies.BasicEnemy;
 
@@ -14,7 +16,8 @@ public abstract class PathBuilding extends Building{
         super(x, y, image);
     }
     
-    public abstract void pathAction (MovingEntity character, List<BasicEnemy> enemies);
+    public abstract Ally pathAction (Character character, List<BasicEnemy> enemies);
+
     public boolean checkOnPath (MovingEntity entity) {
         
         if ((entity.getX() == this.getX()) && (entity.getY() == this.getY())) {
