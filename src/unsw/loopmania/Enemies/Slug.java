@@ -18,6 +18,11 @@ import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.Stake;
 import unsw.loopmania.BasicItems.Sword;
+import unsw.loopmania.Cards.*;
+import unsw.loopmania.Buildings.*;
+import unsw.loopmania.Buildings.SpawnBuildings.*;
+import unsw.loopmania.Buildings.BattleBuildings.*;
+import unsw.loopmania.Buildings.PathBuildings.*;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Cards.TowerCard;
 import unsw.loopmania.Cards.VillageCard;
@@ -59,7 +64,7 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
         if (r < 0.4){
             return new Sword(x, y);
         }
-        else if (r < 0.8) {
+        else if (r < 0.4) {
             return new Stake(x, y);
         }
         else if (r < 1){
@@ -74,11 +79,20 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
         //15% chance of giving towerCards, 15% chance of giving villageCard
         double r = random.nextDouble();
         System.out.print(r);
-        if (r < 0.5){
+        if (r < 0.15){
+            return new VampireCastleCard(x, y);
+        } else if (r < 0.25) {
+            return new ZombiePitCard(x, y);
+        } else if (r < 0.4) {
             return new TowerCard(x, y);
-        }
-        else if (r < 1) {
+        } else if (r < 0.55) {
             return new VillageCard(x, y);
+        } else if (r < 0.7) {
+            return new BarracksCard(x, y);
+        } else if (r < 0.85) {
+            return new TrapCard(x, y);
+        } else if (r < 1) {
+            return new CampfireCard(x, y);
         }
 
         return null;

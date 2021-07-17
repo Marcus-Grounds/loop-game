@@ -32,20 +32,17 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
     //Images
     private Image characterImage;
     private Image pathTilesImage;
-    private Scene scene;
-    private Stage primaryStage;
-    private Parent gameRoot;
+    private BattleEnemyController battleEnemyController;
 
     
 
-    public LoopManiaWorldControllerLoader(String filename, Scene scene, Stage primaryStage)
+    public LoopManiaWorldControllerLoader(String filename, BattleEnemyController battleEnemyController)
             throws FileNotFoundException {
         super(filename);
         entities = new ArrayList<>();
         characterImage = new Image((new File("src/images/human_new.png")).toURI().toString());
         pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
-        this.scene = scene;
-        this.primaryStage = primaryStage;
+        this.battleEnemyController = battleEnemyController;
     }
 
     // TODO = load more entity types from the file
@@ -146,7 +143,7 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
      * @throws FileNotFoundException
      */
     public LoopManiaWorldController loadController() throws FileNotFoundException {
-        return new LoopManiaWorldController(load(), entities, scene, gameRoot, primaryStage);        
+        return new LoopManiaWorldController(load(), entities, battleEnemyController);        
     }
 
 

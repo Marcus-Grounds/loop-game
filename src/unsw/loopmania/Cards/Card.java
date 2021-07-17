@@ -41,19 +41,19 @@ public abstract class Card extends StaticEntity {
     public Building generateEntity (SimpleIntegerProperty x, SimpleIntegerProperty y) {
         String classname = this.getClass().getName();
         Building generatedEntity = null;
-        if (classname.equals("VampireCastleBuilding")) {
+        if (classname.contains("VampireCastleCard")) {
             generatedEntity = new VampireCastleBuilding(x, y);
-        } else if (classname.equals("ZombiePitBuilding")) {
+        } else if (classname.contains("ZombiePitCard")) {
             generatedEntity = new ZombiePitBuilding(x, y);
-        } else if (classname.equals("TowerBuilding")) {
+        } else if (classname.contains("TowerCard")) {
             generatedEntity = new TowerBuilding(x, y);
-        } else if (classname.equals("VillageBuilding")) {
+        } else if (classname.contains("VillageCard")) {
             generatedEntity = new VillageBuilding(x, y);
-        } else if (classname.equals("BarracksBuilding")) {
+        } else if (classname.contains("BarracksCard")) {
             generatedEntity = new BarracksBuilding(x, y);
-        } else if (classname.equals("TrapBuilding")) {
+        } else if (classname.contains("TrapCard")) {
             generatedEntity = new TrapBuilding(x, y);
-        } else if (classname.equals("CampfireBuilding")) {
+        } else if (classname.contains("CampfireCard")) {
             generatedEntity = new CampfireBuilding(x, y);
         }
         return generatedEntity;

@@ -25,6 +25,7 @@ import unsw.loopmania.Buildings.PathBuildings.TrapBuilding;
 import unsw.loopmania.Buildings.PathBuildings.VillageBuilding;
 import unsw.loopmania.Buildings.SpawnBuildings.SpawnBuilding;
 import unsw.loopmania.Buildings.SpawnBuildings.VampireCastleBuilding;
+import unsw.loopmania.Buildings.SpawnBuildings.ZombiePitBuilding;
 import unsw.loopmania.Cards.*;
 
 import unsw.loopmania.Enemies.*;
@@ -77,7 +78,6 @@ public class BuildingTest {
         List<SpawnBuilding> dummyList2 = new ArrayList<SpawnBuilding>();
         List<PathBuilding> dummyList3 = new ArrayList<PathBuilding>();
 
-        
         dummyList.add(towerBuilding);
         dummyList2.add(vampireCastleBuilding);
         dummyList3.add(trapBuilding);
@@ -86,6 +86,86 @@ public class BuildingTest {
         assertEquals(d.getAllSpawnBuildings(), dummyList2);
         assertEquals(d.getAllPathBuildings(), dummyList3);
 
+    }
+
+    @Test
+    public void spawnVampireFromBuilding(){
+        
+        //Create a battle between the character and enemy where enemy is in range of tower, not in range of tower
+        JFXPanel jfxPanel = new JFXPanel(); 
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        
+        //Create Vampire Castle
+        
+        VampireCastleBuilding vampireCastle = new VampireCastleBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(5));
+        HerosCastle herosCastle = new HerosCastle(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
+
+        d.addSpawnBuilding(vampireCastle);
+        d.setCastle(herosCastle);
+
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+            
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(0, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(0,5);
+        
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+
+        PathPosition p1 = new PathPosition(0, orderedPath);
+        PathPosition p2 = new PathPosition(1, orderedPath);
+        
+        Character c = new Character(p1);
+        d.setCharacter(c);
+
+        // search through the list of enemies and determine if it is spawned on the path
+        assertEquals(vampireCastle.findPathToSpawn(orderedPath), path2);
+        assertEquals(d.checkCharacterOnCastle(c), true);
+
+        BasicEnemy vampire = vampireCastle.spawnAction(5,d.checkCharacterOnCastle(c), vampireCastle.findPathToSpawn(orderedPath), orderedPath); 
+        //Check if vampires spawn in correct position
+        
+        assertEquals(vampire.getX(), 0);
+        assertEquals(vampire.getY(), 5);
+    }
+
+    @Test
+    public void spawnZombieFromBuilding(){
+        
+        //Create a battle between the character and enemy where enemy is in range of tower, not in range of tower
+        JFXPanel jfxPanel = new JFXPanel(); 
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        
+        //Create Vampire Castle
+        
+        HerosCastle herosCastle = new HerosCastle(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
+        ZombiePitBuilding zombiePit = new ZombiePitBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(5));
+
+        d.addSpawnBuilding(zombiePit);
+        d.setCastle(herosCastle);
+
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+            
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(0, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(0,4);
+        
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+
+        PathPosition p1 = new PathPosition(0, orderedPath);
+        PathPosition p2 = new PathPosition(1, orderedPath);
+        
+        Character c = new Character(p1);
+        d.setCharacter(c);
+
+        // search through the list of enemies and determine if it is spawned on the path
+        assertEquals(zombiePit.findPathToSpawn(orderedPath), path2);
+        assertEquals(d.checkCharacterOnCastle(c), true);
+
+        BasicEnemy zombie = zombiePit.spawnAction(5,d.checkCharacterOnCastle(c), zombiePit.findPathToSpawn(orderedPath), orderedPath); 
+        //Check if vampires spawn in correct position
+        
+        assertEquals(zombie.getX(), 0);
+        assertEquals(zombie.getY(), 4);
     }
 
     @Test
@@ -237,7 +317,7 @@ public class BuildingTest {
         
         d.runBattle(s1);
         
-        //SHOULD ONLY REGISTER DAMAGE FROM 2 TOWERS AS ONE IS OUT OF RANGE
+        //Should double the health of base damge of the player
         assertEquals(s1.getCurrentHealth(), LOW_HEALTH - 2*BASE_DAMEGE);
         assertEquals(c.getCurrentHealth(), START_HEALTH - LOW_DAMAGE);
     }

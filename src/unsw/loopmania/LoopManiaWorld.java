@@ -44,7 +44,7 @@ import unsw.loopmania.LoopManiaApplication;
     public static final int START_HEALTH = 100;
     public static final int START_EXP = 0;
     public static final int START_GOLD = 0;
-    public static final int BASE_DAMEGE = 5;
+    public static final int BASE_DAMAGE = 5;
 
 
     public static final int LOW_HEALTH = 10;
@@ -77,10 +77,9 @@ import unsw.loopmania.LoopManiaApplication;
     private int height;
     private int loopCount;
 
-    /**
-     * generic entitites - i.e. those which don't have dedicated fields
-     */
     private List<Entity> nonSpecifiedEntities;
+    private List<Gold> goldCollection;
+    private HealthPotion thePotion;
 
     private Character character;
     private List<BasicEnemy> enemies;
@@ -94,6 +93,8 @@ import unsw.loopmania.LoopManiaApplication;
     private List<Building> buildingsList;
 
     private List<Ally> allies;
+
+
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
      */
@@ -107,17 +108,23 @@ import unsw.loopmania.LoopManiaApplication;
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
     public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
+        
+        
         this.width = width;
         this.height = height;
         this.nonSpecifiedEntities = new ArrayList<>();
         this.character = null;
         this.enemies = new ArrayList<>();
         this.orderedPath = orderedPath;
-        this.heroCastle = new HerosCastle(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        this.heroCastle = new HerosCastle(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
         this.battleBuildings = new ArrayList<>();
         this.pathBuildings = new ArrayList<>();
         this.spawnBuildings = new ArrayList<>();
+        this.buildingsList = new ArrayList<>();
         this.allies = new ArrayList<>();
+        this.goldCollection = new ArrayList<>();
+        thePotion = null;
+        loopCount = 0;
     }
 
     public int getWidth() {
@@ -128,12 +135,44 @@ import unsw.loopmania.LoopManiaApplication;
         return height;
     }
 
+    ////////// CASTLE METHODS ///////////////
+    public boolean checkCharacterOnCastle (MovingEntity character) {
+        /*
+        if ((character.getX() == heroCastle.getX()) && (character.getY() == heroCastle.getY())) {
+            return true;
+        } else {
+            return false;
+        }
+        */
+        PathPosition position = new PathPosition(0, orderedPath);
+        if (character.getX() == position.getX().getValue() && character.getY() == position.getY().getValue() ) {
+            return true;
+        } else {
+            return false;
+        }
+            
+    }
+    
+    public void updateLoopCount (Character character) {
+        if (checkCharacterOnCastle(character)) {
+            this.loopCount = this.loopCount + 1;
+        }
+    }
+
+    public void setCastle (Building castle) {
+        this.heroCastle = castle;
+    }
+    ////////// MOVING ENTITIES //////////////
     /**
      * set the character. This is necessary because it is loaded as a special entity out of the file
      * @param character the character
      */
     public void setCharacter(Character character) {
         this.character = character;
+    }
+
+    public void addBasicEnemy (BasicEnemy basicEnemy) {
+        this.enemies.add(basicEnemy);
     }
 
     /**
@@ -146,22 +185,12 @@ import unsw.loopmania.LoopManiaApplication;
         nonSpecifiedEntities.add(entity);
     }
 
-    public void addBasicEnemy (BasicEnemy basicEnemy) {
-        this.enemies.add(basicEnemy);
-    }
 
     public List<BasicEnemy> getAllBasicEnemies () {
         return this.enemies;
     }
 
-    public void addAlly (Ally ally) {
-        this.allies.add(ally);
-    }
-
-    public List<Ally> getAllAllies() {
-        return this.allies;
-    }
-
+    ////////// CARD ENTITIES ///////////////
     public void addCard (Card card) {
         this.character.addCard(card);
     }
@@ -182,10 +211,8 @@ import unsw.loopmania.LoopManiaApplication;
         return this.character.getAllInventoryItems();
     }
 
-    public Building getHeroCastle () {
-        return this.heroCastle;
-    }
 
+    // BUILDINGS STUFF
     public void addBattleBuilding (BattleBuilding building) {
         this.battleBuildings.add(building);
     }
@@ -208,6 +235,14 @@ import unsw.loopmania.LoopManiaApplication;
 
     public List<SpawnBuilding> getAllSpawnBuildings () {
         return this.spawnBuildings;
+    }
+
+    public void addBuilding (Building building) {
+        this.buildingsList.add(building);
+    }
+
+    public List<Building> getAllBuildings () {
+        return this.buildingsList;
     }
 
     public List<Pair<Integer, Integer>> getOrderedPath () {
@@ -235,65 +270,151 @@ import unsw.loopmania.LoopManiaApplication;
     }
 
     /**
+     * get a randomly generated position which could be used to spawn an enemy
+     * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
+     */
+    private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition () {
+        // TODO = modify this
+        
+        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
+        Random rand = new Random();
+        int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
+        // TODO = change based on spec
+        if ((choice == 0) && (enemies.size() < 2)){
+            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+            // inclusive start and exclusive end of range of positions not allowed
+            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+            // note terminating condition has to be != rather than < since wrap around...
+            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+                orderedPathSpawnCandidates.add(orderedPath.get(i));
+            }
+
+            // choose random choice
+            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+
+            return spawnPosition;
+        }
+        return null;
+    }
+    
+    /**
      * spawns enemies if the conditions warrant it, adds to world
      * @return list of the enemies to be displayed on screen
      */
-    public void spawnVampires () {
-        if (loopCount % 5 == 0) {
-            // for spawnBuilding b : spawnBuildings
-            // if b.classname = vampireCastleBuilding
-            // b.spawnVampire()
-        }
-    }
-    
     public List<BasicEnemy> possiblySpawnEnemies(){
-        // TODO = expand this very basic version
+                
         Pair<Integer, Integer> pos = possiblyGetBasicEnemySpawnPosition();
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
             //at the momeny we only spawn slug, will change later
             Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
-            
-            
-            //Vampire enemy1 = new Vampire(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
-            //enemies.add(enemy1);
             spawningEnemies.add(enemy);
-            //spawningEnemies.add(enemy1);
         }
-       
 
+        System.out.println("SPAWNING BIULDINGS");
+        System.out.println(spawnBuildings.size());
+
+        for (SpawnBuilding b : spawnBuildings) {
+            BasicEnemy enemy = b.spawnAction(loopCount, checkCharacterOnCastle(character), b.findPathToSpawn(orderedPath), orderedPath);
+            
+            if (enemy != null) {
+                
+                enemies.add(enemy);
+                spawningEnemies.add(enemy);
+            }
+        }
+        
         return spawningEnemies;
     }
 
-    public Gold possiblySpawnGold() {
-        Pair<Integer, Integer> pos = possiblySpawnPosition(5);
+    private Pair<Integer, Integer> possiblySpawnPosition (int scale){
+        // TODO = modify this
         
+        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
+        Random rand = new Random();
+        int choice = rand.nextInt(scale);
+        // TODO = change based on spec... currently low value for dev purposes...
+        // TODO = change based on spec
+        if ((choice == 0) && (enemies.size() < 2)){
+            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+            // inclusive start and exclusive end of range of positions not allowed
+            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+            // note terminating condition has to be != rather than < since wrap around...
+            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+                orderedPathSpawnCandidates.add(orderedPath.get(i));
+            }
+
+            // choose random choice
+            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+
+            return spawnPosition;
+        }
+        return null;
+    }
+
+    public Gold possiblySpawnGold() {
         Random random = new Random();
         double r = random.nextDouble();
 
-        if (r < 0.4 && pos != null) {
+        if (r < 0.05) {
+            Pair<Integer, Integer> pos = getRandomPosition();
             int indexInPath = orderedPath.indexOf(pos);
-            Gold gold = new Gold(new SimpleIntegerProperty(indexInPath), new SimpleIntegerProperty(indexInPath));
+            PathPosition position = new PathPosition(indexInPath, orderedPath);
+            Gold gold = new Gold(position.getX(), position.getY());
+            gold.increaseGold(1);
+            goldCollection.add(gold);
             return gold;
         }
         return null;
     }
 
+    public void possiblyCollectGold() {
+        for (Gold g: goldCollection){
+            if (g.getX() == character.getX() && g.getY() == character.getY()){
+                System.out.println("GOLDCOUNT");
+                System.out.println(character.increaseGold(g));
+                
+                g.destroy();
+                
+            }
+        }
+    }
+    
+    
     public HealthPotion possiblySpawnHealthPotion() {
-        Pair<Integer, Integer> pos = possiblySpawnPosition(6);
-        
         Random random = new Random();
         double r = random.nextDouble();
 
-        if (r < 0.3 && pos != null) {
+        if (r < 0.50 && thePotion == null) {
+            Pair<Integer, Integer> pos = getRandomPosition();
             int indexInPath = orderedPath.indexOf(pos);
-            HealthPotion healthPotion = new HealthPotion(new SimpleIntegerProperty(indexInPath), new SimpleIntegerProperty(indexInPath));
-            return healthPotion;
+            PathPosition position = new PathPosition(indexInPath, orderedPath);
+            HealthPotion potion = new HealthPotion(position.getX(), position.getY());
+            this.thePotion = potion;
+            return potion;
         }
         return null;
     }
+
+    public void possiblyCollectPotion() {
+        if(thePotion != null){
+            if (thePotion.getX() == character.getX() && thePotion.getY() == character.getY()){
+                System.out.println("drinkPotion");
+                //System.out.println(character.increaseGold(g));
+                character.increaseHealth(100);
+                thePotion.destroy();
+                thePotion = null;
+            }
+        }
+    }
+    
+
 
     // Run battle once between one enemy and character
     public void runBattle(BasicEnemy enemyToFight) {
@@ -319,7 +440,7 @@ import unsw.loopmania.LoopManiaApplication;
      * @throws IOException
      */
     //public List<BasicEnemy> runBattles(LoopManiaWorldController world) {
-    public List<BasicEnemy> runBattles(LoopManiaWorldController controller, Scene scene, Parent gameRoot, Stage primaryStage) throws IOException {
+    public List<BasicEnemy> runBattles(LoopManiaWorldController controller) throws IOException {
 
         List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
         
@@ -327,49 +448,21 @@ import unsw.loopmania.LoopManiaApplication;
             
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= Math.pow(e.getAttackRadius(),2)){
-            
-                //creates a new battleEnemeyController and screen
-                BattleEnemyController battleEnemyController = new BattleEnemyController();
-                FXMLLoader battleLoader = new FXMLLoader(getClass().getResource("Battle.fxml"));
-                battleLoader.setController(battleEnemyController);
-                Parent battleRoot = battleLoader.load();
+                BattleEnemyController battleEnemyController = controller.getBattleController();
 
-                if (controller != null){
-                    controller.setBattleSwitcher( () -> {
-                        controller.pause();
-                        LoopManiaApplication.switchToRoot(scene, battleRoot, primaryStage);
-                        battleEnemyController.startTimer();
-                    } );
+                Battle battle = new Battle(character, battleEnemyController, enemies, e, battleBuildings, loopCount);
+                battleEnemyController.setBattle(battle);
+                try {
+                    controller.switchToBattle();
+                    //return newBattle.getDefeatedEnemies();
+                    System.out.println("Defeated Enemies");
+                    return battle.getDefeatedEnemies();
+                    
+                } catch (IOException e2) {
+                    e2.printStackTrace();
                 }
-                
-                if (scene != null && gameRoot != null && primaryStage != null) {
-                    battleEnemyController.setGameSwitcher(() -> {  
-                        LoopManiaApplication.switchToRoot(scene, gameRoot, primaryStage);
-                        controller.startTimer();
-                    });
-                }
-                
+                defeatedEnemies = battle.getDefeatedEnemies();
 
-                Battle newBattle = new Battle(character, battleEnemyController, enemies, e, battleBuildings, loopCount);
-                defeatedEnemies = newBattle.getDefeatedEnemies();
-                battleEnemyController.setBattle(newBattle);
-                
-                if (controller != null) {
-                    try {
-                        controller.switchToBattle();
-                        //return newBattle.getDefeatedEnemies();
-                        System.out.println("Defeated Enemies");
-                        return newBattle.getDefeatedEnemies();
-                        
-                    } catch (IOException e2) {
-                        e2.printStackTrace();
-                    }
-
-                }
-                else {
-                    battleEnemyController.startTimer();
-                }
-                
             }
 
         }
@@ -560,10 +653,15 @@ import unsw.loopmania.LoopManiaApplication;
     
         character.moveDownPath();;
         moveBasicEnemies();
+        possiblyCollectGold();
+        possiblyCollectPotion();
         
         for (PathBuilding p : pathBuildings) {
             p.pathAction(character, enemies);
         }
+
+        updateLoopCount(character);
+       
     }
 
     // Created for testing purposes
@@ -663,61 +761,23 @@ import unsw.loopmania.LoopManiaApplication;
         }
     }
 
-    private Pair<Integer, Integer> possiblySpawnPosition(int scale){
-        // TODO = modify this
-        
-        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
+    
+    private Pair<Integer, Integer> getRandomPosition() {
         Random rand = new Random();
-        int choice = rand.nextInt(scale);
-        // TODO = change based on spec... currently low value for dev purposes...
-        // TODO = change based on spec
-        if ((choice == 0) && (enemies.size() < 2)){
-            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
-            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
-            // inclusive start and exclusive end of range of positions not allowed
-            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
-            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
-            // note terminating condition has to be != rather than < since wrap around...
-            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
-                orderedPathSpawnCandidates.add(orderedPath.get(i));
-            }
-
-            // choose random choice
-            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
-
-            return spawnPosition;
+        List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+        int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+        // inclusive start and exclusive end of range of positions not allowed
+        int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+        int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+        // note terminating condition has to be != rather than < since wrap around...
+        for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+            orderedPathSpawnCandidates.add(orderedPath.get(i));
         }
-        return null;
-    }
 
-    /**
-     * get a randomly generated position which could be used to spawn an enemy
-     * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
-     */
-    private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition(){
-        // TODO = modify this
-        
-        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
-        Random rand = new Random();
-        int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
-        // TODO = change based on spec
-        if ((choice == 0) && (enemies.size() < 2)){
-            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
-            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
-            // inclusive start and exclusive end of range of positions not allowed
-            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
-            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
-            // note terminating condition has to be != rather than < since wrap around...
-            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
-                orderedPathSpawnCandidates.add(orderedPath.get(i));
-            }
+        // choose random choice
+        Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
 
-            // choose random choice
-            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
-
-            return spawnPosition;
-        }
-        return null;
+        return spawnPosition;
     }
 
     /**
@@ -729,6 +789,7 @@ import unsw.loopmania.LoopManiaApplication;
      */
     public Building convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
         // start by getting card
+        
         Card card = null;
         for (Card c: this.character.getAllCards()){
             if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)) {
@@ -740,7 +801,7 @@ import unsw.loopmania.LoopManiaApplication;
         // now spawn building
         if (card.isPlaceable(buildingNodeX, buildingNodeY, this.orderedPath)) {
             newBuilding = card.generateEntity(new SimpleIntegerProperty(buildingNodeX),
-             new SimpleIntegerProperty(buildingNodeX));
+             new SimpleIntegerProperty(buildingNodeY));
             if (newBuilding instanceof SpawnBuilding) {
                 spawnBuildings.add((SpawnBuilding) newBuilding);
             } else if (newBuilding instanceof BattleBuilding) {
@@ -749,12 +810,11 @@ import unsw.loopmania.LoopManiaApplication;
                 pathBuildings.add((PathBuilding)newBuilding);
             }
             buildingsList.add(newBuilding);
+            card.destroy();
+            this.character.getAllCards().remove(card);
+            shiftCardsDownFromXCoordinate(cardNodeX);
         }
         // destroy the card
-        card.destroy();
-        this.character.getAllCards().remove(card);
-        shiftCardsDownFromXCoordinate(cardNodeX);
-
         return newBuilding;
     }
 
@@ -767,4 +827,8 @@ import unsw.loopmania.LoopManiaApplication;
         return null;
     }
     */
+
+    public ArrayList<Pair<Integer, Integer>> getAllAllies() {
+        return null;
+    }
 }
