@@ -14,7 +14,7 @@ public class TheOneRing extends StaticEntity  {
         super(x,y,new ImageView(new Image((new File("src/images/the_one_ring.png")).toURI().toString())) );
     }
 
-    public void setCharacterHealthToMAX(Character c) {
+    public void reviveCharacter(Character c) {
         c.increaseHealth(100);
     }
    
