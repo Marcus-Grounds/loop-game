@@ -26,14 +26,27 @@ public class Shield extends BasicItem implements DefendingStrategy {
         return this;
     }
 
+    /**
+     * Reduces the damage done by the slug by 1/2
+     * Slug deals damage of 1
+     */
     public void reduceSlugDamage(Slug slug, Character c) {
         c.decreaseHealth(1);
     }
 
+    /**
+     * Reduces the damage done by the zombie by 1/2
+     * Zombie deals damage of 3
+     */
     public void reduceZombieDamage(Zombie zombie, Character c) {
         c.decreaseHealth(3);
     }
 
+    /**
+     * Reduces the damage done by the vampire by 30 if critical bite
+     * Otherwise Vampire deals damage 5
+     * The chance of critical bite by Vampire is reduced by 60% 
+     */
     public void reduceVampireDamage(Vampire vampire, Character c) {
         Random random = new Random();
         double r = random.nextDouble();

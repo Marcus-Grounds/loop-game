@@ -26,17 +26,26 @@ public class Stake extends BasicItem implements AttackingStrategy {
         return this;
     }
     
+    /**
+     * Reduces slug health by a random value between 2 and 5
+     */
     public void reduceSlugHealth(Slug slug, int loopCount) {
 
         damage = (int)Math.floor(Math.random()*(5-2+1)+2);     
         slug.decreaseHealth(damage);
     }
 
+    /**
+     * Reduces zombie health by a random value between 2 and 5
+     */
     public void reduceZombieHealth(Zombie zombie, int loopCount) {
         damage = (int)Math.floor(Math.random()*(5-2+1)+2);     
         zombie.decreaseHealth(damage);
     }
     
+    /**
+     * Reduces vampire health by 30, causing very high damage
+     */
     public void reduceVampireHealth(Vampire vampire, int loopCount) {
         vampire.decreaseHealth(30);
     }
