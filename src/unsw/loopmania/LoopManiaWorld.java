@@ -203,11 +203,11 @@ import unsw.loopmania.LoopManiaApplication;
         return this.character.getAllCards();
     }
 
-    public void addInventoryItem (Entity entity) {
-        this.character.addInventoryItem(entity);
+    public void addInventoryItem (BasicItem item) {
+        this.character.addInventoryItem(item);
     }
 
-    public List<Entity> getAllInventoryItems () {
+    public List<BasicItem> getAllInventoryItems () {
         return this.character.getAllInventoryItems();
     }
 
