@@ -44,7 +44,7 @@ import unsw.loopmania.LoopManiaApplication;
     public static final int START_HEALTH = 100;
     public static final int START_EXP = 0;
     public static final int START_GOLD = 0;
-    public static final int BASE_DAMEGE = 5;
+    public static final int BASE_DAMAGE = 5;
 
 
     public static final int LOW_HEALTH = 10;
@@ -77,9 +77,6 @@ import unsw.loopmania.LoopManiaApplication;
     private int height;
     private int loopCount;
 
-    /**
-     * generic entitites - i.e. those which don't have dedicated fields
-     */
     private List<Entity> nonSpecifiedEntities;
     private List<Gold> goldCollection;
     private HealthPotion thePotion;
@@ -111,6 +108,8 @@ import unsw.loopmania.LoopManiaApplication;
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
     public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
+        
+        
         this.width = width;
         this.height = height;
         this.nonSpecifiedEntities = new ArrayList<>();
@@ -135,12 +134,36 @@ import unsw.loopmania.LoopManiaApplication;
         return height;
     }
 
+    ////////// CASTLE METHODS ///////////////
+    public boolean checkCharacterOnCastle (MovingEntity character) {
+        
+        if ((character.getX() == heroCastle.getX()) && (character.getY() == heroCastle.getY())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public void updateLoopCount (MovingEntity character) {
+        if (checkCharacterOnCastle(character)) {
+            this.loopCount = this.loopCount + 1;
+        }
+    }
+
+    public void setCastle (Building castle) {
+        this.heroCastle = castle;
+    }
+    ////////// MOVING ENTITIES //////////////
     /**
      * set the character. This is necessary because it is loaded as a special entity out of the file
      * @param character the character
      */
     public void setCharacter(Character character) {
         this.character = character;
+    }
+
+    public void addBasicEnemy (BasicEnemy basicEnemy) {
+        this.enemies.add(basicEnemy);
     }
 
     /**
@@ -153,22 +176,12 @@ import unsw.loopmania.LoopManiaApplication;
         nonSpecifiedEntities.add(entity);
     }
 
-    public void addBasicEnemy (BasicEnemy basicEnemy) {
-        this.enemies.add(basicEnemy);
-    }
 
     public List<BasicEnemy> getAllBasicEnemies () {
         return this.enemies;
     }
 
-    public void addAlly (Ally ally) {
-        this.allies.add(ally);
-    }
-
-    public List<Ally> getAllAllies() {
-        return this.allies;
-    }
-
+    ////////// CARD ENTITIES ///////////////
     public void addCard (Card card) {
         this.character.addCard(card);
     }
@@ -189,10 +202,8 @@ import unsw.loopmania.LoopManiaApplication;
         return this.character.getAllInventoryItems();
     }
 
-    public Building getHeroCastle () {
-        return this.heroCastle;
-    }
 
+    // BUILDINGS STUFF
     public void addBattleBuilding (BattleBuilding building) {
         this.battleBuildings.add(building);
     }
@@ -250,36 +261,89 @@ import unsw.loopmania.LoopManiaApplication;
     }
 
     /**
+     * get a randomly generated position which could be used to spawn an enemy
+     * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
+     */
+    private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition () {
+        // TODO = modify this
+        
+        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
+        Random rand = new Random();
+        int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
+        // TODO = change based on spec
+        if ((choice == 0) && (enemies.size() < 2)){
+            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+            // inclusive start and exclusive end of range of positions not allowed
+            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+            // note terminating condition has to be != rather than < since wrap around...
+            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+                orderedPathSpawnCandidates.add(orderedPath.get(i));
+            }
+
+            // choose random choice
+            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+
+            return spawnPosition;
+        }
+        return null;
+    }
+    
+    /**
      * spawns enemies if the conditions warrant it, adds to world
      * @return list of the enemies to be displayed on screen
      */
-    public void spawnVampires () {
-        if (loopCount % 5 == 0) {
-            // for spawnBuilding b : spawnBuildings
-            // if b.classname = vampireCastleBuilding
-            // b.spawnVampire()
-        }
-    }
-    
     public List<BasicEnemy> possiblySpawnEnemies(){
-        // TODO = expand this very basic version
+                
         Pair<Integer, Integer> pos = possiblyGetBasicEnemySpawnPosition();
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
             //at the momeny we only spawn slug, will change later
             Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
-            
-            
-            //Vampire enemy1 = new Vampire(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
-            //enemies.add(enemy1);
             spawningEnemies.add(enemy);
-            //spawningEnemies.add(enemy1);
         }
-       
 
+        for (SpawnBuilding b : spawnBuildings) {
+            BasicEnemy enemy = b.spawnAction(loopCount, checkCharacterOnCastle(character), b.findPathToSpawn(orderedPath), orderedPath);
+            
+            if (enemy != null) {
+                
+                enemies.add(enemy);
+                spawningEnemies.add(enemy);
+            }
+        }
+        
         return spawningEnemies;
+    }
+
+    private Pair<Integer, Integer> possiblySpawnPosition (int scale){
+        // TODO = modify this
+        
+        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
+        Random rand = new Random();
+        int choice = rand.nextInt(scale);
+        // TODO = change based on spec... currently low value for dev purposes...
+        // TODO = change based on spec
+        if ((choice == 0) && (enemies.size() < 2)){
+            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
+            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
+            // inclusive start and exclusive end of range of positions not allowed
+            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
+            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+            // note terminating condition has to be != rather than < since wrap around...
+            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+                orderedPathSpawnCandidates.add(orderedPath.get(i));
+            }
+
+            // choose random choice
+            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+
+            return spawnPosition;
+        }
+        return null;
     }
 
     public Gold possiblySpawnGold() {
@@ -681,22 +745,7 @@ import unsw.loopmania.LoopManiaApplication;
             e.move();
         }
     }
-  
 
-    /**
-     * get a randomly generated position which could be used to spawn an enemy
-     * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
-     */
-    private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition(){
-        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
-        Random rand = new Random();
-        int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
-        // TODO = change based on spec
-        if ((choice == 0) && (enemies.size() < 2)){
-            return getRandomPosition();
-        }
-        return null;
-    }
     
     private Pair<Integer, Integer> getRandomPosition() {
         Random rand = new Random();
@@ -763,4 +812,8 @@ import unsw.loopmania.LoopManiaApplication;
         return null;
     }
     */
+
+    public ArrayList<Pair<Integer, Integer>> getAllAllies() {
+        return null;
+    }
 }
