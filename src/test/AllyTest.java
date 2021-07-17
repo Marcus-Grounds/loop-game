@@ -55,6 +55,7 @@ public class AllyTest {
         battle.dealDamageOnce();
         battle.dealDamageOnce();
         int healthOfCharacterWithoutAlly = c.getCurrentHealth();
+        AssertT
 
 
         //test that ally will not spaw if character not on barrack
