@@ -83,6 +83,7 @@ public class ShopTest {
         d.setCharacter(c);
 
         BasicItem item = d.buyItemByIndexFromShop(0);
+        assertEquals(item, null);
         assertEquals(0, d.getAllInventoryItems().size());
     }
     
