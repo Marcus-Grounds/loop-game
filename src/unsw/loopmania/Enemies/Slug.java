@@ -18,6 +18,7 @@ import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.Stake;
 import unsw.loopmania.BasicItems.Sword;
+import unsw.loopmania.BasicItems.*;
 import unsw.loopmania.Cards.*;
 import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Buildings.SpawnBuildings.*;
@@ -61,16 +62,17 @@ public class Slug extends BasicEnemy implements SpawnStrategy{
         System.out.print("generating random");
         double r = random.nextDouble();
         System.out.print(r);
-        if (r < 0.4){
+        if (r < 0.2){
             return new Sword(x, y);
-        }
-        else if (r < 0.4) {
+        } else if (r < 0.4) {
             return new Stake(x, y);
-        }
-        else if (r < 1){
+        } else if (r < 0.6){
+            return new Staff(x, y);
+        } else if (r < 0.8){
             return new Armour(x, y);
+        } else if (r < 1) {
+            return new Shield(x, y);
         }
-
         return null;
     }
 
