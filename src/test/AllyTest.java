@@ -11,11 +11,6 @@ import java.util.*;
 import org.junit.jupiter.api.Test;
 
 import javafx.embed.swing.JFXPanel;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import unsw.loopmania.*;
 import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
@@ -50,6 +45,17 @@ public class AllyTest {
         Character c = new Character(p1);
         d.setCharacter(c);
         d.addPathBuilding(new BarracksBuilding(p2.getX(), p2.getY()));
+
+        //test fight withough allies
+        List<BasicEnemy> enemyList = new ArrayList();
+        Slug slug1 = new Slug(p1);
+        enemyList.add(slug1);
+        d.addBasicEnemy(slug1);
+        Battle battle = new Battle(c, null, enemyList, slug1, new ArrayList<BattleBuilding>(), 0);
+        battle.dealDamageOnce();
+        battle.dealDamageOnce();
+        int healthOfCharacterWithoutAlly = c.getCurrentHealth();
+
 
         //test that ally will not spaw if character not on barrack
         Ally ally1 = d.pathBuildingAction();

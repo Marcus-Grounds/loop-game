@@ -31,7 +31,7 @@ public class ItemTest {
                  /////////////////***** Tests for Attacking weapons ****///////////////////
 
     // Test weapons attacks on slug
-    /*
+    
     @Test
     public void TestAttackOnSlugBySword1() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -651,5 +651,5 @@ public class ItemTest {
         assertEquals(100, c.getCurrentHealth());
 
     }
-    */
+    
 }
