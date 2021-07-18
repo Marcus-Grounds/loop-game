@@ -49,7 +49,9 @@ public class EnemyTest {
     public static final int MED_RADIUS = 3;
     public static final int LONG_RADIUS = 5;
 
-
+    /**
+     * test that check enemy classes are created correctly
+     */
     @Test
     public void Test1(){
         //not 100 percent sure why this line is here, but without it gets error about graphics : )
@@ -76,7 +78,6 @@ public class EnemyTest {
         assertEquals(v.getCurrentHealth(), HIGH_HEALTH);
         assertEquals(v.getAttackRadius(), MED_RADIUS);
         assertEquals(v.getSupportRadius(), LONG_RADIUS);
-        //assertEquals(v.getDamage(), HIGH_DAMAGE);
 
         List<BasicEnemy> dummyList = new ArrayList<BasicEnemy>();
         dummyList.add(slug);
@@ -86,7 +87,9 @@ public class EnemyTest {
     }
 
     
-
+    /**
+     * test that items are given when we loot enemies
+     */
     @Test
     public void testLoot() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -112,21 +115,6 @@ public class EnemyTest {
         assertTrue(cards.size() > 0);
         assertTrue(cards.size() < 1000);
 
-        /*
-        int swordCount = 0;
-        int stakeCount = 0;
-        for (BasicItem item: lootedItems) {
-            if (item instanceof Sword) {
-                swordCount ++;
-            }
-            else if (item instanceof Stake) {
-                stakeCount ++;
-            }
-        }
-
-        assertTrue(stakeCount < swordCount);
-        */
-
 
 
         List<BasicItem> lootedItems2 = new ArrayList<BasicItem>();
@@ -148,17 +136,6 @@ public class EnemyTest {
         assertTrue(lootedItems2.size( ) < 1000);
         assertTrue(cards2.size() > 0);
         assertTrue(cards2.size() < 1000);
-
-        /*
-        int stakeCount2 = 0;
-        for (BasicItem item: lootedItems2) {
-            if (item instanceof Stake) {
-                stakeCount2 ++;
-            }
-        }
-        //testing that we are more likely to gain stakes when we kill zombie
-        assertTrue(stakeCount < stakeCount2);
-        */
 
 
         List<BasicItem> lootedItems3 = new ArrayList<BasicItem>();
@@ -195,8 +172,11 @@ public class EnemyTest {
         assertTrue(trapCount > campFireCount);
     }
 
+    /**
+     * test tha movement of enemies
+     */
     @Test
-    public void testSlugMove() {
+    public void testEnemyMove() {
 
         JFXPanel jfxPanel = new JFXPanel();
         //test battle

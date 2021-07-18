@@ -122,7 +122,7 @@ public class BuildingTest {
         // check character is on the castle
         assertEquals(d.checkCharacterOnCastle(c), true);
 
-        BasicEnemy vampire = vampireCastle.spawnAction(5,d.checkCharacterOnCastle(c), vampireCastle.findPathToSpawn(orderedPath), orderedPath); 
+        BasicEnemy vampire = vampireCastle.spawnAction(5,d.checkCharacterOnCastle(), vampireCastle.findPathToSpawn(orderedPath), orderedPath); 
         //Check if vampires spawn in correct position
         
         assertEquals(vampire.getX(), 0);
@@ -159,7 +159,7 @@ public class BuildingTest {
 
         // determine if findPathToSpawn returns a path tile coordinate
         assertEquals(zombiePit.findPathToSpawn(orderedPath), path2);
-        assertEquals(d.checkCharacterOnCastle(c), true);
+        assertEquals(d.checkCharacterOnCastle(), true);
 
         BasicEnemy zombie = zombiePit.spawnAction(5,d.checkCharacterOnCastle(c), zombiePit.findPathToSpawn(orderedPath), orderedPath); 
         //Check if Zombie spawn in correct position

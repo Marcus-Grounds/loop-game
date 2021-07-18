@@ -17,6 +17,7 @@ import javafx.util.Duration;
 
 public class BattleEnemyController {
     private MenuSwitcher gameSwitcher;
+    private MenuSwitcher endScreenSwitcher;
     private Battle battle;
     private Timeline timeline;
 
@@ -52,10 +53,20 @@ public class BattleEnemyController {
         this.gameSwitcher = gameSwitcher;
     }
 
+    public void setEndSwitcher(MenuSwitcher endScreenSwitcher){
+        this.endScreenSwitcher = endScreenSwitcher;
+    }
+
     @FXML
     private void switchToGame() throws IOException {
         
         gameSwitcher.switchMenu();
+    }
+
+    @FXML
+    private void switchToEnd() throws IOException {
+        
+        endScreenSwitcher.switchMenu();
     }
     
 
@@ -69,7 +80,7 @@ public class BattleEnemyController {
         System.out.println("starting timer enemy fight");
         
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
-        timeline = new Timeline(new KeyFrame(Duration.seconds(0.0001), event -> {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
             battle.dealDamageOnce();
         }));
     
@@ -80,10 +91,18 @@ public class BattleEnemyController {
 
     public void pauseBattle() {
         try {
-            System.out.println("hi2");
             timeline.stop();
 
             switchToGame();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void endGame() {
+        try {
+            timeline.stop();
+            switchToEnd();
         } catch (IOException e) {
             e.printStackTrace();
         }

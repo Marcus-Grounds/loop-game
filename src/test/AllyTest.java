@@ -26,8 +26,11 @@ import unsw.loopmania.GameMode.*;
 
 public class AllyTest {
 
+    /**
+     * test that when a character goes past a barrack, an ally is spawned
+     */
     @Test
-    public void spawnAllyWhenCharacterPassBarrack(){
+    public void spawnAllyWhenCharacterPastBarrack(){
         JFXPanel jfxPanel = new JFXPanel();
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
             
@@ -67,6 +70,10 @@ public class AllyTest {
         //now test allie in fight
         
     }
+    
+    /**
+     * test that when an allies help in a battle
+     */
     @Test
     public void testBattleWithAlly() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -84,22 +91,24 @@ public class AllyTest {
         Character c = new Character(p1);
         //test fight withough allies
         List<BasicEnemy> enemyList = new ArrayList();
-        Slug slug1 = new Slug(p1);
-        enemyList.add(slug1);
-        Battle battle = new Battle(c, null, enemyList, slug1, new ArrayList<BattleBuilding>(), 0);
-        battle.dealDamageOnce();
-        battle.dealDamageOnce();
+        Zombie z1 = new Zombie(p1);
+        enemyList.add(z1);
+        Battle battle = new Battle(c, null, enemyList, z1, new ArrayList<BattleBuilding>(), 0);
+        while (z1.getCurrentHealth() > 0) {
+            battle.dealDamageOnce();
+        }
         int healthOfCharacterWithoutAlly = c.getCurrentHealth();
         
         //now battle with ally
         Character c2 = new Character(p1);
         c2.addAlly(new Ally(p1, 100));
         List<BasicEnemy> enemyList2 = new ArrayList();
-        Slug slug2 = new Slug(p1);
-        enemyList.add(slug2);
-        Battle battle2 = new Battle(c2, null, enemyList2, slug2, new ArrayList<BattleBuilding>(), 0);
-        battle2.dealDamageOnce();
-        battle2.dealDamageOnce();
+        Zombie z2 = new Zombie(p1);
+        enemyList2.add(z2);
+        Battle battle2 = new Battle(c2, null, enemyList2, z2, new ArrayList<BattleBuilding>(), 0);
+        while (z2.getCurrentHealth() > 0) {
+            battle2.dealDamageOnce();
+        }
         int healthOfCharacterWithAlly = c2.getCurrentHealth();
 
         assertTrue(healthOfCharacterWithoutAlly < healthOfCharacterWithAlly);
