@@ -74,7 +74,7 @@ import unsw.loopmania.LoopManiaApplication;
     private int loopCount;
 
     private List<Entity> nonSpecifiedEntities;
-    private List<Gold> goldCollection;
+    private List<Gold> goldInTheWorld;
     private HealthPotion thePotion;
 
     private Character character;
@@ -116,7 +116,7 @@ import unsw.loopmania.LoopManiaApplication;
         this.pathBuildings = new ArrayList<>();
         this.spawnBuildings = new ArrayList<>();
         this.allies = new ArrayList<>();
-        this.goldCollection = new ArrayList<>();
+        this.goldInTheWorld = new ArrayList<>();
         thePotion = null;
         loopCount = 0;
     }
@@ -231,7 +231,7 @@ import unsw.loopmania.LoopManiaApplication;
 
     /**
      *  add an enemy to the list of enemies
-     *  @param nasicEnemy
+     *  @param  basicEnemy
      */
     public void addBasicEnemy (BasicEnemy basicEnemy) {
         this.enemies.add(basicEnemy);
@@ -320,18 +320,6 @@ import unsw.loopmania.LoopManiaApplication;
         return this.character.getAllCards();
     }
 
-    public void addInventoryItem (BasicItem item) {
-        this.character.addInventoryItem(item);
-    }
-
-    public List<BasicItem> getAllInventoryItems () {
-        return this.character.getAllInventoryItems();
-    }
-
-    public List<BasicItem> getAllItemsFromShop() {
-        return this.heroCastle.getAllItems();
-    }
-
      /**
      * shift card coordinates down starting from x coordinate
      * @param x x coordinate which can range from 0 to width-1
@@ -374,7 +362,12 @@ import unsw.loopmania.LoopManiaApplication;
         shiftCardsDownFromXCoordinate(x);
     }
 
-    //////////  Shop-Related method ///////////////
+    ////////// Shop-Related method ///////////////
+    public List<BasicItem> getAllItemsFromShop() {
+        return this.heroCastle.getAllItems();
+    }
+
+
     /**
      * handles the purchasing of an item from the hero castle, 
      * add the item to invetory if purchase is successful, and deduct coins
@@ -530,7 +523,7 @@ import unsw.loopmania.LoopManiaApplication;
             PathPosition position = new PathPosition(indexInPath, orderedPath);
             Gold gold = new Gold(position.getX(), position.getY());
             gold.increaseGold(1);
-            goldCollection.add(gold);
+            goldInTheWorld.add(gold);
             return gold;
         }
         return null;
@@ -540,14 +533,14 @@ import unsw.loopmania.LoopManiaApplication;
      * for every tick, check if the character is on top of a gold, if so, pick it up
      */
     public void possiblyCollectGold() {
-        for (int i = 0; i < goldCollection.size(); i++){
-            Gold g = goldCollection.get(i);
+        for (int i = 0; i < goldInTheWorld.size(); i++){
+            Gold g = goldInTheWorld.get(i);
             if (g.getX() == character.getX() && g.getY() == character.getY()){
                 System.out.println("GOLDCOUNT");
                 System.out.println(character.increaseGold(g));
-                goldCollection.remove(g);
+                goldInTheWorld.remove(g);
                 g.destroy();
-                goldCollection.remove(g);
+                goldInTheWorld.remove(g);
                 break;  
             }
         }
@@ -632,6 +625,13 @@ import unsw.loopmania.LoopManiaApplication;
         return item;
     }
 
+    public void addInventoryItem (BasicItem item) {
+        this.character.addInventoryItem(item);
+    }
+
+    public List<BasicItem> getAllInventoryItems () {
+        return this.character.getAllInventoryItems();
+    }
 
     /**
      * remove an item by x,y coordinates
