@@ -15,6 +15,11 @@ import java.util.Random;
 public class HerosCastle extends Building {
     private List<BasicItem> items;
 
+    /**
+     * Constructor for heros castle to a target cell.
+     * @param x x-axis of the cell.
+     * @param y y-axis of the cell.
+     */
     public HerosCastle(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, new ImageView(new Image((new File("src/images/heros_castle.png")).toURI().toString())));
         //TODO Auto-generated constructor stub
@@ -22,6 +27,10 @@ public class HerosCastle extends Building {
         this.fillShop();
     }
 
+    /**
+     * Get all items on sale in the heros castle.
+     * @return A list of basic items.
+     */
     public List<BasicItem> getAllItems() {
         this.fillShop();
         return this.items;
@@ -31,6 +40,11 @@ public class HerosCastle extends Building {
         return this.items.get(index);
     }
 
+    /**
+     * Buy an item by index in the heros castle.
+     * @param index the index of the item you want to buy.
+     * @return the item you selected.
+     */
     public BasicItem buyItemByIndex(int index) {
         BasicItem item = this.items.get(index);
         this.items.remove(item);
@@ -38,12 +52,19 @@ public class HerosCastle extends Building {
         return item;
     }
 
+    /**
+     * Fill the items on sale to 3.
+     */
     public void fillShop() {
         while (this.items.size() < 3) {
             this.items.add(generateRandomItem());
         }
     }
 
+    /**
+     * Generate a random item in the shop.
+     * @return the generated item.
+     */
     public BasicItem generateRandomItem () {
         SimpleIntegerProperty x = (SimpleIntegerProperty) this.x();
         SimpleIntegerProperty y = (SimpleIntegerProperty) this.y();
