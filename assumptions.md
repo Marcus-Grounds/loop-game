@@ -1,6 +1,5 @@
 Assumptions
 
-Assumptions
 
 Tiles and PathsGame play: 
 1. Each tile and tower is 32 x 32 pixels
@@ -35,12 +34,12 @@ Character:
 2. Health potion restores character health to 100
 
 
-Goal
+Goal:
 1. Goal: GOAL_WIN_EXP = 500
 2. Goal: GOAL_WIN_GOLD = 250
 
 
-Items
+Items:
 1. Gold bags randomly spawn on the path and each contains 1 gold.
 2. Gold bag has a chance of 5% to spawn on the path per tick.
 3. Health potion has a chance 50% to spawn on the path per tick.
@@ -51,6 +50,4 @@ Items
 8. Shield Cost: 20 gold
 9. Helmet: 10 gold
 10. Armour: 5 gold
-
-
 
