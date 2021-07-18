@@ -494,7 +494,7 @@ public class ItemTest {
         assertEquals(100, c.getCurrentHealth());
         helmet.reduceSlugDamage(enemy, c);
 
-        assertEquals(99, c.getCurrentHealth());
+        assertEquals(100, c.getCurrentHealth());
 
     }
 
@@ -541,7 +541,7 @@ public class ItemTest {
         assertEquals(100, c.getCurrentHealth());
         helmet.reduceVampireDamage(enemy, c);
 
-        assertEquals(95, c.getCurrentHealth());
+        assertEquals(92, c.getCurrentHealth());
     }
 
     /**
