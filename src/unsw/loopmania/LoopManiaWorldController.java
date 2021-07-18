@@ -888,4 +888,8 @@ public class LoopManiaWorldController {
     public ShopSellController getShopSellController(){
         return this.shopSellController;
     }
+
+    public GridPane getUnequippedInventory () {
+        return this.unequippedInventory;
+    }
 }

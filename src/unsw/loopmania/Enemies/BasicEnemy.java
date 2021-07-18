@@ -41,12 +41,6 @@ public abstract class BasicEnemy extends MovingEntity {
     public int getDamage() {
         return damage;
     }
-
-    /**
-     * move the enemy
-     */
-    
-    
     
     public abstract BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y);
     public abstract Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y);

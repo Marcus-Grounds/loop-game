@@ -86,7 +86,7 @@ public class LoopManiaApplication extends Application {
         mainController.setShopSellSwitcher(() -> {  
             switchToRoot(scene, shopSellRoot, primaryStage);
             mainController.pause();
-            shopSellController.startTimer();
+            shopSellController.startTimer(mainController);
         });
        
         battleEnemyController.setGameSwitcher(() -> {  
