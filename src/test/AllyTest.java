@@ -26,8 +26,11 @@ import unsw.loopmania.GameMode.*;
 
 public class AllyTest {
 
+    /**
+     * test that when a character goes past a barrack, an ally is spawned
+     */
     @Test
-    public void spawnAllyWhenCharacterPassBarrack(){
+    public void spawnAllyWhenCharacterPastBarrack(){
         JFXPanel jfxPanel = new JFXPanel();
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
             
@@ -67,6 +70,10 @@ public class AllyTest {
         //now test allie in fight
         
     }
+    
+    /**
+     * test that when an allies help in a battle
+     */
     @Test
     public void testBattleWithAlly() {
         JFXPanel jfxPanel = new JFXPanel();

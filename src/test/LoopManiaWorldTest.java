@@ -72,6 +72,7 @@ public class LoopManiaWorldTest {
 
         
         Character c = new Character(p1);
+        c.addAlly(new Ally(p1, 100));
 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, orderedPath);
         d.setCharacter(c);
@@ -201,6 +202,9 @@ public class LoopManiaWorldTest {
         assertTrue(c.getGoldCount() > 0);
     }
 
+    /**
+     * test the adding and removing of cards
+     */
     @Test
     public void testLoadandRemveCard() {
         JFXPanel jfxPanel = new JFXPanel();
