@@ -370,10 +370,7 @@ public class LoopManiaWorldController {
      * load a vampire card from the world, and pair it with an image in the GUI
      */
     private void loadCard(BasicEnemy enemy) {
-        // TODO = load more types of card
         Card card = world.loadCard(enemy);
-
-        //BasicItem item = world.addUnequippedItem(enemy);
         if (card != null){
             onLoad(card);
         }
@@ -383,9 +380,6 @@ public class LoopManiaWorldController {
      * load a sword from the world, and pair it with an image in the GUI
      */
     private void loadItem(BasicEnemy enemy){
-        // TODO = load more types of weapon
-        // start by getting first available coordinates
-        System.out.println("Load Item");
         BasicItem item = world.addUnequippedItem(enemy);
         if (item != null){
             onLoad(item);
@@ -430,17 +424,12 @@ public class LoopManiaWorldController {
      * @param weapon
      */
     private void onLoad(BasicItem weapon) {
-        System.out.println("ONLOAD BASIC ITEM");
         //ImageView view = new ImageView(swordImage);
         if (weapon != null) {
-            System.out.println("Not Null");
             ImageView view = weapon.getImageView();
             addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
             addEntity(weapon, view);
             unequippedInventory.getChildren().add(view);
-        }
-        else {
-            System.out.println("null");
         }
     }
 

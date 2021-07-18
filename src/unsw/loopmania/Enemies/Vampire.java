@@ -17,7 +17,7 @@ import unsw.loopmania.Cards.CampfireCard;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Cards.TrapCard;
 
-public class Vampire extends BasicEnemy implements SpawnStrategy{
+public class Vampire extends BasicEnemy{
 
     public static final int HIGH_HEALTH = 100;
     public static final int MED_RADIUS = 3;
@@ -43,12 +43,6 @@ public class Vampire extends BasicEnemy implements SpawnStrategy{
         return 10;
     }
 
-
-    @Override
-    public void spawn() {
-        // TODO Auto-generated method stub
-        
-    }
 
     @Override
     public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {

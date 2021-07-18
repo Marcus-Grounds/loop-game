@@ -17,7 +17,7 @@ import unsw.loopmania.BasicItems.Sword;
 import unsw.loopmania.Cards.BarracksCard;
 import unsw.loopmania.Cards.Card;
 
-public class Zombie extends BasicEnemy implements SpawnStrategy {
+public class Zombie extends BasicEnemy{
 
     public static final int MED_HEALTH = 30;
     public static final int MED_RADIUS = 3;
@@ -31,11 +31,6 @@ public class Zombie extends BasicEnemy implements SpawnStrategy {
         random = new Random();
     }
     
-    @Override
-    public void spawn() {
-        // TODO Auto-generated method stub
-        
-    }
 
     @Override
     public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
