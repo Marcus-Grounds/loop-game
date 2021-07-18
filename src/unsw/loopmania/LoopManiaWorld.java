@@ -447,12 +447,12 @@ import unsw.loopmania.LoopManiaApplication;
                     controller.switchToBattle();
                     //return newBattle.getDefeatedEnemies();
                     System.out.println("Defeated Enemies");
-                    return battle.getDefeatedEnemies();
+                    return battle.getEnemiesToFight();
                     
                 } catch (IOException e2) {
                     e2.printStackTrace();
                 }
-                defeatedEnemies = battle.getDefeatedEnemies();
+                defeatedEnemies = battle.getEnemiesToFight();
 
             }
 
