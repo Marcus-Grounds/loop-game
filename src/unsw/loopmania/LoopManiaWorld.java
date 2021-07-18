@@ -179,27 +179,15 @@ import unsw.loopmania.LoopManiaApplication;
      * @param character
      * @return wheather or not the character is on the castle (which is always the first tile on the path)
      */
-    public boolean checkCharacterOnCastle (MovingEntity character) {
-        PathPosition position = new PathPosition(0, orderedPath);
-        if (character.getX() == position.getX().getValue() && character.getY() == position.getY().getValue() ) {
+    public boolean checkCharacterOnCastle () {
+        int x = this.heroCastle.getX();
+        int y = this.heroCastle.getY();
+        if (this.character.getX() == x && this.character.getY() == y) {
             return true;
         } else {
             return false;
         }
             
-    }
-
-    public boolean checkCharacterOnCastle (LoopManiaWorldController controller) {
-        try {
-            PathPosition position = new PathPosition(0, orderedPath);
-            if (character.getX() == this.heroCastle.getX() && character.getY() == this.heroCastle.getY()) {
-                controller.switchToShopSell();
-                return true;
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return true;
     }
     
     /**
@@ -207,7 +195,7 @@ import unsw.loopmania.LoopManiaApplication;
      * @param character
      */
     public void updateLoopCount (Character character) {
-        if (checkCharacterOnCastle(character)) {
+        if (checkCharacterOnCastle()) {
             this.loopCount = this.loopCount + 1;
         }
     }
@@ -291,7 +279,7 @@ import unsw.loopmania.LoopManiaApplication;
         }
 
         for (SpawnBuilding b : spawnBuildings) {
-            BasicEnemy enemy = b.spawnAction(loopCount, checkCharacterOnCastle(character), b.findPathToSpawn(orderedPath), orderedPath);
+            BasicEnemy enemy = b.spawnAction(loopCount, checkCharacterOnCastle(), b.findPathToSpawn(orderedPath), orderedPath);
             
             if (enemy != null) {
                 enemies.add(enemy);
