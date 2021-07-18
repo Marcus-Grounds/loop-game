@@ -34,7 +34,6 @@ public class Slug extends BasicEnemy{
     public static final int LOW_HEALTH = 10;
     public static final int SHORT_RADIUS = 1;
     public static final int LOW_DAMAGE = 2;
-    //public ImageView image;
     public static Random random;
 
     
