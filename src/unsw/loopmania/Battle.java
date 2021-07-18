@@ -59,7 +59,9 @@ public class Battle {
         
         for (int i = 0; i < enemiesToFight.size(); i ++) {
             BasicEnemy e = enemiesToFight.get(i);
-            
+            if(e.getCurrentHealth() <= 0){
+                continue;
+            }
             for (BattleBuilding b : battleBuildings) {
                 b.buildingAction(c, e);
             }

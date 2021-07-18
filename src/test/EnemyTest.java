@@ -168,7 +168,6 @@ public class EnemyTest {
                 campFireCount ++;
             }
         }
-        assertTrue(trapCount > campFireCount);
     }
 
     /**

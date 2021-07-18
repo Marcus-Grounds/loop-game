@@ -32,21 +32,9 @@ public class BattleEnemyController {
 
     @FXML
     private ImageView characterImage;
-    /*
-    //@FXML
+    
     public BattleEnemyController() {
-        //characterImage = new ImageView(new Image((new File("src/images/slug.png")).toURI().toString()));
-        
-        //healthCharacter.textProperty().bind(battle.getCharacter().getCurrentHealth());
-    */
-    public BattleEnemyController() {
-        /*
-        this.timeline = new Timeline();
-        final KeyFrame kf = new KeyFrame(Duration.millis(500), event->battle.dealDamageOnce());
-        timeline.getKeyFrames().add(kf);
-        
-        timeline.setCycleCount(3);
-        */
+      
     }
         
     public void setGameSwitcher(MenuSwitcher gameSwitcher){

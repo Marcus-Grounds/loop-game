@@ -140,14 +140,6 @@ public class LoopManiaWorldController {
      */
     private Timeline timeline;
 
-    private Image basicEnemyImage;
-    private Image swordImage;
-    
-    private Image vampireCastleCardImage;
-    private Image vampireCastleBuildingImage; // probably want to change the implementation of this
-    private Image towerCardImage;
-    private Image towerBuildingImage;
-
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -191,10 +183,6 @@ public class LoopManiaWorldController {
 
     private MenuSwitcher shopSellSwitcher;
 
-    private Scene scene;
-    
-    private Stage primaryStage;
-
     private Parent gameRoot;
 
     BattleEnemyController battleEnemyController;
@@ -215,14 +203,7 @@ public class LoopManiaWorldController {
     public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities, BattleEnemyController battleEnemyController, ShopSellController shopSellController) {
         this.world = world;
         entityImages = new ArrayList<>(initialEntities);
-        basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
-        swordImage = new Image((new File("src/images/basic_sword.png")).toURI().toString());
-        
-        vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
-        vampireCastleBuildingImage = new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString());
-        towerCardImage = new Image((new File("src/images/tower_card.png")).toURI().toString());
-        towerBuildingImage = new Image((new File("src/images/tower.png")).toURI().toString());
-
+       
         currentlyDraggedImage = null;
         currentlyDraggedType = null;
 
@@ -353,14 +334,6 @@ public class LoopManiaWorldController {
         }
         
     }
-    /*
-    public void pauseForBattle(){
-        isPaused = true;
-        System.out.println("pausing");
-        timeline.stop();
-        //battleScreen.start();
-    }
-    */
 
     public void terminate(){
         pause();
@@ -864,10 +837,6 @@ public class LoopManiaWorldController {
         System.out.println("In application thread? = "+Platform.isFxApplicationThread());
         System.out.println("Current system time = "+java.time.LocalDateTime.now().toString().replace('T', ' '));
     }
-    /*
-    public void setBattlerSwitcher(Object object) {
-    }
-    */
 
     public void setGameRoot(Parent gameRoot){
         this.gameRoot = gameRoot;
