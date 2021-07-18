@@ -30,31 +30,23 @@ import unsw.loopmania.Cards.VillageCard;
 
 
 public class Slug extends BasicEnemy{
-
-    public static final int LOW_HEALTH = 10;
-    public static final int SHORT_RADIUS = 1;
-    public static final int LOW_DAMAGE = 2;
     public static Random random;
 
     
     public Slug (PathPosition position) {
-        //Image image = new Image((new File("src/images/slug.png")).toURI().toString());
-        //super(position, new Health(LOW_HEALTH), SHORT_RADIUS, SHORT_RADIUS, LOW_DAMAGE, new ImageView(new Image((new File("src/images/slug.png")).toURI().toString())) );
-        
-        super(position, new Health(LOW_HEALTH), SHORT_RADIUS, SHORT_RADIUS, LOW_DAMAGE, new ImageView(new Image((new File("src/images/slug.png")).toURI().toString())) );
-        //JFXPanel jfxPanel = new JFXPanel();
-        //this.image = new ImageView(new Image((new File("src/images/slug.png")).toURI().toString()));
-
-        //TODO Auto-generated constructor stub
+        super(position, new Health(10), 1, 1, 2, new ImageView(new Image((new File("src/images/slug.png")).toURI().toString())) );
         random = new Random();
     }
 
+    /**
+     * Give randomly generated weapon
+     * @param x, y, the location of the weapon if one is generated
+     * @return BasicItem
+     */
     @Override
     public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         //30% change of giving sword, 10% chance of giving stake
-        System.out.print("generating random");
         double r = random.nextDouble();
-        System.out.print(r);
         if (r < 0.2){
             return new Sword(x, y);
         } else if (r < 0.4) {
@@ -69,6 +61,11 @@ public class Slug extends BasicEnemy{
         return null;
     }
 
+    /**
+     * Give randomly generated card
+     * @param x, y, the location of the card if one is generated
+     * @return Card
+     */
     @Override
     public Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y){
         //15% chance of giving towerCards, 15% chance of giving villageCard
@@ -93,6 +90,9 @@ public class Slug extends BasicEnemy{
         return null;
     }
 
+    /**
+     * slugs move forwards 25% of the time, backwards 25% of the time, and stay still otherwises
+     */
     @Override
     public void move(){
         int directionChoice = (new Random()).nextInt(4);

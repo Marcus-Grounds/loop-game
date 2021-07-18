@@ -17,11 +17,11 @@ public class Battle {
     private List<BasicEnemy> enemiesToFight;
     private Character c;
     private BattleEnemyController controller;
-    //private List<BasicEnemy> defeatedEnemies;
     private List<BasicEnemy> enemies;
     private BasicEnemy mainEnemy;
     private List<BattleBuilding> battleBuildings;
     private int loopCount;
+    private List<Ally> allies;
 
     public Battle(Character c, BattleEnemyController controller, List<BasicEnemy> enemies, BasicEnemy mainEnemy,  List<BattleBuilding> battleBuildings, int loopCount) {
         this.c = c;
@@ -31,11 +31,12 @@ public class Battle {
         this.mainEnemy = mainEnemy;
         this.battleBuildings = battleBuildings;
         this.loopCount = loopCount;
+        this.allies = c.getAllies();
 
+        //checks that the main enemy passed in has character in battle radius
         if (Math.pow((c.getX()-mainEnemy.getX()), 2) +  Math.pow((c.getY()-mainEnemy.getY()), 2) <= Math.pow(mainEnemy.getAttackRadius(),2)) {
             enemiesToFight.add(mainEnemy);
-
-            //when a battle starts, get all enemies that needs to be fought
+            //search through all the enemies, and find the ones that have character within the support radius
             for(BasicEnemy e1: enemies){
                 if (Math.pow((c.getX()-e1.getX()), 2) +  Math.pow((c.getY()-e1.getY()), 2) <= Math.pow(e1.getSupportRadius(),2)
                 && !enemiesToFight.contains(e1)) {
@@ -45,8 +46,13 @@ public class Battle {
         }
         
     }
-
+    
+    /**
+     * when the battle starts, we loop through the list of enemies
+     * each enemy will deal damage to and recieve damate from an allied soldier and character
+     */
     public void dealDamageOnce(){
+
         boolean allEnemiesDead = true;
         AttackingStrategy weapon = c.getEquippedWeapon ();
         DefendingStrategy defence = c.getEquippedDefence();
@@ -58,30 +64,9 @@ public class Battle {
                 b.buildingAction(c, e);
             }
             
-            List<Ally> allies = c.getAllies();
             if (allies.size() > 0){
-
-                Ally lastAlly = allies.get(allies.size() - 1);
-                e.decreaseHealth(5);
-                lastAlly.decreaseHealth(e.getDamage());
-
-                if (e instanceof Zombie) {
-                    Random random = new Random();
-                    double chance = random.nextDouble();
-                    if (chance < 0.1){
-                        //CRITICAL ZOMBIE BITE
-                        lastAlly.destroy();
-                        allies.remove(lastAlly);  
-                        enemiesToFight.add(new Zombie(e.getPathPosition()));
-                    }
-                } 
-
-                if (lastAlly.getCurrentHealth() <= 0){
-                    lastAlly.destroy();
-                    allies.remove(lastAlly);  
-                }
+                alliesAction(e);
             }
-
 
             e.decreaseHealth(c.getBaseDamage());
             if (weapon != null){
@@ -120,7 +105,6 @@ public class Battle {
                     defence.reduceVampireDamage(vampire, c);
                 }
             }
-           
             if (c.getCurrentHealth() <= 0) {
                 c.destroy();
                 return;
@@ -128,16 +112,7 @@ public class Battle {
         }
         //once all enemies are dead, we can return to main screen
         if (allEnemiesDead){
-            
-            for (BasicEnemy enemy: enemiesToFight){
-                killEnemy(enemy);
-                c.increaseGold(3);
-            }
-            if (controller != null) {
-                controller.pauseBattle();
-            }
-            return;
-           
+            handleAllEnemyDeath();
         }
 
     }
@@ -151,14 +126,47 @@ public class Battle {
         return enemiesToFight;
     }
 
-     /**
-     * kill an enemy
-     * @param enemy enemy to be killed
+    /**
+     * at the event that all enemies die, we kill the enemy, increase character gold, pauses the battle and go back to the main game
      */
-    private void killEnemy(BasicEnemy enemy){
-        enemy.destroy();
-        enemies.remove(enemy);
+    public void handleAllEnemyDeath () {
+        for (BasicEnemy enemy: enemiesToFight){
+            enemy.destroy();
+            enemies.remove(enemy);
+            c.increaseGold(3);
+        }
+        if (controller != null) {
+            controller.pauseBattle();
+        }
+        return;
     }
 
+    /**
+     * ally will deal damage to the enemy, and recieve damage from the enemy
+     * There is a 10% chance of a critical bite white turns ally into zombie
+     * @param e
+     */
+    public void alliesAction(BasicEnemy e) {
+        
+        Ally lastAlly = allies.get(allies.size() - 1);
+        e.decreaseHealth(5);
+        lastAlly.decreaseHealth(e.getDamage());
+
+        if (e instanceof Zombie) {
+            Random random = new Random();
+            double chance = random.nextDouble();
+            if (chance < 0.1){
+                //CRITICAL ZOMBIE BITE
+                lastAlly.destroy();
+                allies.remove(lastAlly);  
+                enemiesToFight.add(new Zombie(e.getPathPosition()));
+            }
+        } 
+
+        else if (lastAlly.getCurrentHealth() <= 0){
+            lastAlly.destroy();
+            allies.remove(lastAlly);  
+        }
+    }
 
 }

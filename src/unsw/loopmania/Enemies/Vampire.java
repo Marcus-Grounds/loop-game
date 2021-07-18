@@ -19,19 +19,16 @@ import unsw.loopmania.Cards.TrapCard;
 
 public class Vampire extends BasicEnemy{
 
-    public static final int HIGH_HEALTH = 100;
-    public static final int MED_RADIUS = 3;
-    public static final int HIGH_RADIUS = 5;
-    public static final int HIGH_DAMAGE = 10;
     public static Random random;
     
     public Vampire(PathPosition position) {
-        super(position, new Health(HIGH_HEALTH), MED_RADIUS, HIGH_RADIUS, HIGH_DAMAGE, new ImageView(new Image((new File("src/images/vampire.png")).toURI().toString())));
-        //super(position, new Health(HIGH_HEALTH), MED_RADIUS, HIGH_RADIUS, HIGH_DAMAGE);
-        //TODO Auto-generated constructor stub
+        super(position, new Health(100), 3, 5, 10, new ImageView(new Image((new File("src/images/vampire.png")).toURI().toString())));
         random = new Random();
     }
 
+    /**
+     * a 30% chance of inflicting extra damage (30), otherwise damage is 10
+     */
     @Override
     public int getDamage() {
         Random random = new Random();
@@ -43,7 +40,11 @@ public class Vampire extends BasicEnemy{
         return 10;
     }
 
-
+    /**
+     * Give randomly generated weapon
+     * @param x, y, the location of the weapon if one is generated
+     * @return BasicItem
+     */
     @Override
     public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         double r = random.nextDouble();
@@ -57,6 +58,12 @@ public class Vampire extends BasicEnemy{
 
         return null;
     }
+
+     /**
+     * Give randomly generated card
+     * @param x, y, the location of the card if one is generated
+     * @return Card
+     */
     @Override
     public Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y){
         double r = random.nextDouble();
@@ -70,6 +77,9 @@ public class Vampire extends BasicEnemy{
         return null;
     }
 
+    /**
+     * move forwards 90% of the time, otherwise stays still
+     */
     @Override
     public void move(){
         double directionChoice = (new Random()).nextDouble();

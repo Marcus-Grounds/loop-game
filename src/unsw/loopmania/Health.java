@@ -17,6 +17,10 @@ public class Health {
         return this.maxHealth;
     }
     
+     /**
+     * increases the health by a given amount, but does not go above maxHealth
+     * @param health
+     */
     public void increaseHealth (int health) {
         if (this.currHealth + health < this.maxHealth) {
             this.currHealth += health;
@@ -25,6 +29,10 @@ public class Health {
         }
     }
 
+    /**
+     * decreases the health by a given amount, but does not go below 0
+     * @param health
+     */
     public void decreaseHealth (int health) {
         if (this.currHealth - health < 0) {
             this.currHealth = 0;

@@ -732,13 +732,10 @@ import unsw.loopmania.LoopManiaApplication;
                         e2.printStackTrace();
                     }
                     defeatedEnemies = battle.getEnemiesToFight();
-    
                 }
-    
             }
             return defeatedEnemies;
         }
-
 
     public List<Ally> getAllAllies() {
         return character.getAllies();
