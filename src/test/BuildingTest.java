@@ -173,16 +173,16 @@ public class BuildingTest {
 
         //Create a battle between the character and enemy where enemy is in range of tower, not in range of tower
         JFXPanel jfxPanel = new JFXPanel(); 
-        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        List<BattleBuilding> battleBuildings = new ArrayList<BattleBuilding>();
         
         //Create tower
         TowerBuilding towerBuilding1 = new TowerBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
         TowerBuilding towerBuilding2 = new TowerBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(4));
         TowerBuilding towerBuilding3 = new TowerBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(7));
         
-        d.addBattleBuilding(towerBuilding1);
-        d.addBattleBuilding(towerBuilding2);
-        d.addBattleBuilding(towerBuilding3);
+        battleBuildings.add(towerBuilding1);
+        battleBuildings.add(towerBuilding2);
+        battleBuildings.add(towerBuilding3);
 
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
             
@@ -196,16 +196,17 @@ public class BuildingTest {
         PathPosition p2 = new PathPosition(1, orderedPath);
         
         Character c = new Character(p1);
-        d.setCharacter(c);
         
         Vampire v1 = new Vampire(p2);
-        d.addBasicEnemy(v1);
-        
-        d.runBattle(v1);
+        List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
+
+        Battle battle = new Battle(c, null, enemies, v1, battleBuildings, 0);
+        battle.dealDamageOnce();
         
         //SHOULD ONLY REGISTER DAMAGE FROM 2 TOWERS AS ONE IS OUT OF RANGE
-        assertEquals(v1.getCurrentHealth(), HIGH_HEALTH - BASE_DAMEGE - 2*towerBuilding1.getDamage());
-        assertEquals(c.getCurrentHealth(), START_HEALTH - HIGH_DAMAGE);
+        assertEquals(HIGH_HEALTH - BASE_DAMEGE - 2*towerBuilding1.getDamage(), v1.getCurrentHealth());
+        assertTrue(c.getCurrentHealth() <= START_HEALTH - HIGH_DAMAGE);
+        
     }
 
     @Test
@@ -291,12 +292,10 @@ public class BuildingTest {
         
         //Create a battle between the character and enemy where character is in range of campfire
         JFXPanel jfxPanel = new JFXPanel(); 
-        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         
         //Create tower
         CampfireBuilding campfireBuilding = new CampfireBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
         
-        d.addBattleBuilding(campfireBuilding);
 
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
             
@@ -310,12 +309,16 @@ public class BuildingTest {
         PathPosition p2 = new PathPosition(1, orderedPath);
         
         Character c = new Character(p1);
-        d.setCharacter(c);
         
         Slug s1 = new Slug(p2);
-        d.addBasicEnemy(s1);
         
-        d.runBattle(s1);
+        List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
+        enemies.add(s1);
+
+        List<BattleBuilding> battleBuildings = new ArrayList<BattleBuilding>();
+        battleBuildings.add(campfireBuilding);
+        Battle battle = new Battle(c, null, enemies, s1, battleBuildings, 0);
+        battle.dealDamageOnce();
         
         //Should double the health of base damge of the player
         assertEquals(s1.getCurrentHealth(), LOW_HEALTH - 2*BASE_DAMEGE);

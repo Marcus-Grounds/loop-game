@@ -17,24 +17,20 @@ import unsw.loopmania.BasicItems.Sword;
 import unsw.loopmania.Cards.BarracksCard;
 import unsw.loopmania.Cards.Card;
 
-public class Zombie extends BasicEnemy{
-
-    public static final int MED_HEALTH = 30;
-    public static final int MED_RADIUS = 3;
-    public static final int MED_DAMAGE = 5;
-    public static Random random;
-    
+public class Zombie extends BasicEnemy{    
     public Zombie(PathPosition position) {
-        super(position, new Health(MED_HEALTH), MED_RADIUS, MED_RADIUS, MED_DAMAGE, new ImageView(new Image((new File("src/images/zombie.png")).toURI().toString())));
-        //super(position, new Health(MED_HEALTH), MED_RADIUS, MED_RADIUS, MED_DAMAGE);
-        //TODO Auto-generated constructor stub
-        random = new Random();
+        super(position, new Health(30), 3, 3, 5, new ImageView(new Image((new File("src/images/zombie.png")).toURI().toString())));
     }
     
-
+    /**
+     * Give randomly generated weapon
+     * @param x, y, the location of the weapon if one is generated
+     * @return BasicItem
+     */
     @Override
     public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         //System.out.print("generating random");
+        Random random = new Random();
         double r = random.nextDouble();
         //System.out.print(r);
         if (r < 0.3){
@@ -47,8 +43,14 @@ public class Zombie extends BasicEnemy{
         return null;
     }
     
+     /**
+     * Give randomly generated card
+     * @param x, y, the location of the card if one is generated
+     * @return Card
+     */
     @Override
     public Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y){
+        Random random = new Random();
         double r = random.nextDouble();
         //System.out.print(r);
         if (r < 0.3){
@@ -58,6 +60,9 @@ public class Zombie extends BasicEnemy{
         return null;
     }
 
+    /**
+     * moves slowly, only moves forward 50% of the time
+     */
     @Override
     public void move(){
         int directionChoice = (new Random()).nextInt(2);

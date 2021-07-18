@@ -13,8 +13,14 @@ public class OnlyOnPathStrategy implements PlacementStrategy{
         return false;
     }
 
+    /**
+     * Check if the two 2 values are adjacent or equal.
+     * @param x value1.
+     * @param y value2.
+     * @return true if adjacent, else false.
+     */
     public boolean isAdjacent (int x, int y) {
-        if (x == y + 1 || x == y - 1) return true;
+        if (x == y + 1 || x == y - 1 || y == x) return true;
         return false;
     }
 }
