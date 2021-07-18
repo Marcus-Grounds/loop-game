@@ -64,78 +64,10 @@ public class BattleTest {
         assertEquals(d.getWidth(), 50);
         assertEquals(d.getHeight(), 30);
     }
-    /*
-    @Test
-    public void TestWeaponSpawningAfterBattle(){
-        JFXPanel jfxPanel = new JFXPanel();
-        
-
-        //test battle
-        List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
-        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-        LoopManiaWorld d = new LoopManiaWorld(50, 30, orderedPath);
-        
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
-        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
-        
-        orderedPath.add(path1);
-        orderedPath.add(path2);
-
-        PathPosition p1 = new PathPosition(0, orderedPath);
-        PathPosition p2 = new PathPosition(1, orderedPath);
-
-        Character c = new Character(p2);
-        d.setCharacter(c);
-
-        //test that at the beginning the character has no items in the inventory
-        List<Entity> unequippedInventoryItems = c.getAllInventoryItems();
-        assertTrue(unequippedInventoryItems.size() == 0);
-
-        //spawn slug and character next to eachother
-        LoopManiaWorldController controller = new LoopManiaWorldController(d, new ArrayList<>(), null, null, null);
-        
-        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
-        gameLoader.setController(controller);
-
-        //Now the character will repeatedly attack slugs (until character dies, which should be 25 slugs attacked)
-        int i = 0;
-        while (i <= 1000) {
-            //makes sure character doesnt die
-            c.increaseHealth(100);
-            Slug s1 = new Slug(p1);
-            d.addBasicEnemy(s1);
-            enemies.add(s1);
-            //BattleEnemyController battleEnemyController = new BattleEnemyController();
-            Battle battle = new Battle(c, null, enemies, s1, new ArrayList<BattleBuilding>());
-            battle.dealDamageOnce();
-            List<BasicEnemy> defeatedEnemies = battle.getDefeatedEnemies();
-            
-            for (BasicEnemy enemy : defeatedEnemies) {
-                controller.reactToEnemyDefeat(enemy);
-            }  
-            i ++;
-        }
-
-        //after attacking 1000 enemies, the character should have at least gained one weapon, however, we also want to 
-        //make sure that the character does not gain a weapon each time an enemy is fought (only gains weapon sometimes)
-        assertTrue(c.getAllInventoryItems().size() > 0);
-        assertTrue(c.getAllInventoryItems().size( )<= 1000);
-
-        //checks that the number of stakes gained is lower than the number of swords, because stakes are rearer than swords
-        int swordCount = 0;
-        int stakeCount = 0;
-        for (Entity thing: unequippedInventoryItems) {
-            if (thing instanceof Sword) {
-                swordCount ++;
-            }
-            else if (thing instanceof Stake) {
-                stakeCount ++;
-            }
-        }
-
-        //assertTrue(stakeCount == swordCount);
-    }
-    */
+    
+    /**
+     * test that character and slug health will decrease after battle
+     */
     @Test
     public void TestBattleSlug(){
         JFXPanel jfxPanel = new JFXPanel();
@@ -178,6 +110,9 @@ public class BattleTest {
         assertEquals(s2.getCurrentHealth(), LOW_HEALTH);
     }
 
+    /**
+     * Test that a vampire critical bite can occur which decreases the health more
+     */
     @Test
     public void TestVampireCritical(){
         JFXPanel jfxPanel = new JFXPanel();
@@ -216,7 +151,9 @@ public class BattleTest {
     }
 
 
-
+    /**
+     * test that when a character is in an enemy's support radius, it will join in on an existing fight
+     */
     @Test
     public void TestBattleSupportRadius(){
 
@@ -265,6 +202,9 @@ public class BattleTest {
         
     }
 
+    /**
+     * test that enemies experience more damange if the battle takes place with weapons
+     */
     @Test
     public void TestBattleWithWeapons(){
 
@@ -309,7 +249,9 @@ public class BattleTest {
     }
 
 
-
+    /**
+     * Test that the character will experience less damage if the battle takes place with an armour
+     */
     @Test
     public void TestBattleWithArmour(){
 
@@ -353,7 +295,9 @@ public class BattleTest {
         assertTrue(z1.getCurrentHealth() == MED_HEALTH - c.getBaseDamage());
     }
 
-
+    /**
+     * Test that the character will experience less damage if the battle takes place with a shield
+     */
     @Test
     public void TestBattleWithShield(){
 
@@ -410,6 +354,9 @@ public class BattleTest {
         assertTrue(c1HigherHealth < c2HigherHealth);
     }
 
+    /**
+     * test that a critical bite can occur for zombie, which increases the amount of enemies
+     */
     @Test
     public void testCriticalBite () {
         JFXPanel jfxPanel = new JFXPanel();
