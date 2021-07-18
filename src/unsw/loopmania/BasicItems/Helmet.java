@@ -27,27 +27,27 @@ public class Helmet extends BasicItem implements DefendingStrategy {
     }
 
     /**
-     * Reduces the damage done by the slug by 1/2
-     * Slug deals damage of 1
+     * Reduces the damage done by the slug by 2
+     * Character loses 0 health
      */
     public void reduceSlugDamage(Slug slug, Character c) {
-        c.decreaseHealth(1);
+        c.decreaseHealth(0);
     }
 
     /**
-     * Reduces the damage done by the zombie by 1/2
-     * Zombie deals damage of 3
+     * Reduces the damage done by the zombie by 2
+     * Character loses 3 health
      */
     public void reduceZombieDamage(Zombie zombie, Character c) {
         c.decreaseHealth(3);
     }
 
     /**
-     * Reduces the damage done by the vampire by 1/2
-     * Vampire deals damage of 5
+     * Reduces the damage done by the vampire by 2
+     * Character loses 8 health 
      */
     public void reduceVampireDamage(Vampire vampire, Character c) {
-        c.decreaseHealth(5);
+        c.decreaseHealth(8);
     }
     
 }
