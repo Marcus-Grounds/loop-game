@@ -242,7 +242,7 @@ public class BuildingTest {
 
         assertEquals(c.getCurrentHealth(), 70);
 
-        d.runTickMoves();
+        d.runTickMovesCharacter();
         assertEquals(c.getCurrentHealth(), 70);
     }
 

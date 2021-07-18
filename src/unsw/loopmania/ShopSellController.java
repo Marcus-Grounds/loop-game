@@ -49,6 +49,8 @@ public class ShopSellController {
 
     private LoopManiaWorld loopManiaWorld;
 
+    private LoopManiaWorldController loopManiaWorldController;
+
     private Timeline timeline;
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -74,6 +76,7 @@ public class ShopSellController {
 
     public void startTimer(LoopManiaWorldController loopManiaWorldController){
         // TODO = handle more aspects of the behaviour required by the specification
+        this.loopManiaWorldController = loopManiaWorldController;
         System.out.println("starting timer for shop");
         GridPane worldInventory = loopManiaWorldController.getUnequippedInventory();
         this.inventory.getChildren().addAll(worldInventory.getChildren());
@@ -96,13 +99,9 @@ public class ShopSellController {
     }
 
     @FXML
-    void ContinueGame (ActionEvent event) {
-        this.timeline.stop();
-        gameSwitcher.switchMenu();
-    }
-
-    @FXML
     private void switchToGame() throws IOException {
+        loopManiaWorldController.getUnequippedInventory().getChildren().addAll(inventory.getChildren());
+        timeline.stop();
         gameSwitcher.switchMenu();
     }
 }
