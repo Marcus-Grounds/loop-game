@@ -20,7 +20,7 @@ public class ItemTest {
     @Test
     public void Test1(){
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
-        Sword sword = new Sword(null, null);
+        Sword sword = new Sword(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         d.addInventoryItem(sword);
         List<Sword> dummyList = new ArrayList<Sword>();
         dummyList.add(sword);
@@ -32,7 +32,7 @@ public class ItemTest {
 
     /**
      * Test sword attack on slug
-     * When loopCount is between 0 and 30
+     * When loopCount is less than or equal to 30
      */
     @Test
     public void TestAttackOnSlugBySword1() {
@@ -84,7 +84,7 @@ public class ItemTest {
 
     /**
      * Test sword attack on slug
-     * When loopCount is between 61 and 100
+     * When loopCount is between greater than or equal to 61
      */
     @Test
     public void TestAttackOnSlugBySword3() {
@@ -101,7 +101,7 @@ public class ItemTest {
         Slug enemy = new Slug(new PathPosition(1, orderedPath));
         assertEquals(10, enemy.getCurrentHealth());
 
-        if (d.getLoopCount() >= 61 && d.getLoopCount() <= 100) {
+        if (d.getLoopCount() >= 61) {
             sword.reduceSlugHealth(enemy, d.getLoopCount());
             assertEquals(0, enemy.getCurrentHealth());
         }
@@ -181,7 +181,7 @@ public class ItemTest {
 
     /**
      * Test sword attack on Vampire
-     * When loopCount is between 0 and 30
+     * When loopCount is less than or equal to 30
      */
     @Test
     public void TestAttackOnVampireBySword1() {
@@ -231,7 +231,7 @@ public class ItemTest {
 
     /**
      * Test sword attack on Vampire
-     * When loopCount is between 61 and 100
+     * When loopCount is greater than or equal to 61
      */
     @Test
     public void TestAttackOnVampireBySword3() {
@@ -248,7 +248,7 @@ public class ItemTest {
         Vampire enemy = new Vampire(new PathPosition(1, orderedPath));
         assertEquals(100, enemy.getCurrentHealth());
 
-        if (d.getLoopCount() >= 61 && d.getLoopCount() <= 100) {
+        if (d.getLoopCount() >= 61) {
             sword.reduceVampireHealth(enemy, d.getLoopCount());
             assertTrue(80 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 85);
         }
@@ -326,7 +326,7 @@ public class ItemTest {
    
     /**
      * Test sword attack on zombie
-     * When loopCount is between 0 and 30
+     * When loopCount is less than or equal to 30
      */
     @Test
     public void TestAttackOnZombieBySword1() {
@@ -376,7 +376,7 @@ public class ItemTest {
 
     /**
      * Test sword attack on zombie
-     * When loopCount is between 61 and 100
+     * When loopCount is greater than or equal to 61
      */
     @Test
     public void TestAttackOnZombieBySword3() {
@@ -393,7 +393,7 @@ public class ItemTest {
         Zombie enemy = new Zombie(new PathPosition(1, orderedPath));
         assertEquals(30, enemy.getCurrentHealth());
 
-        if (d.getLoopCount() >= 61 && d.getLoopCount() <= 100) {
+        if (d.getLoopCount() >= 61) {
             sword.reduceZombieHealth(enemy, d.getLoopCount());
             assertTrue(10 <= enemy.getCurrentHealth() && enemy.getCurrentHealth() <= 15);
         }
@@ -696,7 +696,8 @@ public class ItemTest {
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         Shield shield = new Shield(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
         Gold gold = new Gold(new SimpleIntegerProperty(2), new SimpleIntegerProperty(2));
-
+   
+        gold.increaseGold(30);
         int currGold = gold.getGoldCount();
         gold.decreaseGold(shield.getCost());
         assertEquals(gold.getGoldCount(), currGold-20);
