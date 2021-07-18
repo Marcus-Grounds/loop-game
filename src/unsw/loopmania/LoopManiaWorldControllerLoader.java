@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import unsw.loopmania.Buildings.HerosCastle;
 import javafx.geometry.Rectangle2D;
 
 import java.io.File;
@@ -33,14 +34,16 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
     private Image characterImage;
     private Image pathTilesImage;
     private BattleEnemyController battleEnemyController;
+    private ShopSellController shopSellController;
 
-    public LoopManiaWorldControllerLoader(String filename, BattleEnemyController battleEnemyController)
+    public LoopManiaWorldControllerLoader(String filename, BattleEnemyController battleEnemyController, ShopSellController shopSellController)
             throws FileNotFoundException {
         super(filename);
         entities = new ArrayList<>();
         characterImage = new Image((new File("src/images/human_new.png")).toURI().toString());
         pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
         this.battleEnemyController = battleEnemyController;
+        this.shopSellController = shopSellController;
     }
 
     // TODO = load more entity types from the file
@@ -48,6 +51,11 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
     public void onLoad(Character character) {
         ImageView view = new ImageView(characterImage);
         addEntity(character, view);
+    }
+
+    public void onLoad(HerosCastle castle) {
+        ImageView view = castle.getImageView();
+        addEntity(castle, view);
     }
 
     /**
@@ -141,7 +149,7 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
      * @throws FileNotFoundException
      */
     public LoopManiaWorldController loadController() throws FileNotFoundException {
-        return new LoopManiaWorldController(load(), entities, battleEnemyController);        
+        return new LoopManiaWorldController(load(), entities, battleEnemyController, shopSellController);        
     }
 
 

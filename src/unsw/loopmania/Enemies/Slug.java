@@ -30,12 +30,9 @@ import unsw.loopmania.Cards.VillageCard;
 
 
 public class Slug extends BasicEnemy{
-    public static Random random;
-
     
     public Slug (PathPosition position) {
         super(position, new Health(10), 1, 1, 2, new ImageView(new Image((new File("src/images/slug.png")).toURI().toString())) );
-        random = new Random();
     }
 
     /**
@@ -46,6 +43,7 @@ public class Slug extends BasicEnemy{
     @Override
     public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         //30% change of giving sword, 10% chance of giving stake
+        Random random = new Random();
         double r = random.nextDouble();
         if (r < 0.2){
             return new Sword(x, y);
@@ -68,7 +66,8 @@ public class Slug extends BasicEnemy{
      */
     @Override
     public Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y){
-        //15% chance of giving towerCards, 15% chance of giving villageCard
+        //15% chance of giving towerCards, 15% chance of giving 
+        Random random = new Random();
         double r = random.nextDouble();
         System.out.print(r);
         if (r < 0.15){

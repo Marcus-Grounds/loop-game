@@ -188,6 +188,19 @@ import unsw.loopmania.LoopManiaApplication;
         }
             
     }
+
+    public boolean checkCharacterOnCastle (LoopManiaWorldController controller) {
+        try {
+            PathPosition position = new PathPosition(0, orderedPath);
+            if (character.getX() == this.heroCastle.getX() && character.getY() == this.heroCastle.getY()) {
+                controller.switchToShopSell();
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return true;
+    }
     
     /**
      * increases loopcount whenever character passes the first tile on the path
@@ -527,11 +540,12 @@ import unsw.loopmania.LoopManiaApplication;
      * for every tick, check if the character is on top of a gold, if so, pick it up
      */
     public void possiblyCollectGold() {
-        for (Gold g: goldCollection){
+        for (int i = 0; i < goldCollection.size(); i++){
+            Gold g = goldCollection.get(i);
             if (g.getX() == character.getX() && g.getY() == character.getY()){
                 System.out.println("GOLDCOUNT");
                 System.out.println(character.increaseGold(g));
-                
+                goldCollection.remove(g);
                 g.destroy();
                 goldCollection.remove(g);
                 break;  

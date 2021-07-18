@@ -19,11 +19,9 @@ import unsw.loopmania.Cards.TrapCard;
 
 public class Vampire extends BasicEnemy{
 
-    public static Random random;
     
     public Vampire(PathPosition position) {
         super(position, new Health(100), 3, 5, 10, new ImageView(new Image((new File("src/images/vampire.png")).toURI().toString())));
-        random = new Random();
     }
 
     /**
@@ -47,6 +45,7 @@ public class Vampire extends BasicEnemy{
      */
     @Override
     public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+        Random random = new Random();
         double r = random.nextDouble();
         //System.out.print(r);
         if (r < 0.2){
@@ -66,6 +65,7 @@ public class Vampire extends BasicEnemy{
      */
     @Override
     public Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y){
+        Random random = new Random();
         double r = random.nextDouble();
         //System.out.print(r);
         if (r < 0.3){
