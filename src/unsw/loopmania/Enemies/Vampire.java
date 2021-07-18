@@ -17,7 +17,7 @@ import unsw.loopmania.Cards.CampfireCard;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Cards.TrapCard;
 
-public class Vampire extends BasicEnemy {
+public class Vampire extends BasicEnemy{
 
     public static final int HIGH_HEALTH = 100;
     public static final int MED_RADIUS = 3;
@@ -66,7 +66,6 @@ public class Vampire extends BasicEnemy {
         else if (r < 0.4) {
             return new CampfireCard(x, y);
         }
-        
         return null;
     }
 

@@ -409,4 +409,45 @@ public class BattleTest {
         System.out.println(c2HigherHealth);
         assertTrue(c1HigherHealth < c2HigherHealth);
     }
+
+    @Test
+    public void testCriticalBite () {
+        JFXPanel jfxPanel = new JFXPanel();
+        //test battle
+        //LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
+        
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+
+        PathPosition p1 = new PathPosition(0, orderedPath);
+        PathPosition p2 = new PathPosition(1, orderedPath);
+
+        Character c = new Character(p2);
+        Ally ally = new Ally(p1, 100);
+        c.addAlly(ally);
+        List<BasicEnemy> enemies1 = new ArrayList<BasicEnemy>();
+       
+        Zombie z = new Zombie (p2);
+        enemies1.add(z);
+
+        Battle battle1 = new Battle(c, null, enemies1, z,  new ArrayList<BattleBuilding>(), 50);
+
+
+        int enemiesSize = battle1.getEnemiesToFight().size();
+        for (int i = 0; i < 200; i ++){
+            battle1.dealDamageOnce();
+            c.increaseHealth(100);
+            ally.increaseHealth(100);
+            z.increaseHealth(100);
+        }  
+
+        int enemiesSize2 = battle1.getEnemiesToFight().size();
+
+        assertTrue(enemiesSize2 > enemiesSize);
+    }
 }

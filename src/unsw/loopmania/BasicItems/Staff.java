@@ -9,14 +9,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.File;
 
-
 /**
  * represents an equipped or unequipped staff in the backend world
  */
 public class Staff extends BasicItem implements AttackingStrategy {
     
     public static final int COST = 5;
-    int damage = 2;
+    public int damage = 2;
 
     public Staff(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, COST,new ImageView(new Image((new File("src/images/staff.png")).toURI().toString())));
@@ -37,7 +36,7 @@ public class Staff extends BasicItem implements AttackingStrategy {
      * Reduces zombie health by 2
      */
     public void reduceZombieHealth(Zombie zombie, int loopCount) {
-        zombie.decreaseHealth(damage);
+        zombie.decreaseHealth(damage);        
     }
     
     /**

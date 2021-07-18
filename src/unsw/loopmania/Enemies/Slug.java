@@ -29,7 +29,7 @@ import unsw.loopmania.Cards.TowerCard;
 import unsw.loopmania.Cards.VillageCard;
 
 
-public class Slug extends BasicEnemy {
+public class Slug extends BasicEnemy{
 
     public static final int LOW_HEALTH = 10;
     public static final int SHORT_RADIUS = 1;
@@ -62,7 +62,7 @@ public class Slug extends BasicEnemy {
             return new Staff(x, y);
         } else if (r < 0.8){
             return new Armour(x, y);
-        } else if (r < 1) {
+        } else if (r < 0.95) {
             return new Shield(x, y);
         }
         return null;
@@ -86,7 +86,7 @@ public class Slug extends BasicEnemy {
             return new BarracksCard(x, y);
         } else if (r < 0.85) {
             return new TrapCard(x, y);
-        } else if (r < 1) {
+        } else if (r < 0.95) {
             return new CampfireCard(x, y);
         }
 
@@ -95,7 +95,7 @@ public class Slug extends BasicEnemy {
 
     @Override
     public void move(){
-        int directionChoice = (new Random()).nextInt(2);
+        int directionChoice = (new Random()).nextInt(4);
         if (directionChoice == 0){
             moveUpPath();
         }

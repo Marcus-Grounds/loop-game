@@ -17,7 +17,7 @@ import unsw.loopmania.BasicItems.Sword;
 import unsw.loopmania.Cards.BarracksCard;
 import unsw.loopmania.Cards.Card;
 
-public class Zombie extends BasicEnemy {
+public class Zombie extends BasicEnemy{
 
     public static final int MED_HEALTH = 30;
     public static final int MED_RADIUS = 3;
