@@ -406,25 +406,6 @@ import unsw.loopmania.LoopManiaApplication;
     }
     
 
-
-    // Run battle once between one enemy and character
-    public void runBattle(BasicEnemy enemyToFight) {
-        
-        // resets character damage before each battle so no exponential increase of battle
-        // character.setDamage(character.getDamage());
-        
-        for (BattleBuilding b : battleBuildings) {
-            b.buildingAction(character, enemyToFight);
-        }
-        
-        character.decreaseHealth(enemyToFight.getDamage());
-        enemyToFight.decreaseHealth(5);
-        
-        System.out.println(character.getCurrentHealth());
-        System.out.println(enemyToFight.getCurrentHealth());
-
-    }
-
     /**
      * run the expected battles in the world, based on current world state
      * @return list of enemies which have been killed

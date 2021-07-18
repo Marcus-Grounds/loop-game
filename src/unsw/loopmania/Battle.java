@@ -60,10 +60,10 @@ public class Battle {
             
             List<Ally> allies = c.getAllies();
             if (allies.size() > 0){
+
                 Ally lastAlly = allies.get(allies.size() - 1);
                 e.decreaseHealth(5);
-                
-                lastAlly.decreaseHealth(5);
+                lastAlly.decreaseHealth(e.getDamage());
 
                 if (e instanceof Zombie) {
                     Random random = new Random();
@@ -72,11 +72,9 @@ public class Battle {
                         //CRITICAL ZOMBIE BITE
                         lastAlly.destroy();
                         allies.remove(lastAlly);  
-
                         enemiesToFight.add(new Zombie(e.getPathPosition()));
                     }
-                }
-                
+                } 
 
                 if (lastAlly.getCurrentHealth() <= 0){
                     lastAlly.destroy();
@@ -104,10 +102,6 @@ public class Battle {
             if (e.getCurrentHealth() > 0) {
                 allEnemiesDead = false;
             }
-            else if (e.getCurrentHealth() <= 0){
-                //return;
-                //System.out.println("Enemy DEAD");
-            }
 
             if (defence == null){
                 c.decreaseHealth(e.getDamage());
@@ -128,24 +122,17 @@ public class Battle {
             }
            
             if (c.getCurrentHealth() <= 0) {
-                System.out.println("Character DEAD");
                 c.destroy();
                 return;
-            }
-
-            System.out.println(c.getCurrentHealth());
-            System.out.println(e.getCurrentHealth());
-            
+            }          
         }
         //once all enemies are dead, we can return to main screen
         if (allEnemiesDead){
             
             for (BasicEnemy enemy: enemiesToFight){
-                System.out.println("killenemy");
                 killEnemy(enemy);
             }
             if (controller != null) {
-                System.out.println("allEnemiesDead");
                 controller.pauseBattle();
             }
             return;
