@@ -20,6 +20,10 @@ public class BarracksBuilding extends PathBuilding {
         super(x, y, new ImageView(new Image((new File("src/images/barracks.png")).toURI().toString())));
     }
 
+    /**
+     * returns ally if character passes over barracks building
+     */
+
     @Override
     public Ally pathAction(Character character, List<BasicEnemy> enemies) {
         if (checkOnPath(character)) {

@@ -17,6 +17,9 @@ public class TrapBuilding extends PathBuilding {
         super(x, y, new ImageView(new Image((new File("src/images/trap.png")).toURI().toString()))) ;
     }
 
+    /**
+     * decreases an enemy's health when it passes over it
+     */
     @Override
     public Ally pathAction(Character character, List<BasicEnemy> enemies) {
         
