@@ -301,8 +301,9 @@ public class LoopManiaWorldController {
             try {
                 if (world.checkCharacterOnCastle()) {
                     this.switchToShopSell();
+                } else {
+                    defeatedEnemies = world.runBattles(this);
                 }
-                defeatedEnemies = world.runBattles(this);
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
