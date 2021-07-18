@@ -8,7 +8,6 @@ import org.javatuples.Pair;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import test.EnemyTest;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Enemies.BasicEnemy;
 import unsw.loopmania.Enemies.Vampire;

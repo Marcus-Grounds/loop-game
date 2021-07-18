@@ -313,6 +313,11 @@ public class LoopManiaWorldController {
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
+            Ally ally = world.pathBuildingAction();
+            if (ally != null) {
+                System.out.print("loadAlly");
+                onLoad(ally);
+            }
             
             Gold gold = world.possiblySpawnGold();
             if (gold != null){
@@ -461,13 +466,13 @@ public class LoopManiaWorldController {
 
     /**
      * load an enemy into the GUI
-     * @param enemy
+     * @param movingEntity
      */
-    private void onLoad(BasicEnemy enemy) {
+    private void onLoad(MovingEntity movingEntity) {
         //ImageView view = new ImageView(basicEnemyImage);
-        ImageView view = enemy.getImageView();
+        ImageView view = movingEntity.getImageView();
         
-        addEntity(enemy, view);
+        addEntity(movingEntity, view);
         squares.getChildren().add(view);
     }
 

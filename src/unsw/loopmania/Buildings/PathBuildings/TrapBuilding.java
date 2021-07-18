@@ -7,6 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.MovingEntity;
+import unsw.loopmania.Ally;
+import unsw.loopmania.Character;
 import unsw.loopmania.Enemies.BasicEnemy;
 
 public class TrapBuilding extends PathBuilding {
@@ -16,12 +18,14 @@ public class TrapBuilding extends PathBuilding {
     }
 
     @Override
-    public void pathAction(MovingEntity character, List<BasicEnemy> enemies) {
+    public Ally pathAction(Character character, List<BasicEnemy> enemies) {
         
         for (BasicEnemy b : enemies) {
             if (checkOnPath(b)) {
                 b.decreaseHealth(b.getCurrentHealth()/5);
             }
         }
+
+        return null;
     }
 }

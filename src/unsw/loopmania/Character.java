@@ -11,6 +11,7 @@ import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.DefendingStrategy;
 import unsw.loopmania.Cards.Card;
 
+
 /**
  * represents the main character in the backend of the game world
  */
@@ -22,6 +23,7 @@ public class Character extends MovingEntity {
     private AttackingStrategy equippedWeapon;
     private DefendingStrategy equippedDefence;
     private List<Card> cardEntities;
+    private List<Ally> allies;
     private List<BasicItem> unequippedInventoryItems;
     
     public Character(PathPosition position) {
@@ -33,6 +35,7 @@ public class Character extends MovingEntity {
         this.equippedDefence = null;        
         this.cardEntities = new ArrayList<>();
         this.unequippedInventoryItems = new ArrayList<>();
+        this.allies = new ArrayList<>();
     }
 
     public int getBaseDamage () {
@@ -111,6 +114,15 @@ public class Character extends MovingEntity {
     public List<BasicItem> getAllInventoryItems () {
         return this.unequippedInventoryItems;
     }
+
+    public void addAlly (Ally ally){
+        allies.add(ally);
+    }
+
+    public List<Ally> getAllies() {
+        return allies;
+    }
+
 
     public BasicItem sellItemByIndex(int index) {
         BasicItem item = this.unequippedInventoryItems.get(index);
