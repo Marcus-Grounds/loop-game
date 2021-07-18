@@ -16,7 +16,7 @@ public class AdjacentToPathStrategy implements PlacementStrategy {
         boolean result = false;
         for (Pair<Integer, Integer> adj : Path) {
             if (adj.getValue0() == x && adj.getValue1() == y) return false;
-            if (isAdjacent(adj.getValue0(), y) && isAdjacent(adj.getValue1(), y)) result = true;
+            if (isAdjacent(adj.getValue0(), x) && isAdjacent(adj.getValue1(), y)) result = true;
         }
         return result;
     }
