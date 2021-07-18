@@ -200,4 +200,25 @@ public class LoopManiaWorldTest {
         assertTrue(c.getAllInventoryItems().size() != 0);
         assertTrue(c.getGoldCount() > 0);
     }
+
+    @Test
+    public void testLoadandRemveCard() {
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, null);
+        Character c = new Character(null);
+        d.setCharacter(c);
+
+        int cardCount = 0;
+        for (int i = 0; i < 200; i++){
+            Card card = d.loadCard(new Slug(null));
+            if (card != null){
+                cardCount++;
+            }
+        }
+        assertTrue(cardCount > 0);
+        int sizeBeforeRemoval = d.getAllCards().size();
+        d.removeCard(0);
+        int sizeAfterRemoval = d.getAllCards().size();
+        assertTrue(sizeAfterRemoval == sizeBeforeRemoval - 1);
+    }
 }

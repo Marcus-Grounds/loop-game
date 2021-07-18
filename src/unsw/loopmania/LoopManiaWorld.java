@@ -342,7 +342,7 @@ import unsw.loopmania.LoopManiaApplication;
      * remove card at a particular index of cards (position in gridpane of unplayed cards)
      * @param index the index of the card, from 0 to length-1
      */
-    private void removeCard(int index){
+    public void removeCard(int index){
         Card c = this.character.getAllCards().get(index);
         int x = c.getX();
         c.destroy();
