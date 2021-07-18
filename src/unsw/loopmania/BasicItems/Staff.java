@@ -8,8 +8,6 @@ import unsw.loopmania.Enemies.Zombie;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.File;
-import unsw.loopmania.Ally;
-
 
 /**
  * represents an equipped or unequipped staff in the backend world
@@ -38,8 +36,7 @@ public class Staff extends BasicItem implements AttackingStrategy {
      * Reduces zombie health by 2
      */
     public void reduceZombieHealth(Zombie zombie, int loopCount) {
-        zombie.decreaseHealth(damage);
-
+        zombie.decreaseHealth(damage);        
     }
     
     /**

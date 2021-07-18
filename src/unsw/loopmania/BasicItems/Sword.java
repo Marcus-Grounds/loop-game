@@ -35,15 +35,12 @@ public class Sword extends BasicItem implements AttackingStrategy {
      */
     public void reduceSlugHealth(Slug slug, int loopCount) {
 
-        if (loopCount >= 0) {
-            if (loopCount <= 30) {
-                damage = (int)Math.floor(Math.random()*(10-5+1)+5);
-            }
+        if (loopCount <= 30) {
+             damage = (int)Math.floor(Math.random()*(10-5+1)+5);
         }
-        else if (loopCount >= 31) {
-            if (loopCount <= 60) {
-                damage = (int)Math.floor(Math.random()*(15-10+1)+10);
-            }       
+        
+        else if (loopCount <= 60) {
+            damage = (int)Math.floor(Math.random()*(15-10+1)+10);      
         }
         else {
             damage = (int)Math.floor(Math.random()*(20-15+1)+15);
@@ -58,15 +55,11 @@ public class Sword extends BasicItem implements AttackingStrategy {
      */
     public void reduceZombieHealth(Zombie zombie, int loopCount) {
         
-        if (loopCount >= 0) {
-            if (loopCount <= 30) {
-                damage = (int)Math.floor(Math.random()*(10-5+1)+5);
-            }
+        if (loopCount <= 30) {
+            damage = (int)Math.floor(Math.random()*(10-5+1)+5);
         }
-        else if (loopCount >= 31) {
-            if (loopCount <= 60) {
-                damage = (int)Math.floor(Math.random()*(15-10+1)+10);
-            }
+        else if (loopCount <= 60) {
+            damage = (int)Math.floor(Math.random()*(15-10+1)+10);
         }
         else {
             damage = (int)Math.floor(Math.random()*(20-15+1)+15);
@@ -81,15 +74,11 @@ public class Sword extends BasicItem implements AttackingStrategy {
      */
     public void reduceVampireHealth(Vampire vampire, int loopCount) {
 
-        if (loopCount >= 0) {
-            if (loopCount <= 30) {
-                damage = (int)Math.floor(Math.random()*(10-5+1)+5);
-            }
+        if (loopCount <= 30) {
+            damage = (int)Math.floor(Math.random()*(10-5+1)+5);
         }
-        else if (loopCount >= 31) {
-            if (loopCount <= 60) {
-                damage = (int)Math.floor(Math.random()*(15-10+1)+10);
-            } 
+        else if (loopCount <= 60) {
+            damage = (int)Math.floor(Math.random()*(15-10+1)+10);
         }
         else {
             damage = (int)Math.floor(Math.random()*(20-15+1)+15);
