@@ -22,19 +22,17 @@ public class Zombie extends BasicEnemy{
     public static final int MED_HEALTH = 30;
     public static final int MED_RADIUS = 3;
     public static final int MED_DAMAGE = 5;
-    public static Random random;
     
     public Zombie(PathPosition position) {
         super(position, new Health(MED_HEALTH), MED_RADIUS, MED_RADIUS, MED_DAMAGE, new ImageView(new Image((new File("src/images/zombie.png")).toURI().toString())));
         //super(position, new Health(MED_HEALTH), MED_RADIUS, MED_RADIUS, MED_DAMAGE);
         //TODO Auto-generated constructor stub
-        random = new Random();
     }
-    
 
     @Override
     public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         //System.out.print("generating random");
+        Random random = new Random();
         double r = random.nextDouble();
         //System.out.print(r);
         if (r < 0.3){
@@ -49,6 +47,7 @@ public class Zombie extends BasicEnemy{
     
     @Override
     public Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y){
+        Random random = new Random();
         double r = random.nextDouble();
         //System.out.print(r);
         if (r < 0.3){

@@ -16,7 +16,7 @@ public class HerosCastle extends Building {
     private List<BasicItem> items;
 
     public HerosCastle(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, new ImageView(new Image((new File("src/images/tower.png")).toURI().toString())));
+        super(x, y, new ImageView(new Image((new File("src/images/heros_castle.png")).toURI().toString())));
         //TODO Auto-generated constructor stub
         this.items = new ArrayList<>();
         this.fillShop();

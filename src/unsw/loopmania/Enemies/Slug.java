@@ -35,25 +35,23 @@ public class Slug extends BasicEnemy{
     public static final int SHORT_RADIUS = 1;
     public static final int LOW_DAMAGE = 2;
     //public ImageView image;
-    public static Random random;
 
     
     public Slug (PathPosition position) {
         //Image image = new Image((new File("src/images/slug.png")).toURI().toString());
         //super(position, new Health(LOW_HEALTH), SHORT_RADIUS, SHORT_RADIUS, LOW_DAMAGE, new ImageView(new Image((new File("src/images/slug.png")).toURI().toString())) );
-        
-        super(position, new Health(LOW_HEALTH), SHORT_RADIUS, SHORT_RADIUS, LOW_DAMAGE, new ImageView(new Image((new File("src/images/slug.png")).toURI().toString())) );
+        super(position, new Health(10), SHORT_RADIUS, SHORT_RADIUS, LOW_DAMAGE, new ImageView(new Image((new File("src/images/slug.png")).toURI().toString())) );
         //JFXPanel jfxPanel = new JFXPanel();
         //this.image = new ImageView(new Image((new File("src/images/slug.png")).toURI().toString()));
 
         //TODO Auto-generated constructor stub
-        random = new Random();
     }
 
     @Override
     public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         //30% change of giving sword, 10% chance of giving stake
         System.out.print("generating random");
+        Random random = new Random();
         double r = random.nextDouble();
         System.out.print(r);
         if (r < 0.2){
@@ -72,7 +70,8 @@ public class Slug extends BasicEnemy{
 
     @Override
     public Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y){
-        //15% chance of giving towerCards, 15% chance of giving villageCard
+        //15% chance of giving towerCards, 15% chance of giving 
+        Random random = new Random();
         double r = random.nextDouble();
         System.out.print(r);
         if (r < 0.15){

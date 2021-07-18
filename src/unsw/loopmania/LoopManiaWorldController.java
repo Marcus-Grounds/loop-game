@@ -189,6 +189,8 @@ public class LoopManiaWorldController {
 
     private MenuSwitcher battleSwitcher;
 
+    private MenuSwitcher shopSellSwitcher;
+
     private Scene scene;
     
     private Stage primaryStage;
@@ -196,6 +198,10 @@ public class LoopManiaWorldController {
     private Parent gameRoot;
 
     BattleEnemyController battleEnemyController;
+
+    ShopBuyController shopBuyController;
+
+    ShopSellController shopSellController;
     /*
     public void setBattleEnemyScreen (BattleEnemyScreen battleEnemyScreen){
         this.battleEnemyScreen = battleEnemyScreen;
@@ -206,7 +212,7 @@ public class LoopManiaWorldController {
      * @param world world object loaded from file
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
      */
-    public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities, BattleEnemyController battleEnemyController) {
+    public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities, BattleEnemyController battleEnemyController, ShopSellController shopSellController) {
         this.world = world;
         entityImages = new ArrayList<>(initialEntities);
         basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
@@ -229,6 +235,7 @@ public class LoopManiaWorldController {
 
         //battleEnemyScreen = new BattleEnemyScreen();
         this.battleEnemyController = battleEnemyController;
+        this.shopSellController = shopSellController;
     }
 
     @FXML
@@ -292,6 +299,7 @@ public class LoopManiaWorldController {
             //List<BasicEnemy> defeatedEnemies = world.runBattles(this);
             List<BasicEnemy> defeatedEnemies = new ArrayList<>();
             try {
+                world.checkCharacterOnCastle(this);
                 defeatedEnemies = world.runBattles(this);
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
@@ -739,6 +747,10 @@ public class LoopManiaWorldController {
         this.battleSwitcher = battleSwitcher;
     }
 
+    public void setShopSellSwitcher(MenuSwitcher shopSellSwitcher){
+        this.shopSellSwitcher = shopSellSwitcher;
+    }
+
     /**
      * this method is triggered when click button to go to main menu in FXML
      * @throws IOException
@@ -755,6 +767,13 @@ public class LoopManiaWorldController {
         // TODO = possibly set other menu switchers
         this.pause();
         battleSwitcher.switchMenu();
+    }
+
+    @FXML
+    public void switchToShopSell() throws IOException {
+        // TODO = possibly set other menu switchers
+        this.pause();
+        shopSellSwitcher.switchMenu();
     }
 
     /**
@@ -853,5 +872,13 @@ public class LoopManiaWorldController {
 
     public BattleEnemyController getBattleController(){
         return this.battleEnemyController;
+    }
+
+    public ShopSellController getShopSellController(){
+        return this.shopSellController;
+    }
+
+    public GridPane getUnequippedInventory () {
+        return this.unequippedInventory;
     }
 }

@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane fx:id="inventory" layoutX="14.0" layoutY="20.0" prefHeight="360.0" prefWidth="360.0">
+      <GridPane fx:id="inventory" gridLinesVisible="true" layoutX="14.0" layoutY="20.0" prefHeight="360.0" prefWidth="360.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -24,5 +23,6 @@
         </rowConstraints>
       </GridPane>
       <Button fx:id="buyItem" layoutX="426.0" layoutY="188.0" mnemonicParsing="false" text="Buy Item" />
+      <Button fx:id="continueGame" layoutX="432.0" layoutY="355.0" mnemonicParsing="false" text="Continue game" />
    </children>
 </Pane>
