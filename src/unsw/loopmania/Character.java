@@ -50,26 +50,47 @@ public class Character extends MovingEntity {
         return this.gold.getGoldCount();
     }
 
+    /**
+     * increase gold based on Gold passed in
+     * @param Gold goldOnGorund
+     * @return
+     */
     public int increaseGold (Gold goldOnGorund) {
-        return this.gold.increaseGold(goldOnGorund.getGoldCount());
+        return gold.increaseGold(goldOnGorund.getGoldCount());
     }
 
+    /**
+     * increase gold basd on integer passed in
+     * @param int goldOnGorund
+     * @return
+     */
     public int increaseGold (int goldOnGorund) {
-        return this.gold.increaseGold(goldOnGorund);
+        return gold.increaseGold(goldOnGorund);
     }
 
+    /**
+     * decrease gold bast on integer passed int
+     * @param goldToSpend
+     * @return
+     */
     public int decreaseGold (int goldToSpend) {
         return this.gold.decreaseGold(goldToSpend);
+    }
+
+      /**
+     * decreases the amount of gold character has based on Gold passted in
+     * @param goldToSpend
+     * @return
+     */
+    public int decreaseGold (Gold goldToSpend) {
+        this.gold.decreaseGold(goldToSpend.getGoldCount());
+        return this.gold.getGoldCount();
     }
 
     public Gold getCharacterGold () {
         return this.gold;
     }
 
-    public int decreaseGold (Gold goldToSpend) {
-        this.gold.decreaseGold(goldToSpend.getGoldCount());
-        return this.gold.getGoldCount();
-    }
 
     public void addExperience (int experience) {
         this.experience.addExperience(experience);
@@ -79,6 +100,10 @@ public class Character extends MovingEntity {
         return this.experience.getExperience();
     }
 
+    /**
+     * arm the character with a different weapon
+     * @param equippedWeapon
+     */
     public void changeEquippedWeapon (AttackingStrategy equippedWeapon) {
         this.equippedWeapon = equippedWeapon;
     }
@@ -87,6 +112,9 @@ public class Character extends MovingEntity {
         return this.equippedWeapon;
     }
 
+    /**
+     * arm the character using a different defence item
+     */
     public void changeEquippedDefence (DefendingStrategy equippedDefence) {
         this.equippedDefence = equippedDefence;
     }
@@ -95,6 +123,10 @@ public class Character extends MovingEntity {
         return this.equippedDefence;
     }
 
+    /**
+     * add a card to the character's inventory
+     * @param card
+     */
     public void addCard (Card card) {
         this.cardEntities.add(card);
     }
@@ -107,6 +139,10 @@ public class Character extends MovingEntity {
         return this.cardEntities;
     }
 
+    /**
+     * add another item to the character's inventory
+     * @param item
+     */
     public void addInventoryItem (BasicItem item) {
         this.unequippedInventoryItems.add(item);
     }
@@ -115,6 +151,10 @@ public class Character extends MovingEntity {
         return this.unequippedInventoryItems;
     }
 
+    /**
+     * add another allied soldier to the list
+     * @param ally
+     */
     public void addAlly (Ally ally){
         allies.add(ally);
     }
@@ -123,7 +163,9 @@ public class Character extends MovingEntity {
         return allies;
     }
 
-
+    /**
+     * selles an item that the character has, given the index of the item
+     */
     public BasicItem sellItemByIndex(int index) {
         BasicItem item = this.unequippedInventoryItems.get(index);
         this.unequippedInventoryItems.remove(index);

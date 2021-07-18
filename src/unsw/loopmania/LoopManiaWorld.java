@@ -245,137 +245,20 @@ import unsw.loopmania.LoopManiaApplication;
         nonSpecifiedEntities.add(entity);
     }
 
+     /**
+     * move all enemies
+     */
+    private void moveBasicEnemies() {
+        for (BasicEnemy e: enemies){
+            e.move();
+        }
+    }
 
     public List<BasicEnemy> getAllBasicEnemies () {
         return this.enemies;
     }
 
-    ////////// CARD ENTITIES ///////////////
-    /**
-     * add a card to the collection of cards
-     * @param card
-     */
-    public void addCard (Card card) {
-        this.character.addCard(card);
-    }
-
-    public Card getCardByIndex (int index) {
-        return this.character.getCardByIndex(index);
-    }
-
-    public List<Card> getAllCards () {
-        return this.character.getAllCards();
-    }
-
-    public void addInventoryItem (BasicItem item) {
-        this.character.addInventoryItem(item);
-    }
-
-    public List<BasicItem> getAllInventoryItems () {
-        return this.character.getAllInventoryItems();
-    }
-
-    public List<BasicItem> getAllItemsFromShop() {
-        return this.heroCastle.getAllItems();
-    }
-
-    /**
-     * handles the purchasing of an item from the hero castle, 
-     * add the item to invetory if purchase is successful, and deduct coins
-     * @param index
-     * @return
-     */
-    public BasicItem buyItemByIndexFromShop (int index) {
-        BasicItem item = this.heroCastle.getItemByIndex(index);
-        if (item.getCost() <= this.getGoldCount()) {
-            this.heroCastle.buyItemByIndex(index);
-            this.addInventoryItem(item);
-            this.decreaseGold(item.getCost());
-            return item;
-        } else {
-            return null;
-        }
-    }
-
-    public BasicItem sellItemByIndex(int index) {
-        return this.character.sellItemByIndex(index);
-    }
-
-    ////////// BUILDING ENTITIES ///////////////
-    public void addBattleBuilding (BattleBuilding building) {
-        this.battleBuildings.add(building);
-    }
-
-    public List<BattleBuilding> getAllBattleBuildings () {
-        return this.battleBuildings;
-    }
-
-    public void addPathBuilding (PathBuilding building) {
-        this.pathBuildings.add(building);
-    }
-
-    public List<PathBuilding> getAllPathBuildings () {
-        return this.pathBuildings;
-    }
-
-    public void addSpawnBuilding (SpawnBuilding building) {
-        this.spawnBuildings.add(building);
-    }
-
-    public List<SpawnBuilding> getAllSpawnBuildings () {
-        return this.spawnBuildings;
-    }
-
-    public List<Pair<Integer, Integer>> getOrderedPath () {
-        return this.orderedPath;
-    }
-
-    /**
-     * loop through all the the path buildings (barrack, trap, or villiage), possibly spawning a new ally
-     * @return
-     */
-    public Ally pathBuildingAction() {
-        Ally ally = null;
-        for (PathBuilding p : pathBuildings) {
-            Ally possiblyAlly = p.pathAction(character, enemies);
-            if (possiblyAlly != null){
-                ally = possiblyAlly;
-            }
-        }
-        return ally;
-    }
-
-    /**
-     * Given a cell, test if it is adjecent to the path of the game
-     * @param cell
-     * @return boolean
-     */
-    public boolean isAdjacentToPath (Pair<Integer, Integer> cell) {
-        int value0 = cell.getValue0();
-        int value1 = cell.getValue1();
-        boolean result = false;
-        for (Pair<Integer, Integer> adj : this.orderedPath) {
-            if (adj.getValue0() == value0 && adj.getValue1() == value1) return false;
-            if (isAdjacent(adj.getValue0(), value0) && isAdjacent(adj.getValue1(), value1)) result = true;
-        }
-        return result;
-    }
-
-    /**
-     * Given a cell, test if it is on the path of the game
-     * @param cell
-     * @return boolean
-     */
-    public boolean isOnPath (Pair<Integer, Integer> cell) {
-        int value0 = cell.getValue0();
-        int value1 = cell.getValue1();
-        for (Pair<Integer, Integer> adj : this.orderedPath) {
-            if (adj.getValue0() == value0 && adj.getValue1() == value1) return true;
-        }
-        return false;
-    }
-
-    /**
+     /**
      * get a randomly generated position which could be used to spawn an enemy
      * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
      */
@@ -420,11 +303,227 @@ import unsw.loopmania.LoopManiaApplication;
     }
 
 
+    ////////// CARD ENTITIES ///////////////
+    /**
+     * add a card to the collection of cards
+     * @param card
+     */
+    public void addCard (Card card) {
+        this.character.addCard(card);
+    }
+
+    public Card getCardByIndex (int index) {
+        return this.character.getCardByIndex(index);
+    }
+
+    public List<Card> getAllCards () {
+        return this.character.getAllCards();
+    }
+
+    public void addInventoryItem (BasicItem item) {
+        this.character.addInventoryItem(item);
+    }
+
+    public List<BasicItem> getAllInventoryItems () {
+        return this.character.getAllInventoryItems();
+    }
+
+    public List<BasicItem> getAllItemsFromShop() {
+        return this.heroCastle.getAllItems();
+    }
+
+     /**
+     * shift card coordinates down starting from x coordinate
+     * @param x x coordinate which can range from 0 to width-1
+     */
+    private void shiftCardsDownFromXCoordinate(int x){
+        for (Card c: this.character.getAllCards()){
+            if (c.getX() >= x){
+                c.x().set(c.getX()-1);
+            }
+        }
+    }
+
+      /**
+     * Given an enemy (defeat), possibly spawn a card given by that defeated enemy
+     * @param enemy defeated enemy
+     * @return Card
+     */
+    public Card loadCard(BasicEnemy enemy){
+        if (this.character.getAllCards().size() >= getWidth()){
+            removeCard(0);
+        }
+
+        Card card = enemy.giveCardWhenLooted(new SimpleIntegerProperty(this.character.getAllCards().size()), new SimpleIntegerProperty(0));
+        System.out.println(character.getAllInventoryItems().size());
+        if (card != null){
+            this.character.getAllCards().add(card);
+        }
+        return card;
+    }
+
+    /**
+     * remove card at a particular index of cards (position in gridpane of unplayed cards)
+     * @param index the index of the card, from 0 to length-1
+     */
+    private void removeCard(int index){
+        Card c = this.character.getAllCards().get(index);
+        int x = c.getX();
+        c.destroy();
+        this.character.getAllCards().remove(index);
+        shiftCardsDownFromXCoordinate(x);
+    }
+
+    //////////  Shop-Related method ///////////////
+    /**
+     * handles the purchasing of an item from the hero castle, 
+     * add the item to invetory if purchase is successful, and deduct coins
+     * @param index
+     * @return
+     */
+    public BasicItem buyItemByIndexFromShop (int index) {
+        BasicItem item = this.heroCastle.getItemByIndex(index);
+        if (item.getCost() <= this.getGoldCount()) {
+            this.heroCastle.buyItemByIndex(index);
+            this.addInventoryItem(item);
+            this.decreaseGold(item.getCost());
+            return item;
+        } else {
+            return null;
+        }
+    }
+
+    public BasicItem sellItemByIndex(int index) {
+        return this.character.sellItemByIndex(index);
+    }
+
+    ////////// BUILDING ENTITIES ///////////////
+
+
+    public void addBattleBuilding (BattleBuilding building) {
+        this.battleBuildings.add(building);
+    }
+
+    public List<BattleBuilding> getAllBattleBuildings () {
+        return this.battleBuildings;
+    }
+
+    public void addPathBuilding (PathBuilding building) {
+        this.pathBuildings.add(building);
+    }
+
+    public List<PathBuilding> getAllPathBuildings () {
+        return this.pathBuildings;
+    }
+
+    public void addSpawnBuilding (SpawnBuilding building) {
+        this.spawnBuildings.add(building);
+    }
+
+    public List<SpawnBuilding> getAllSpawnBuildings () {
+        return this.spawnBuildings;
+    }
+
+    public List<Pair<Integer, Integer>> getOrderedPath () {
+        return this.orderedPath;
+    }
+    
+    public boolean isAdjacent (int x, int y) {
+        if (x == y + 1 || x == y - 1 || x == y) return true;
+        return false;
+    }
+
+    /**
+     * loop through all the the path buildings (barrack, trap, or villiage), possibly spawning a new ally
+     * @return Ally
+     */
+    public Ally pathBuildingAction() {
+        Ally ally = null;
+        for (PathBuilding p : pathBuildings) {
+            Ally possiblyAlly = p.pathAction(character, enemies);
+            if (possiblyAlly != null){
+                ally = possiblyAlly;
+            }
+        }
+        return ally;
+    }
+
+    /**
+     * Given a cell, test if it is adjecent to the path of the game
+     * @param cell
+     * @return boolean
+     */
+    public boolean isAdjacentToPath (Pair<Integer, Integer> cell) {
+        int value0 = cell.getValue0();
+        int value1 = cell.getValue1();
+        boolean result = false;
+        for (Pair<Integer, Integer> adj : this.orderedPath) {
+            if (adj.getValue0() == value0 && adj.getValue1() == value1) return false;
+            if (isAdjacent(adj.getValue0(), value0) && isAdjacent(adj.getValue1(), value1)) result = true;
+        }
+        return result;
+    }
+
+    /**
+     * Given a cell, test if it is on the path of the game
+     * @param cell
+     * @return boolean
+     */
+    public boolean isOnPath (Pair<Integer, Integer> cell) {
+        int value0 = cell.getValue0();
+        int value1 = cell.getValue1();
+        for (Pair<Integer, Integer> adj : this.orderedPath) {
+            if (adj.getValue0() == value0 && adj.getValue1() == value1) return true;
+        }
+        return false;
+    }
+
+    /**
+     * remove a card by its x, y coordinates
+     * @param cardNodeX x index from 0 to width-1 of card to be removed
+     * @param cardNodeY y index from 0 to height-1 of card to be removed
+     * @param buildingNodeX x index from 0 to width-1 of building to be added
+     * @param buildingNodeY y index from 0 to height-1 of building to be added
+     */
+    public Building convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
+        // start by getting card
+        
+        Card card = null;
+        for (Card c: this.character.getAllCards()){
+            if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)) {
+                card = c;
+                break;
+            }
+        }
+        Building newBuilding = null;
+        // now spawn building
+        if (card.isPlaceable(buildingNodeX, buildingNodeY, this.orderedPath)) {
+            newBuilding = card.generateEntity(new SimpleIntegerProperty(buildingNodeX),
+             new SimpleIntegerProperty(buildingNodeY));
+            if (newBuilding instanceof SpawnBuilding) {
+                spawnBuildings.add((SpawnBuilding) newBuilding);
+            } else if (newBuilding instanceof BattleBuilding) {
+                battleBuildings.add((BattleBuilding) newBuilding);
+            } else if (newBuilding instanceof PathBuilding) {
+                pathBuildings.add((PathBuilding)newBuilding);
+            }
+            card.destroy();
+            this.character.getAllCards().remove(card);
+            shiftCardsDownFromXCoordinate(cardNodeX);
+        }
+ 
+        return newBuilding;
+    }
+
+
     ////////// GOLD-RELATED METHODS ///////////////
+    /**
+     * for every tick, there's a 5% chance that a gold is spawned on a random tile
+     * @return Gold
+     */
     public Gold possiblySpawnGold() {
         Random random = new Random();
         double r = random.nextDouble();
-
         if (r < 0.05) {
             Pair<Integer, Integer> pos = getRandomPosition();
             int indexInPath = orderedPath.indexOf(pos);
@@ -437,6 +536,9 @@ import unsw.loopmania.LoopManiaApplication;
         return null;
     }
 
+    /**
+     * for every tick, check if the character is on top of a gold, if so, pick it up
+     */
     public void possiblyCollectGold() {
         for (int i = 0; i < goldCollection.size(); i++){
             Gold g = goldCollection.get(i);
@@ -446,12 +548,15 @@ import unsw.loopmania.LoopManiaApplication;
                 goldCollection.remove(g);
                 g.destroy();
                 goldCollection.remove(g);
-                break;
-                
+                break;  
             }
         }
     }
 
+    /**
+     * check how much gold the character has
+     * @return int
+     */
     public int getGoldCount() {
         return this.character.getGoldCount();
     }
@@ -465,6 +570,10 @@ import unsw.loopmania.LoopManiaApplication;
     }
     
     ////////// HEALTH-RELATED METHODS ///////////////
+    /**
+     * for each tick, if there isn't already a health potion on the path, possibly spawn one
+     * @return HealthPotion
+     */
     public HealthPotion possiblySpawnHealthPotion() {
         Random random = new Random();
         double r = random.nextDouble();
@@ -480,11 +589,12 @@ import unsw.loopmania.LoopManiaApplication;
         return null;
     }
 
+    /**
+     * if the character is on top of the health potion, drink it and destroy the potion
+     */
     public void possiblyCollectPotion() {
         if(thePotion != null){
             if (thePotion.getX() == character.getX() && thePotion.getY() == character.getY()){
-                System.out.println("drinkPotion");
-                //System.out.println(character.increaseGold(g));
                 character.increaseHealth(100);
                 thePotion.destroy();
                 thePotion = null;
@@ -493,90 +603,15 @@ import unsw.loopmania.LoopManiaApplication;
     }
     
 
-    /**
-     * run the expected battles in the world, based on current world state
-     * @return list of enemies which have been killed
-     * @throws IOException
-     */
-    //public List<BasicEnemy> runBattles(LoopManiaWorldController world) {
-    public List<BasicEnemy> runBattles(LoopManiaWorldController controller) throws IOException {
-
-        List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
-        
-        for (BasicEnemy e: enemies){
-            
-            // Pythagoras: a^2+b^2 < radius^2 to see if within radius
-            if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= Math.pow(e.getAttackRadius(),2)){
-                BattleEnemyController battleEnemyController = controller.getBattleController();
-
-                Battle battle = new Battle(character, battleEnemyController, enemies, e, battleBuildings, loopCount);
-                battleEnemyController.setBattle(battle);
-                try {
-                    controller.switchToBattle();
-                    //return newBattle.getDefeatedEnemies();
-                    return battle.getEnemiesToFight();
-                    
-                } catch (IOException e2) {
-                    e2.printStackTrace();
-                }
-                defeatedEnemies = battle.getEnemiesToFight();
-
-            }
-
-        }
-        //System.out.println("enemy dead count in loopmaninaworld.java");
-        //System.out.println(defeatedEnemies.size());
-        return defeatedEnemies;
-    }
-
-    /**
-     * spawn a card in the world and return the card entity
-     * @return a card to be spawned in the controller as a JavaFX node
-     */
-    public Card loadCard(BasicEnemy enemy){
-        // if adding more cards than have, remove the first card...
-        if (this.character.getAllCards().size() >= getWidth()){
-            // TODO = give some cash/experience/item rewards for the discarding of the oldest card
-            removeCard(0);
-        }
-
-        Card card = enemy.giveCardWhenLooted(new SimpleIntegerProperty(this.character.getAllCards().size()), new SimpleIntegerProperty(0));
-        //BasicItem item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        System.out.println(character.getAllInventoryItems().size());
-        if (card != null){
-            this.character.getAllCards().add(card);
-        }
-
-        return card;
-
-        
-        //VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(this.character.getAllCards().size()), new SimpleIntegerProperty(0));
-        //this.character.getAllCards().add(vampireCastleCard);
-        //return vampireCastleCard;
-    }
-
-    /**
-     * remove card at a particular index of cards (position in gridpane of unplayed cards)
-     * @param index the index of the card, from 0 to length-1
-     */
-    private void removeCard(int index){
-        Card c = this.character.getAllCards().get(index);
-        int x = c.getX();
-        c.destroy();
-        this.character.getAllCards().remove(index);
-        shiftCardsDownFromXCoordinate(x);
-    }
+    ////////// INVENTORY METHODS ///////////////
 
     /**
      * spawn a weapon depending on the enemy looted
+     * @param enemy defeated enemy
      * @return possibly a weapon to be spawned in the controller as a JavaFX node
      */
     public BasicItem addUnequippedItem(BasicEnemy enemy){
-        System.out.println("addUnequippedItem");
-
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-        
-
         if (firstAvailableSlot == null){
             // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
             removeItemByPositionInUnequippedInventoryItems(0);
@@ -660,28 +695,12 @@ import unsw.loopmania.LoopManiaApplication;
         return null;
     }
 
-    /**
-     * shift card coordinates down starting from x coordinate
-     * @param x x coordinate which can range from 0 to width-1
-     */
-    private void shiftCardsDownFromXCoordinate(int x){
-        for (Card c: this.character.getAllCards()){
-            if (c.getX() >= x){
-                c.x().set(c.getX()-1);
-            }
-        }
-    }
-
-    /**
-     * move all enemies
-     */
-    private void moveBasicEnemies() {
-        for (BasicEnemy e: enemies){
-            e.move();
-        }
-    }
-
+    ////////// OTHER METHODS ///////////////
     
+    /**
+     * Generates a random spawn position on the map
+     * @return spawnPositino
+     */
     private Pair<Integer, Integer> getRandomPosition() {
         Random rand = new Random();
         List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
@@ -701,46 +720,36 @@ import unsw.loopmania.LoopManiaApplication;
     }
 
     /**
-     * remove a card by its x, y coordinates
-     * @param cardNodeX x index from 0 to width-1 of card to be removed
-     * @param cardNodeY y index from 0 to height-1 of card to be removed
-     * @param buildingNodeX x index from 0 to width-1 of building to be added
-     * @param buildingNodeY y index from 0 to height-1 of building to be added
+     * if the character is close to an enemy, open the battle controller and corresponding screen
+     * @return list of enemies which have been killed
+     * @throws IOException
      */
-    public Building convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
-        // start by getting card
-        
-        Card card = null;
-        for (Card c: this.character.getAllCards()){
-            if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)) {
-                card = c;
-                break;
-            }
-        }
-        Building newBuilding = null;
-        // now spawn building
-        if (card.isPlaceable(buildingNodeX, buildingNodeY, this.orderedPath)) {
-            newBuilding = card.generateEntity(new SimpleIntegerProperty(buildingNodeX),
-             new SimpleIntegerProperty(buildingNodeY));
-            if (newBuilding instanceof SpawnBuilding) {
-                spawnBuildings.add((SpawnBuilding) newBuilding);
-            } else if (newBuilding instanceof BattleBuilding) {
-                battleBuildings.add((BattleBuilding) newBuilding);
-            } else if (newBuilding instanceof PathBuilding) {
-                pathBuildings.add((PathBuilding)newBuilding);
-            }
-            card.destroy();
-            this.character.getAllCards().remove(card);
-            shiftCardsDownFromXCoordinate(cardNodeX);
-        }
-        // destroy the card
-        return newBuilding;
-    }
+    //public List<BasicEnemy> runBattles(LoopManiaWorldController world) {
+        public List<BasicEnemy> runBattles(LoopManiaWorldController controller) throws IOException {
 
-    public boolean isAdjacent (int x, int y) {
-        if (x == y + 1 || x == y - 1 || x == y) return true;
-        return false;
-    }
+            List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
+            
+            for (BasicEnemy e: enemies){
+                
+                // Pythagoras: a^2+b^2 < radius^2 to see if within radius
+                if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= Math.pow(e.getAttackRadius(),2)){
+                    BattleEnemyController battleEnemyController = controller.getBattleController();
+    
+                    Battle battle = new Battle(character, battleEnemyController, enemies, e, battleBuildings, loopCount);
+                    battleEnemyController.setBattle(battle);
+                    try {
+                        controller.switchToBattle();
+                        //return newBattle.getDefeatedEnemies();
+                        return battle.getEnemiesToFight();
+                        
+                    } catch (IOException e2) {
+                        e2.printStackTrace();
+                    }
+                    defeatedEnemies = battle.getEnemiesToFight();
+                }
+            }
+            return defeatedEnemies;
+        }
 
     public List<Ally> getAllAllies() {
         return character.getAllies();
