@@ -72,7 +72,7 @@ public class AllyTest {
     }
     
     /**
-     * test that when an allies help in a battle
+     * test that when an allys is in a battle, character health decreasses less
      */
     @Test
     public void testBattleWithAlly() {
@@ -88,30 +88,43 @@ public class AllyTest {
         PathPosition p1 = new PathPosition(0, orderedPath);
         PathPosition p2 = new PathPosition(1, orderedPath);
 
-        Character c = new Character(p1);
-        //test fight withough allies
-        List<BasicEnemy> enemyList = new ArrayList();
-        Zombie z1 = new Zombie(p1);
-        enemyList.add(z1);
-        Battle battle = new Battle(c, null, enemyList, z1, new ArrayList<BattleBuilding>(), 0);
-        while (z1.getCurrentHealth() > 0) {
-            battle.dealDamageOnce();
-        }
-        int healthOfCharacterWithoutAlly = c.getCurrentHealth();
-        
-        //now battle with ally
-        Character c2 = new Character(p1);
-        c2.addAlly(new Ally(p1, 100));
-        List<BasicEnemy> enemyList2 = new ArrayList();
-        Zombie z2 = new Zombie(p1);
-        enemyList2.add(z2);
-        Battle battle2 = new Battle(c2, null, enemyList2, z2, new ArrayList<BattleBuilding>(), 0);
-        while (z2.getCurrentHealth() > 0) {
-            battle2.dealDamageOnce();
-        }
-        int healthOfCharacterWithAlly = c2.getCurrentHealth();
+        int withAllyHigherHealth = 0;
+        int withoutAllyHigherHealth = 0;
+        //loop to account for random chance of critical bite
+        for (int i = 0; i < 200; i ++){
 
-        assertTrue(healthOfCharacterWithoutAlly < healthOfCharacterWithAlly);
+            Character c = new Character(p1);
+            //test fight withough allies
+            List<BasicEnemy> enemyList = new ArrayList();
+            Zombie z1 = new Zombie(p1);
+            enemyList.add(z1);
+            Battle battle = new Battle(c, null, enemyList, z1, new ArrayList<BattleBuilding>(), 0);
+            while (z1.getCurrentHealth() > 0) {
+                battle.dealDamageOnce();
+            }
+            int healthOfCharacterWithoutAlly = c.getCurrentHealth();
+            
+            //now battle with ally
+            Character c2 = new Character(p1);
+            c2.addAlly(new Ally(p1, 100));
+            List<BasicEnemy> enemyList2 = new ArrayList();
+            Zombie z2 = new Zombie(p1);
+            enemyList2.add(z2);
+            Battle battle2 = new Battle(c2, null, enemyList2, z2, new ArrayList<BattleBuilding>(), 0);
+            while (z2.getCurrentHealth() > 0) {
+                battle2.dealDamageOnce();
+            }
+            int healthOfCharacterWithAlly = c2.getCurrentHealth();
+
+            if (healthOfCharacterWithAlly > healthOfCharacterWithoutAlly ) {
+                withAllyHigherHealth++;
+            }
+            else {
+                withoutAllyHigherHealth++;
+            }
+        }
+
+        assertTrue(withoutAllyHigherHealth < withAllyHigherHealth);
     }
 
 
