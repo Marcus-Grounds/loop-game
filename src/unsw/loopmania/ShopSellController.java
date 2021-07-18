@@ -54,7 +54,7 @@ public class ShopSellController {
     private Timeline timeline;
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
-    void initialize() {
+    public void initialize() {
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
                 ImageView inventorySlotImage = new ImageView((new File("src/images/empty_slot.png")).toURI().toString());

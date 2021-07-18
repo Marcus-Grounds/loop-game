@@ -16,8 +16,15 @@ public abstract class PathBuilding extends Building{
         super(x, y, image);
     }
     
+    /**
+     * pathAction returns Ally when a Barracks building and null if not a barracks building
+     */
+
     public abstract Ally pathAction (Character character, List<BasicEnemy> enemies);
 
+    /**
+     * Check if entity is on path
+     */
     public boolean checkOnPath (MovingEntity entity) {
         
         if ((entity.getX() == this.getX()) && (entity.getY() == this.getY())) {

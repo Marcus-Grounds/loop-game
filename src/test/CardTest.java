@@ -28,6 +28,9 @@ import unsw.loopmania.GameMode.*;
 
 public class CardTest {
 
+    /**
+     * Place a vampire castle building in a valid position.
+     */
     @Test
     public void Test1(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -48,6 +51,9 @@ public class CardTest {
         assertEquals(vampireCastleCard, d.getCardByIndex(0));
     }
 
+    /**
+     * Place a zombie pit and a campfire building in the valid positions.
+     */
     public void Test2(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
         Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(0, 0);
@@ -72,6 +78,9 @@ public class CardTest {
         assertEquals(campfireCard, d.getCardByIndex(1));
     }
 
+    /**
+     * Place a vampire castle building in a valid posiiton.
+     */
     @Test
     public void TestvampireCastle1(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -94,6 +103,10 @@ public class CardTest {
         assertEquals(1, d.getAllSpawnBuildings().size());
     }
 
+
+    /**
+     * Place a vampire castle building in an invalid posiiton.
+     */
     @Test
     public void TestvampireCastle2(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -116,6 +129,9 @@ public class CardTest {
         assertEquals(0, d.getAllSpawnBuildings().size());
     }
 
+    /**
+     * Place a zombie pit building in a valid posiiton.
+     */
     @Test
     public void TestZombiePit1(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -138,6 +154,9 @@ public class CardTest {
         assertEquals(1, d.getAllSpawnBuildings().size());
     }
 
+    /**
+     * Place a zombie pit building in an invalid posiiton.
+     */
     @Test
     public void TestZombiePit2(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -160,6 +179,9 @@ public class CardTest {
         assertEquals(0, d.getAllSpawnBuildings().size());
     }
 
+    /**
+     * Place a tower building in a valid posiiton.
+     */
     @Test
     public void TestTower1(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -182,6 +204,9 @@ public class CardTest {
         assertEquals(1, d.getAllBattleBuildings().size());
     }
 
+    /**
+     * Place a tower castle building in an invalid posiiton.
+     */
     @Test
     public void TestTower2(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -204,6 +229,9 @@ public class CardTest {
         assertEquals(0, d.getAllBattleBuildings().size());
     }
 
+    /**
+     * Place a village building in a valid posiiton.
+     */
     @Test
     public void TestVillage1(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -226,6 +254,9 @@ public class CardTest {
         assertEquals(1, d.getAllPathBuildings().size());
     }
 
+    /**
+     * Place a village building in an invalid posiiton.
+     */
     @Test
     public void TestVillage2(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -248,6 +279,9 @@ public class CardTest {
         assertEquals(0, d.getAllPathBuildings().size());
     }
 
+    /**
+     * Place a barracks building in a valid posiiton.
+     */
     @Test
     public void TestBarracks1(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -270,6 +304,9 @@ public class CardTest {
         assertEquals(1, d.getAllPathBuildings().size());
     }
 
+    /**
+     * Place a barracks building in an invalid posiiton.
+     */
     @Test
     public void TestBarracks2(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -292,6 +329,9 @@ public class CardTest {
         assertEquals(0, d.getAllPathBuildings().size());
     }
 
+    /**
+     * Place a trap building in a valid posiiton.
+     */
     @Test
     public void TestTrap1(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -314,6 +354,9 @@ public class CardTest {
         assertEquals(1, d.getAllPathBuildings().size());
     }
 
+    /**
+     * Place a trap building in an invalid posiiton.
+     */
     @Test
     public void TestTrap2(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -336,6 +379,9 @@ public class CardTest {
         assertEquals(0, d.getAllPathBuildings().size());
     }
 
+    /**
+     * Place a campfire building in a valid posiiton.
+     */
     @Test
     public void TestCampfire1(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -358,6 +404,9 @@ public class CardTest {
         assertEquals(1, d.getAllBattleBuildings().size());
     }
 
+    /**
+     * Place a campfire building in an invalid posiiton.
+     */
     @Test
     public void TestCampfire2(){
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();

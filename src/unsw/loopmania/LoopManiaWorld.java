@@ -129,6 +129,10 @@ import unsw.loopmania.LoopManiaApplication;
         return height;
     }
 
+    public List<Entity> getNonSpecifiedEntities() {
+        return nonSpecifiedEntities;
+    }
+
     ////////// LOOP-RELATED METHODS ///////////////
     /**
      * run moves which occur with every tick without needing to spawn anything immediately
@@ -182,6 +186,7 @@ import unsw.loopmania.LoopManiaApplication;
     public boolean checkCharacterOnCastle () {
         int x = this.heroCastle.getX();
         int y = this.heroCastle.getY();
+        
         if (this.character.getX() == x && this.character.getY() == y) {
             return true;
         } else {

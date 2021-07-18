@@ -7,6 +7,9 @@ import unsw.loopmania.Buildings.Building;
 
 public abstract class BattleBuilding extends Building {
     
+    /**
+     * if character/enemy is within radius, buildiong performs action.
+     */
     private int radius;
 
     public BattleBuilding(SimpleIntegerProperty x, SimpleIntegerProperty y, ImageView image) {

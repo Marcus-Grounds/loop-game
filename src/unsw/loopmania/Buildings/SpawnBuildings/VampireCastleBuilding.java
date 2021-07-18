@@ -21,6 +21,9 @@ public class VampireCastleBuilding extends SpawnBuilding {
         super(x, y, new ImageView(new Image((new File("src/images/vampire_castle_building_purple_background.png")).toURI().toString())));
     }
 
+    /**
+     * Adds a vampire to an adjacent path tile everytime the loop count becomes a number divisible by 5
+     */
     @Override
     public BasicEnemy spawnAction(int loopCount, boolean isCharcaterOnCastle, Pair<Integer, Integer> spawnTile, List<Pair<Integer, Integer>> orderedPath) {
          

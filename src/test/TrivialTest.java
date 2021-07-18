@@ -6,6 +6,7 @@ import java.util.*;
 
 import org.junit.jupiter.api.Test;
 
+import javafx.embed.swing.JFXPanel;
 import unsw.loopmania.*;
 
 import unsw.loopmania.BasicItems.*;
@@ -32,6 +33,7 @@ public class TrivialTest {
     
     @Test
     public void blahTest2(){
+        JFXPanel jfxPanel = new JFXPanel(); 
         LoopManiaWorld d = new LoopManiaWorld(1, 2, new ArrayList<>());
         assertEquals(d.getWidth(), 1);
     }

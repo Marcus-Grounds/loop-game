@@ -20,6 +20,9 @@ public class ZombiePitBuilding extends SpawnBuilding {
         super(x, y, new ImageView(new Image((new File("src/images/zombie_pit.png")).toURI().toString())));
     }
 
+    /**
+     * Spawns a zombie to an adjacent tile when the character creates another loop
+     */
     @Override
     public BasicEnemy spawnAction(int loopCount, boolean isCharcaterOnCastle, Pair<Integer, Integer> spawnTile, List<Pair<Integer, Integer>> orderedPath) {
                 

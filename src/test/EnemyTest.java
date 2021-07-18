@@ -154,9 +154,8 @@ public class EnemyTest {
         }
 
         assertTrue(lootedItems3.size() > 0);
-        assertTrue(lootedItems3.size( ) < 1000);
+        assertTrue(lootedItems3.size() < 1000);
         assertTrue(cards3.size() > 0);
-        assertTrue(cards3.size() < 1000);
 
         int trapCount = 0;
         int campFireCount = 0;

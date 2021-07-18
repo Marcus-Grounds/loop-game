@@ -17,6 +17,9 @@ public class VillageBuilding extends PathBuilding {
         super(x, y, new ImageView(new Image((new File("src/images/village.png")).toURI().toString())));
     }
 
+    /**
+     * Increase the health of the Character when they pass over the Village building
+     */
     @Override
     public Ally pathAction(Character character, List<BasicEnemy> enemies) {
         

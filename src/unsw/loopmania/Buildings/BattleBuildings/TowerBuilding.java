@@ -26,6 +26,9 @@ public class TowerBuilding extends BattleBuilding {
         return this.damage;
     }
 
+    /**
+     * Check if enemy is in radius
+     */
     @Override
     public boolean checkRadius(MovingEntity entity) {
         
@@ -36,6 +39,9 @@ public class TowerBuilding extends BattleBuilding {
         }
     }
 
+    /**
+     * Tower deals damage to the enemy in the radius during a battle
+     */
     @Override
     public void buildingAction(MovingEntity character, MovingEntity enemy) {
         // attack the enemy by decreasing enemy health by tower damage
