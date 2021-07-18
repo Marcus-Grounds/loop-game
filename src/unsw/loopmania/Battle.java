@@ -131,6 +131,7 @@ public class Battle {
             
             for (BasicEnemy enemy: enemiesToFight){
                 killEnemy(enemy);
+                c.increaseGold(3);
             }
             if (controller != null) {
                 controller.pauseBattle();

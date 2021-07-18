@@ -67,7 +67,6 @@ public class Vampire extends BasicEnemy{
         else if (r < 0.4) {
             return new CampfireCard(x, y);
         }
-        
         return null;
     }
 
