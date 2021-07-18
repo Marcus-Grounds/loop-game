@@ -25,6 +25,12 @@ public abstract class Card extends StaticEntity {
     // TODO = implement other varieties of card than VampireCastleCard
 
     private PlacementStrategy placementStrategy;
+    /**
+     * Constructor for card
+     * @param x x-axis
+     * @param y y-axis
+     * @param image image of the card
+     */
     public Card(SimpleIntegerProperty x, SimpleIntegerProperty y, ImageView image) {
         super(x, y, image);
         this.placementStrategy = null;
@@ -34,10 +40,23 @@ public abstract class Card extends StaticEntity {
         this.placementStrategy = placementStrategy;
     }
 
+    /**
+     * Check if the card is placeable on the target cell.
+     * @param buildingNodeX x-axis of the target cell.
+     * @param buildingNodeY y-axis of the target cell.
+     * @param Path Path of the loopManiaWorld.
+     * @return true if placeable, else false.
+     */
     public boolean isPlaceable (int buildingNodeX, int buildingNodeY, List<Pair<Integer, Integer>> Path) {
         return this.placementStrategy.isPlaceable(buildingNodeX, buildingNodeY, Path);
     }
 
+    /**
+     * Generate an building on the target cell.
+     * @param x x-axis of the target cell.
+     * @param y y-axis of the target cell.
+     * @return the generated building.
+     */
     public Building generateEntity (SimpleIntegerProperty x, SimpleIntegerProperty y) {
         String classname = this.getClass().getName();
         Building generatedEntity = null;
