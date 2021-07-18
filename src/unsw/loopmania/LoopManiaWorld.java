@@ -129,15 +129,57 @@ import unsw.loopmania.LoopManiaApplication;
         return height;
     }
 
-    ////////// CASTLE METHODS ///////////////
-    public boolean checkCharacterOnCastle (MovingEntity character) {
-        /*
-        if ((character.getX() == heroCastle.getX()) && (character.getY() == heroCastle.getY())) {
-            return true;
-        } else {
-            return false;
+    ////////// LOOP-RELATED METHODS ///////////////
+    /**
+     * run moves which occur with every tick without needing to spawn anything immediately
+     */
+    public void runTickMoves() {
+        character.moveDownPath();
+        
+        for (Ally ally : allies) {
+            ally.moveDownPath();
         }
-        */
+        moveBasicEnemies();
+        possiblyCollectGold();
+        possiblyCollectPotion();
+
+        updateLoopCount(character);
+       
+    }
+
+    // Created for testing purposes
+    public void runTickMovesCharacter() {
+        
+        character.moveDownPath();
+        
+        for (PathBuilding p : pathBuildings) {
+            p.pathAction(character, enemies);
+        }
+    }
+    
+    // Created for testing purposes
+    public void runTickMovesEnemies() {
+        
+        moveBasicEnemies();
+        for (PathBuilding p : pathBuildings) {
+            p.pathAction(character, enemies);
+        }
+    }
+
+    /**
+     * @return the amount of loops the character has completed
+     */
+    public int getLoopCount() {
+        return this.loopCount;
+    }
+
+
+    ////////// CASTLE METHODS ///////////////
+    /**
+     * @param character
+     * @return wheather or not the character is on the castle (which is always the first tile on the path)
+     */
+    public boolean checkCharacterOnCastle (MovingEntity character) {
         PathPosition position = new PathPosition(0, orderedPath);
         if (character.getX() == position.getX().getValue() && character.getY() == position.getY().getValue() ) {
             return true;
@@ -147,6 +189,10 @@ import unsw.loopmania.LoopManiaApplication;
             
     }
     
+    /**
+     * increases loopcount whenever character passes the first tile on the path
+     * @param character
+     */
     public void updateLoopCount (Character character) {
         if (checkCharacterOnCastle(character)) {
             this.loopCount = this.loopCount + 1;
@@ -170,6 +216,10 @@ import unsw.loopmania.LoopManiaApplication;
         return this.character;
     }
 
+    /**
+     *  add an enemy to the list of enemies
+     *  @param nasicEnemy
+     */
     public void addBasicEnemy (BasicEnemy basicEnemy) {
         this.enemies.add(basicEnemy);
     }
@@ -179,8 +229,6 @@ import unsw.loopmania.LoopManiaApplication;
      * @param entity
      */
     public void addEntity(Entity entity) {
-        // for adding non-specific entities (ones without another dedicated list)
-        // TODO = if more specialised types being added from main menu, add more methods like this with specific input types...
         nonSpecifiedEntities.add(entity);
     }
 
@@ -190,6 +238,10 @@ import unsw.loopmania.LoopManiaApplication;
     }
 
     ////////// CARD ENTITIES ///////////////
+    /**
+     * add a card to the collection of cards
+     * @param card
+     */
     public void addCard (Card card) {
         this.character.addCard(card);
     }
@@ -214,6 +266,12 @@ import unsw.loopmania.LoopManiaApplication;
         return this.heroCastle.getAllItems();
     }
 
+    /**
+     * handles the purchasing of an item from the hero castle, 
+     * add the item to invetory if purchase is successful, and deduct coins
+     * @param index
+     * @return
+     */
     public BasicItem buyItemByIndexFromShop (int index) {
         BasicItem item = this.heroCastle.getItemByIndex(index);
         if (item.getCost() <= this.getGoldCount()) {
@@ -230,19 +288,7 @@ import unsw.loopmania.LoopManiaApplication;
         return this.character.sellItemByIndex(index);
     }
 
-    public int getGoldCount() {
-        return this.character.getGoldCount();
-    }
-
-    public int increaseGold (int gold) {
-        return this.character.increaseGold(gold);
-    }
-
-    public int decreaseGold (int gold) {
-        return this.character.decreaseGold(gold);
-    }
-
-    // BUILDINGS STUFF
+    ////////// BUILDING ENTITIES ///////////////
     public void addBattleBuilding (BattleBuilding building) {
         this.battleBuildings.add(building);
     }
@@ -271,6 +317,26 @@ import unsw.loopmania.LoopManiaApplication;
         return this.orderedPath;
     }
 
+    /**
+     * loop through all the the path buildings (barrack, trap, or villiage), possibly spawning a new ally
+     * @return
+     */
+    public Ally pathBuildingAction() {
+        Ally ally = null;
+        for (PathBuilding p : pathBuildings) {
+            Ally possiblyAlly = p.pathAction(character, enemies);
+            if (possiblyAlly != null){
+                ally = possiblyAlly;
+            }
+        }
+        return ally;
+    }
+
+    /**
+     * Given a cell, test if it is adjecent to the path of the game
+     * @param cell
+     * @return boolean
+     */
     public boolean isAdjacentToPath (Pair<Integer, Integer> cell) {
         int value0 = cell.getValue0();
         int value1 = cell.getValue1();
@@ -282,6 +348,11 @@ import unsw.loopmania.LoopManiaApplication;
         return result;
     }
 
+    /**
+     * Given a cell, test if it is on the path of the game
+     * @param cell
+     * @return boolean
+     */
     public boolean isOnPath (Pair<Integer, Integer> cell) {
         int value0 = cell.getValue0();
         int value1 = cell.getValue1();
@@ -298,11 +369,10 @@ import unsw.loopmania.LoopManiaApplication;
     private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition () {
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
-        int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
+        int choice = rand.nextInt(2);
         // TODO = change based on spec
         if ((choice == 0) && (enemies.size() < 5)){
             Pair<Integer, Integer> spawnPosition = getRandomPosition();
-
             return spawnPosition;
         }
         return null;
@@ -336,17 +406,8 @@ import unsw.loopmania.LoopManiaApplication;
         return spawningEnemies;
     }
 
-    public Ally pathBuildingAction() {
-        Ally ally = null;
-        for (PathBuilding p : pathBuildings) {
-            Ally possiblyAlly = p.pathAction(character, enemies);
-            if (possiblyAlly != null){
-                ally = possiblyAlly;
-            }
-        }
-        return ally;
-    }
 
+    ////////// GOLD-RELATED METHODS ///////////////
     public Gold possiblySpawnGold() {
         Random random = new Random();
         double r = random.nextDouble();
@@ -376,8 +437,20 @@ import unsw.loopmania.LoopManiaApplication;
             }
         }
     }
+
+    public int getGoldCount() {
+        return this.character.getGoldCount();
+    }
+
+    public int increaseGold (int gold) {
+        return this.character.increaseGold(gold);
+    }
+
+    public int decreaseGold (int gold) {
+        return this.character.decreaseGold(gold);
+    }
     
-    
+    ////////// HEALTH-RELATED METHODS ///////////////
     public HealthPotion possiblySpawnHealthPotion() {
         Random random = new Random();
         double r = random.nextDouble();
@@ -406,25 +479,6 @@ import unsw.loopmania.LoopManiaApplication;
     }
     
 
-
-    // Run battle once between one enemy and character
-    public void runBattle(BasicEnemy enemyToFight) {
-        
-        // resets character damage before each battle so no exponential increase of battle
-        // character.setDamage(character.getDamage());
-        
-        for (BattleBuilding b : battleBuildings) {
-            b.buildingAction(character, enemyToFight);
-        }
-        
-        character.decreaseHealth(enemyToFight.getDamage());
-        enemyToFight.decreaseHealth(5);
-        
-        System.out.println(character.getCurrentHealth());
-        System.out.println(enemyToFight.getCurrentHealth());
-
-    }
-
     /**
      * run the expected battles in the world, based on current world state
      * @return list of enemies which have been killed
@@ -446,7 +500,6 @@ import unsw.loopmania.LoopManiaApplication;
                 try {
                     controller.switchToBattle();
                     //return newBattle.getDefeatedEnemies();
-                    System.out.println("Defeated Enemies");
                     return battle.getEnemiesToFight();
                     
                 } catch (IOException e2) {
@@ -539,47 +592,6 @@ import unsw.loopmania.LoopManiaApplication;
     public void removeUnequippedInventoryItemByCoordinates(int x, int y){
         Entity item = getUnequippedInventoryItemEntityByCoordinates(x, y);
         removeUnequippedInventoryItem(item);
-    }
-
-    /**
-     * run moves which occur with every tick without needing to spawn anything immediately
-     */
-    public void runTickMoves() {
-    
-        character.moveDownPath();
-        
-        for (Ally ally : allies) {
-            ally.moveDownPath();
-        }
-        moveBasicEnemies();
-        possiblyCollectGold();
-        possiblyCollectPotion();
-
-        updateLoopCount(character);
-       
-    }
-
-    // Created for testing purposes
-    public void runTickMovesCharacter() {
-        
-        character.moveDownPath();
-        
-        for (PathBuilding p : pathBuildings) {
-            p.pathAction(character, enemies);
-        }
-    }
-    
-    // Created for testing purposes
-    public void runTickMovesEnemies() {
-        
-        moveBasicEnemies();
-        for (PathBuilding p : pathBuildings) {
-            p.pathAction(character, enemies);
-        }
-    }
-
-    public int getLoopCount() {
-        return this.loopCount;
     }
 
     /**
