@@ -180,8 +180,8 @@ import unsw.loopmania.LoopManiaApplication;
      * @return wheather or not the character is on the castle (which is always the first tile on the path)
      */
     public boolean checkCharacterOnCastle (MovingEntity character) {
-        PathPosition position = new PathPosition(0, orderedPath);
-        if (character.getX() == position.getX().getValue() && character.getY() == position.getY().getValue() ) {
+       
+        if (character.getX() == heroCastle.getX() && character.getY() == heroCastle.getY()) {
             return true;
         } else {
             return false;
