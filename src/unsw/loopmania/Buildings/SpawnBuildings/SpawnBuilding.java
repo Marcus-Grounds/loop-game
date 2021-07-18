@@ -19,6 +19,11 @@ public abstract class SpawnBuilding extends Building {
         super(x, y, image);
     }
 
+    /**
+     * Checks whether or not there is a path tile in the 8 surrounding tiles of the building
+     * @param orderedPath
+     * @return
+     */
     public Pair<Integer, Integer> findPathToSpawn (List<Pair<Integer, Integer>> orderedPath) {
         
         int x = this.getX();

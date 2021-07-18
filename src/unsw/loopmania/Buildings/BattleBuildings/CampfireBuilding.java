@@ -18,6 +18,9 @@ public class CampfireBuilding extends BattleBuilding {
         setRadius(MED_RADIUS);
     }
 
+    /**
+     * Check if the character is within the radius
+     */
     @Override
     public boolean checkRadius(MovingEntity entity) {
         
@@ -28,6 +31,10 @@ public class CampfireBuilding extends BattleBuilding {
         }
     }
 
+    /**
+     * characters base damge is increased by 2
+     * this is achieved by dealing the characters base damage again to the enemy
+     */
     @Override
     public void buildingAction(MovingEntity character, MovingEntity enemy) {
         if (checkRadius(character)) {

@@ -91,7 +91,6 @@ public class BuildingTest {
     @Test
     public void spawnVampireFromBuilding(){
         
-        //Create a battle between the character and enemy where enemy is in range of tower, not in range of tower
         JFXPanel jfxPanel = new JFXPanel(); 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         
@@ -117,9 +116,11 @@ public class BuildingTest {
         Character c = new Character(p1);
         d.setCharacter(c);
 
-        // search through the list of enemies and determine if it is spawned on the path
+        // determine if findPathToSpawn returns a path tile coordinate
         assertEquals(vampireCastle.findPathToSpawn(orderedPath), path2);
-        assertEquals(d.checkCharacterOnCastle(), true);
+        
+        // check character is on the castle
+        assertEquals(d.checkCharacterOnCastle(c), true);
 
         BasicEnemy vampire = vampireCastle.spawnAction(5,d.checkCharacterOnCastle(), vampireCastle.findPathToSpawn(orderedPath), orderedPath); 
         //Check if vampires spawn in correct position
@@ -131,11 +132,10 @@ public class BuildingTest {
     @Test
     public void spawnZombieFromBuilding(){
         
-        //Create a battle between the character and enemy where enemy is in range of tower, not in range of tower
         JFXPanel jfxPanel = new JFXPanel(); 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         
-        //Create Vampire Castle
+        //Create Zombie Pit
         
         HerosCastle herosCastle = new HerosCastle(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
         ZombiePitBuilding zombiePit = new ZombiePitBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(5));
@@ -157,12 +157,12 @@ public class BuildingTest {
         Character c = new Character(p1);
         d.setCharacter(c);
 
-        // search through the list of enemies and determine if it is spawned on the path
+        // determine if findPathToSpawn returns a path tile coordinate
         assertEquals(zombiePit.findPathToSpawn(orderedPath), path2);
         assertEquals(d.checkCharacterOnCastle(), true);
 
-        BasicEnemy zombie = zombiePit.spawnAction(5,d.checkCharacterOnCastle(), zombiePit.findPathToSpawn(orderedPath), orderedPath); 
-        //Check if vampires spawn in correct position
+        BasicEnemy zombie = zombiePit.spawnAction(5,d.checkCharacterOnCastle(c), zombiePit.findPathToSpawn(orderedPath), orderedPath); 
+        //Check if Zombie spawn in correct position
         
         assertEquals(zombie.getX(), 0);
         assertEquals(zombie.getY(), 4);
@@ -171,11 +171,10 @@ public class BuildingTest {
     @Test
     public void towerAttackTest() {
 
-        //Create a battle between the character and enemy where enemy is in range of tower, not in range of tower
         JFXPanel jfxPanel = new JFXPanel(); 
         List<BattleBuilding> battleBuildings = new ArrayList<BattleBuilding>();
         
-        //Create tower
+        //Create 3 towers, one is out of range 
         TowerBuilding towerBuilding1 = new TowerBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
         TowerBuilding towerBuilding2 = new TowerBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(4));
         TowerBuilding towerBuilding3 = new TowerBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(7));
@@ -200,6 +199,7 @@ public class BuildingTest {
         Vampire v1 = new Vampire(p2);
         List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
 
+        // Create battle so that the tower can deal damage
         Battle battle = new Battle(c, null, enemies, v1, battleBuildings, 0);
         battle.dealDamageOnce();
         
@@ -234,12 +234,15 @@ public class BuildingTest {
 
         Character c = new Character(p1);
         d.setCharacter(c);
+        
+        // decrease characters health
         c.decreaseHealth(50);
 
         assertEquals(c.getCurrentHealth(), 50);
 
         d.runTickMovesCharacter();
 
+        // determine that once it is passes over village character health has increased by 20
         assertEquals(c.getCurrentHealth(), 70);
 
         d.runTickMovesCharacter();
@@ -278,8 +281,10 @@ public class BuildingTest {
 
         assertEquals(v.getCurrentHealth(), HIGH_HEALTH);
 
+        //deals damage to enemy after it passes over trap
+
         d.runTickMovesEnemies(); // just in case the enemy stays in the same position 
-        d.runTickMovesEnemies(); // accounts for the random factor for now
+        d.runTickMovesEnemies(); // accounts for the random factor over the enemy movement
         d.runTickMovesEnemies();
         d.runTickMovesEnemies();
         d.runTickMovesEnemies();
@@ -317,6 +322,8 @@ public class BuildingTest {
 
         List<BattleBuilding> battleBuildings = new ArrayList<BattleBuilding>();
         battleBuildings.add(campfireBuilding);
+        
+        // create a battle so the campfire can perform action on character
         Battle battle = new Battle(c, null, enemies, s1, battleBuildings, 0);
         battle.dealDamageOnce();
         
