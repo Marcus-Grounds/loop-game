@@ -107,7 +107,7 @@ public class Battle {
             }
             if (c.getCurrentHealth() <= 0) {
                 c.destroy();
-                return;
+                controller.endGame();
             }          
         }
         //once all enemies are dead, we can return to main screen

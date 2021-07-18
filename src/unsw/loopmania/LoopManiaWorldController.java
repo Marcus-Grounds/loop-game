@@ -299,8 +299,11 @@ public class LoopManiaWorldController {
             //List<BasicEnemy> defeatedEnemies = world.runBattles(this);
             List<BasicEnemy> defeatedEnemies = new ArrayList<>();
             try {
-                world.checkCharacterOnCastle(this);
-                defeatedEnemies = world.runBattles(this);
+                if (world.checkCharacterOnCastle()) {
+                    this.switchToShopSell();
+                } else {
+                    defeatedEnemies = world.runBattles(this);
+                }
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();

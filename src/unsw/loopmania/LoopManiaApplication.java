@@ -64,6 +64,13 @@ public class LoopManiaApplication extends Application {
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
         gameLoader.setController(mainController);
         Parent gameRoot = gameLoader.load();
+
+        //endScreen
+        EndScreenController endScreenController = new EndScreenController();
+        FXMLLoader endScreenLoader = new FXMLLoader(getClass().getResource("EndScreen.fxml"));
+        endScreenLoader.setController(endScreenController);
+        Parent endScreenRoot = endScreenLoader.load();
+        
         
 
         mainController.setGameRoot(gameRoot);
@@ -93,6 +100,11 @@ public class LoopManiaApplication extends Application {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
+        battleEnemyController.setEndSwitcher(() -> {  
+            switchToRoot(scene, endScreenRoot, primaryStage);
+        });
+
+
         shopSellController.setGameSwitcher(() -> {  
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();

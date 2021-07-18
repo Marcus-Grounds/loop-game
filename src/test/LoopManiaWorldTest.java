@@ -82,6 +82,7 @@ public class LoopManiaWorldTest {
 
         
         Character c = new Character(p1);
+        c.addAlly(new Ally(p1, 100));
 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, orderedPath);
         d.setCharacter(c);
@@ -243,6 +244,25 @@ public class LoopManiaWorldTest {
         c.increaseGold(2);
         assertTrue(c.getGoldCount() == 2);
     }
+    
+    /**
+     * test the adding and removing of cards
+     */
+    @Test
+    public void testLoadandRemveCard() {
+        int cardCount = 0;
+        for (int i = 0; i < 200; i++){
+            Card card = d.loadCard(new Slug(null));
+            if (card != null){
+                cardCount++;
+            }
+        }
+        assertTrue(cardCount > 0);
+        int sizeBeforeRemoval = d.getAllCards().size();
+        d.removeCard(0);
+        int sizeAfterRemoval = d.getAllCards().size();
+        assertTrue(sizeAfterRemoval == sizeBeforeRemoval - 1);
+    }
 
     /** 
      * Tests that a character is added to the
@@ -259,6 +279,5 @@ public class LoopManiaWorldTest {
         d.addEntity(c);
         int size2 = d.getNonSpecifiedEntities().size();
         assertEquals(1, size2);
-
     }
 }

@@ -119,9 +119,9 @@ public class BuildingTest {
 
         // search through the list of enemies and determine if it is spawned on the path
         assertEquals(vampireCastle.findPathToSpawn(orderedPath), path2);
-        assertEquals(d.checkCharacterOnCastle(c), true);
+        assertEquals(d.checkCharacterOnCastle(), true);
 
-        BasicEnemy vampire = vampireCastle.spawnAction(5,d.checkCharacterOnCastle(c), vampireCastle.findPathToSpawn(orderedPath), orderedPath); 
+        BasicEnemy vampire = vampireCastle.spawnAction(5,d.checkCharacterOnCastle(), vampireCastle.findPathToSpawn(orderedPath), orderedPath); 
         //Check if vampires spawn in correct position
         
         assertEquals(vampire.getX(), 0);
@@ -159,9 +159,9 @@ public class BuildingTest {
 
         // search through the list of enemies and determine if it is spawned on the path
         assertEquals(zombiePit.findPathToSpawn(orderedPath), path2);
-        assertEquals(d.checkCharacterOnCastle(c), true);
+        assertEquals(d.checkCharacterOnCastle(), true);
 
-        BasicEnemy zombie = zombiePit.spawnAction(5,d.checkCharacterOnCastle(c), zombiePit.findPathToSpawn(orderedPath), orderedPath); 
+        BasicEnemy zombie = zombiePit.spawnAction(5,d.checkCharacterOnCastle(), zombiePit.findPathToSpawn(orderedPath), orderedPath); 
         //Check if vampires spawn in correct position
         
         assertEquals(zombie.getX(), 0);
@@ -242,7 +242,7 @@ public class BuildingTest {
 
         assertEquals(c.getCurrentHealth(), 70);
 
-        d.runTickMoves();
+        d.runTickMovesCharacter();
         assertEquals(c.getCurrentHealth(), 70);
     }
 

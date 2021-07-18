@@ -42,19 +42,20 @@ public class Slug extends BasicEnemy{
      */
     @Override
     public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        //30% change of giving sword, 10% chance of giving stake
         Random random = new Random();
         double r = random.nextDouble();
-        if (r < 0.2){
+        if (r < 0.05){
             return new Sword(x, y);
-        } else if (r < 0.4) {
+        } else if (r < 0.1) {
             return new Stake(x, y);
-        } else if (r < 0.6){
+        } else if (r < 0.15){
             return new Staff(x, y);
-        } else if (r < 0.8){
+        } else if (r < 0.2){
             return new Armour(x, y);
-        } else if (r < 0.95) {
+        } else if (r < 0.25) {
             return new Shield(x, y);
+        } else if (r < 0.3) {
+            return new Helmet(x, y);
         }
         return null;
     }
@@ -70,19 +71,19 @@ public class Slug extends BasicEnemy{
         Random random = new Random();
         double r = random.nextDouble();
         System.out.print(r);
-        if (r < 0.15){
+        if (r < 0.03){
             return new VampireCastleCard(x, y);
-        } else if (r < 0.25) {
+        } else if (r < 0.06) {
             return new ZombiePitCard(x, y);
-        } else if (r < 0.4) {
+        } else if (r < 0.09) {
             return new TowerCard(x, y);
-        } else if (r < 0.55) {
+        } else if (r < 0.12) {
             return new VillageCard(x, y);
-        } else if (r < 0.7) {
+        } else if (r < 0.15) {
             return new BarracksCard(x, y);
-        } else if (r < 0.85) {
+        } else if (r < 0.18) {
             return new TrapCard(x, y);
-        } else if (r < 0.95) {
+        } else if (r < 0.21) {
             return new CampfireCard(x, y);
         }
 
