@@ -16,7 +16,7 @@ import java.io.File;
 public class Stake extends BasicItem implements AttackingStrategy {
 
     public static final int COST = 10;
-    int damage;
+    public int damage;
     
     public Stake(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         super(x, y, COST, new ImageView(new Image((new File("src/images/stake.png")).toURI().toString())));
