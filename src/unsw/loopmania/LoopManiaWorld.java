@@ -129,6 +129,10 @@ import unsw.loopmania.LoopManiaApplication;
         return height;
     }
 
+    public List<Entity> getNonSpecifiedEntities() {
+        return nonSpecifiedEntities;
+    }
+
     ////////// LOOP-RELATED METHODS ///////////////
     /**
      * run moves which occur with every tick without needing to spawn anything immediately

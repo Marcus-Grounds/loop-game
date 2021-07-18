@@ -30,6 +30,12 @@ import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;
 
 public class LoopManiaWorldTest {
+
+    /**
+     * Tests the path placements 
+     * Checks if cells are on the path of the game
+     * or adjacent to it
+     */
     @Test
     public void pathTests() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -56,6 +62,10 @@ public class LoopManiaWorldTest {
         assertTrue(d.isAdjacentToPath(new Pair(2,1)));
     }
     
+    /** 
+     * Tests that a gold is correctly spawned 
+     * and that the goldCount increases
+    */
     @Test
     public void goldTest() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -89,6 +99,10 @@ public class LoopManiaWorldTest {
         
     }
 
+    /** 
+     * Tests that a health potion is correctly spawned 
+     * and that the character's health increases to 100
+    */
     @Test
     public void potionTest() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -120,6 +134,10 @@ public class LoopManiaWorldTest {
         assertTrue(c.getCurrentHealth() == 100);
     }
 
+    /** 
+     * Tests that a slug is correctly spawned 
+     * and is added to the list of BasicEnemies
+    */
     @Test
     public void slugSpawnTest() {
         //test that without zombie pits or vampire castles, only slugs spawn
@@ -145,6 +163,11 @@ public class LoopManiaWorldTest {
         assertTrue(d.getAllBasicEnemies().size() == 5);
     }
 
+    /** 
+     * Tests that all buildings are correctly spawned 
+     * and that the possible enemies they create are also 
+     * correctly spawned
+    */
     @Test
     public void testSpawnWithBuildings() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -187,6 +210,11 @@ public class LoopManiaWorldTest {
         assertEquals(3, vampireCount, 1);
     }
 
+    /** 
+     * Tests that the correct item is added to the 
+     * inventory depending of the type of enemy
+     * we defeat and loot from
+    */
     @Test
     public void unequippedInventoryTest() {
         JFXPanel jfxPanel = new JFXPanel();
@@ -202,16 +230,26 @@ public class LoopManiaWorldTest {
         assertTrue(c.getGoldCount() > 0);
     }
 
+    /** 
+     * Tests that the amount of gold a character owns is increased
+     * as he picks up gold off the ground
+    */
+    @Test
+    public void increaseGoldCount() {
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, null);
+        Character c = new Character(null);
+        d.setCharacter(c);
+        assertTrue(c.getGoldCount() == 0);
+        c.increaseGold(2);
+        assertTrue(c.getGoldCount() == 2);
+    }
+    
     /**
      * test the adding and removing of cards
      */
     @Test
     public void testLoadandRemveCard() {
-        JFXPanel jfxPanel = new JFXPanel();
-        LoopManiaWorld d = new LoopManiaWorld(50, 30, null);
-        Character c = new Character(null);
-        d.setCharacter(c);
-
         int cardCount = 0;
         for (int i = 0; i < 200; i++){
             Card card = d.loadCard(new Slug(null));
@@ -224,5 +262,22 @@ public class LoopManiaWorldTest {
         d.removeCard(0);
         int sizeAfterRemoval = d.getAllCards().size();
         assertTrue(sizeAfterRemoval == sizeBeforeRemoval - 1);
+    }
+
+    /** 
+     * Tests that a character is added to the
+     * list of nonSpecifiedEntities in LoopManiaWorld
+    */
+    @Test 
+    public void addEntityTest() {
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, null);
+        int size1 = d.getNonSpecifiedEntities().size();
+        assertEquals(0, size1);
+        Character c = new Character(null);
+        d.setCharacter(c);
+        d.addEntity(c);
+        int size2 = d.getNonSpecifiedEntities().size();
+        assertEquals(1, size2);
     }
 }
