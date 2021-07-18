@@ -20,7 +20,15 @@ public class ItemTest {
     @Test
     public void Test1(){
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        Character c = new Character(new PathPosition(0, orderedPath));
         Sword sword = new Sword(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        d.setCharacter(c);
         d.addInventoryItem(sword);
         List<Sword> dummyList = new ArrayList<Sword>();
         dummyList.add(sword);
