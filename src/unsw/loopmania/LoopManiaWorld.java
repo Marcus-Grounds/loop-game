@@ -186,6 +186,7 @@ import unsw.loopmania.LoopManiaApplication;
     public boolean checkCharacterOnCastle () {
         int x = this.heroCastle.getX();
         int y = this.heroCastle.getY();
+        
         if (this.character.getX() == x && this.character.getY() == y) {
             return true;
         } else {

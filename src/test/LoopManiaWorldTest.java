@@ -80,9 +80,7 @@ public class LoopManiaWorldTest {
 
         PathPosition p1 = new PathPosition(0, orderedPath);
 
-        
         Character c = new Character(p1);
-        c.addAlly(new Ally(p1, 100));
 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, orderedPath);
         d.setCharacter(c);
@@ -249,7 +247,14 @@ public class LoopManiaWorldTest {
      * test the adding and removing of cards
      */
     @Test
-    public void testLoadandRemveCard() {
+    public void testLoadandRemoveCard() {
+        
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, null);
+        
+        Character c = new Character(null);
+        d.setCharacter(c);
+        
         int cardCount = 0;
         for (int i = 0; i < 200; i++){
             Card card = d.loadCard(new Slug(null));
