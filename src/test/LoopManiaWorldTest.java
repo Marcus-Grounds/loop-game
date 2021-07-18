@@ -72,7 +72,6 @@ public class LoopManiaWorldTest {
 
         
         Character c = new Character(p1);
-        c.addAlly(new Ally(p1, 100));
 
         LoopManiaWorld d = new LoopManiaWorld(50, 30, orderedPath);
         d.setCharacter(c);

@@ -183,10 +183,6 @@ public class LoopManiaWorldController {
 
     private MenuSwitcher shopSellSwitcher;
 
-    private Scene scene;
-    
-    private Stage primaryStage;
-
     private Parent gameRoot;
 
     BattleEnemyController battleEnemyController;
@@ -841,10 +837,6 @@ public class LoopManiaWorldController {
         System.out.println("In application thread? = "+Platform.isFxApplicationThread());
         System.out.println("Current system time = "+java.time.LocalDateTime.now().toString().replace('T', ' '));
     }
-    /*
-    public void setBattlerSwitcher(Object object) {
-    }
-    */
 
     public void setGameRoot(Parent gameRoot){
         this.gameRoot = gameRoot;
