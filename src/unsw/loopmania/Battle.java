@@ -1,7 +1,9 @@
 package unsw.loopmania;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.DefendingStrategy;
@@ -45,13 +47,12 @@ public class Battle {
     }
 
     public void dealDamageOnce(){
-        //public void dealDamageOnce(List<BasicEnemy> defeatedEnemies){
         boolean allEnemiesDead = true;
         AttackingStrategy weapon = c.getEquippedWeapon ();
         DefendingStrategy defence = c.getEquippedDefence();
         
-        
-        for (BasicEnemy e: enemiesToFight) {
+        for (int i = 0; i < enemiesToFight.size(); i ++) {
+            BasicEnemy e = enemiesToFight.get(i);
             
             for (BattleBuilding b : battleBuildings) {
                 b.buildingAction(c, e);
@@ -61,8 +62,22 @@ public class Battle {
             if (allies.size() > 0){
                 Ally lastAlly = allies.get(allies.size() - 1);
                 e.decreaseHealth(5);
-
+                
                 lastAlly.decreaseHealth(5);
+
+                if (e instanceof Zombie) {
+                    Random random = new Random();
+                    double chance = random.nextDouble();
+                    if (chance < 0.1){
+                        //CRITICAL ZOMBIE BITE
+                        lastAlly.destroy();
+                        allies.remove(lastAlly);  
+
+                        enemiesToFight.add(new Zombie(e.getPathPosition()));
+                    }
+                }
+                
+
                 if (lastAlly.getCurrentHealth() <= 0){
                     lastAlly.destroy();
                     allies.remove(lastAlly);  
@@ -94,10 +109,6 @@ public class Battle {
                 //System.out.println("Enemy DEAD");
             }
 
-
-            
-
-
             if (defence == null){
                 c.decreaseHealth(e.getDamage());
             }
@@ -116,8 +127,6 @@ public class Battle {
                 }
             }
            
-            
-
             if (c.getCurrentHealth() <= 0) {
                 System.out.println("Character DEAD");
                 c.destroy();
@@ -142,13 +151,14 @@ public class Battle {
             return;
            
         }
+
     }
 
     public Character getCharacter(){
         return c;
     }
 
-    public List<BasicEnemy> getDefeatedEnemies() {
+    public List<BasicEnemy> getEnemiesToFight() {
         //System.out.println(defeatedEnemies.size());
         return enemiesToFight;
     }
