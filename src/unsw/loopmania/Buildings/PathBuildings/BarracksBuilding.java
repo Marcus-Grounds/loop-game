@@ -24,9 +24,7 @@ public class BarracksBuilding extends PathBuilding {
     public Ally pathAction(Character character, List<BasicEnemy> enemies) {
         if (checkOnPath(character)) {
             int stepsBehind = character.getAllies().size() + 1;
-            Ally ally = new Ally(character.getPathPosition().getPreviousPathPosition(stepsBehind), character.getCurrentHealth());
-            //ally is one behind the character
-            //ally.moveDownPath();
+            Ally ally = new Ally(character.getPathPosition().getPreviousPathPosition(stepsBehind), 20);
             
             character.addAlly(ally);
             System.out.println("ALLY COUNT");
