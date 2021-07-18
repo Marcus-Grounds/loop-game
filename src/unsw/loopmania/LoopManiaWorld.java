@@ -5,7 +5,6 @@ import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
 import unsw.loopmania.Buildings.PathBuildings.PathBuilding;
 import unsw.loopmania.Buildings.SpawnBuildings.SpawnBuilding;
-import unsw.loopmania.Buildings.SpawnBuildings.VampireCastleBuilding;
 import unsw.loopmania.Cards.*;
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;
@@ -18,10 +17,7 @@ import java.util.Random;
 import org.javatuples.Pair;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+
 import unsw.loopmania.BasicItems.Sword;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Cards.VampireCastleCard;
@@ -85,12 +81,11 @@ import unsw.loopmania.LoopManiaApplication;
     private List<BasicEnemy> enemies;
 
     //private List<Building> buildingEntities;
-    private Building heroCastle;
+    private HerosCastle heroCastle;
     
     private List<BattleBuilding> battleBuildings;
     private List<PathBuilding>   pathBuildings;
     private List<SpawnBuilding>  spawnBuildings;
-    private List<Building> buildingsList;
 
     private List<Ally> allies;
 
@@ -120,7 +115,6 @@ import unsw.loopmania.LoopManiaApplication;
         this.battleBuildings = new ArrayList<>();
         this.pathBuildings = new ArrayList<>();
         this.spawnBuildings = new ArrayList<>();
-        this.buildingsList = new ArrayList<>();
         this.allies = new ArrayList<>();
         this.goldCollection = new ArrayList<>();
         thePotion = null;
@@ -159,7 +153,7 @@ import unsw.loopmania.LoopManiaApplication;
         }
     }
 
-    public void setCastle (Building castle) {
+    public void setCastle (HerosCastle castle) {
         this.heroCastle = castle;
     }
     ////////// MOVING ENTITIES //////////////
@@ -169,6 +163,11 @@ import unsw.loopmania.LoopManiaApplication;
      */
     public void setCharacter(Character character) {
         this.character = character;
+        this.allies = character.getAllies();
+    }
+
+    public Character getCharacter () {
+        return this.character;
     }
 
     public void addBasicEnemy (BasicEnemy basicEnemy) {
@@ -211,6 +210,37 @@ import unsw.loopmania.LoopManiaApplication;
         return this.character.getAllInventoryItems();
     }
 
+    public List<BasicItem> getAllItemsFromShop() {
+        return this.heroCastle.getAllItems();
+    }
+
+    public BasicItem buyItemByIndexFromShop (int index) {
+        BasicItem item = this.heroCastle.getItemByIndex(index);
+        if (item.getCost() <= this.getGoldCount()) {
+            this.heroCastle.buyItemByIndex(index);
+            this.addInventoryItem(item);
+            this.decreaseGold(item.getCost());
+            return item;
+        } else {
+            return null;
+        }
+    }
+
+    public BasicItem sellItemByIndex(int index) {
+        return this.character.sellItemByIndex(index);
+    }
+
+    public int getGoldCount() {
+        return this.character.getGoldCount();
+    }
+
+    public int increaseGold (int gold) {
+        return this.character.increaseGold(gold);
+    }
+
+    public int decreaseGold (int gold) {
+        return this.character.decreaseGold(gold);
+    }
 
     // BUILDINGS STUFF
     public void addBattleBuilding (BattleBuilding building) {
@@ -235,14 +265,6 @@ import unsw.loopmania.LoopManiaApplication;
 
     public List<SpawnBuilding> getAllSpawnBuildings () {
         return this.spawnBuildings;
-    }
-
-    public void addBuilding (Building building) {
-        this.buildingsList.add(building);
-    }
-
-    public List<Building> getAllBuildings () {
-        return this.buildingsList;
     }
 
     public List<Pair<Integer, Integer>> getOrderedPath () {
@@ -274,25 +296,12 @@ import unsw.loopmania.LoopManiaApplication;
      * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
      */
     private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition () {
-        // TODO = modify this
-        
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
         // TODO = change based on spec
-        if ((choice == 0) && (enemies.size() < 2)){
-            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
-            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
-            // inclusive start and exclusive end of range of positions not allowed
-            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
-            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
-            // note terminating condition has to be != rather than < since wrap around...
-            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
-                orderedPathSpawnCandidates.add(orderedPath.get(i));
-            }
-
-            // choose random choice
-            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
+        if ((choice == 0) && (enemies.size() < 5)){
+            Pair<Integer, Integer> spawnPosition = getRandomPosition();
 
             return spawnPosition;
         }
@@ -309,20 +318,16 @@ import unsw.loopmania.LoopManiaApplication;
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            //at the momeny we only spawn slug, will change later
+            //Slug is randomly spawned
             Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
 
-        System.out.println("SPAWNING BIULDINGS");
-        System.out.println(spawnBuildings.size());
-
         for (SpawnBuilding b : spawnBuildings) {
             BasicEnemy enemy = b.spawnAction(loopCount, checkCharacterOnCastle(character), b.findPathToSpawn(orderedPath), orderedPath);
             
             if (enemy != null) {
-                
                 enemies.add(enemy);
                 spawningEnemies.add(enemy);
             }
@@ -331,31 +336,15 @@ import unsw.loopmania.LoopManiaApplication;
         return spawningEnemies;
     }
 
-    private Pair<Integer, Integer> possiblySpawnPosition (int scale){
-        // TODO = modify this
-        
-        // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
-        Random rand = new Random();
-        int choice = rand.nextInt(scale);
-        // TODO = change based on spec... currently low value for dev purposes...
-        // TODO = change based on spec
-        if ((choice == 0) && (enemies.size() < 2)){
-            List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
-            int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
-            // inclusive start and exclusive end of range of positions not allowed
-            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
-            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
-            // note terminating condition has to be != rather than < since wrap around...
-            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
-                orderedPathSpawnCandidates.add(orderedPath.get(i));
+    public Ally pathBuildingAction() {
+        Ally ally = null;
+        for (PathBuilding p : pathBuildings) {
+            Ally possiblyAlly = p.pathAction(character, enemies);
+            if (possiblyAlly != null){
+                ally = possiblyAlly;
             }
-
-            // choose random choice
-            Pair<Integer, Integer> spawnPosition = orderedPathSpawnCandidates.get(rand.nextInt(orderedPathSpawnCandidates.size()));
-
-            return spawnPosition;
         }
-        return null;
+        return ally;
     }
 
     public Gold possiblySpawnGold() {
@@ -381,6 +370,8 @@ import unsw.loopmania.LoopManiaApplication;
                 System.out.println(character.increaseGold(g));
                 
                 g.destroy();
+                goldCollection.remove(g);
+                break;
                 
             }
         }
@@ -456,12 +447,12 @@ import unsw.loopmania.LoopManiaApplication;
                     controller.switchToBattle();
                     //return newBattle.getDefeatedEnemies();
                     System.out.println("Defeated Enemies");
-                    return battle.getDefeatedEnemies();
+                    return battle.getEnemiesToFight();
                     
                 } catch (IOException e2) {
                     e2.printStackTrace();
                 }
-                defeatedEnemies = battle.getDefeatedEnemies();
+                defeatedEnemies = battle.getEnemiesToFight();
 
             }
 
@@ -510,23 +501,26 @@ import unsw.loopmania.LoopManiaApplication;
     }
 
     /**
-     * spawn a sword in the world and return the sword entity
-     * @return a sword to be spawned in the controller as a JavaFX node
+     * spawn a weapon depending on the enemy looted
+     * @return possibly a weapon to be spawned in the controller as a JavaFX node
      */
     public BasicItem addUnequippedItem(BasicEnemy enemy){
         System.out.println("addUnequippedItem");
-        // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
+
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
+        
+
         if (firstAvailableSlot == null){
             // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
-            // TODO = give some cash/experience rewards for the discarding of the oldest sword
             removeItemByPositionInUnequippedInventoryItems(0);
             firstAvailableSlot = getFirstAvailableSlotForItem();
+            //for each weapon lost, 5 gold is gained
+            character.increaseGold(5);
         }
         
         // now we insert the new sword, as we know we have at least made a slot available...
         BasicItem item = enemy.giveWeaponWhenLooted(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        //BasicItem item = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+
         System.out.println(character.getAllInventoryItems().size());
         if (item != null){
             this.character.getAllInventoryItems().add(item);
@@ -536,105 +530,6 @@ import unsw.loopmania.LoopManiaApplication;
         return item;
     }
 
-     /**
-     * spawn a staff in the world and return the staff entity
-     * @return a staff to be spawned in the controller as a JavaFX node
-     */
-    public Staff addUnequippedStaff(){
-       
-        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-        if (firstAvailableSlot == null){
-            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
-            // TODO = give some cash/experience rewards for the discarding of the oldest staff
-            removeItemByPositionInUnequippedInventoryItems(0);
-            firstAvailableSlot = getFirstAvailableSlotForItem();
-        }
-        
-        // now we insert the new staff, as we know we have at least made a slot available...
-        Staff staff = new Staff(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        this.character.getAllInventoryItems().add(staff);
-        return staff;
-    }
-
-     /**
-     * spawn a stake in the world and return the stake entity
-     * @return a stake to be spawned in the controller as a JavaFX node
-     */
-    public Stake addUnequippedStake(){
-        
-        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-        if (firstAvailableSlot == null){
-            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
-            // TODO = give some cash/experience rewards for the discarding of the oldest stake
-            removeItemByPositionInUnequippedInventoryItems(0);
-            firstAvailableSlot = getFirstAvailableSlotForItem();
-        }
-        
-        // now we insert the new stake, as we know we have at least made a slot available...
-        Stake stake = new Stake(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        this.character.getAllInventoryItems().add(stake);
-        return stake;
-    }
-
-     /**
-     * spawn a shield in the world and return the shield entity
-     * @return a shield to be spawned in the controller as a JavaFX node
-     */
-    public Shield addUnequippedShield(){
-        
-        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-        if (firstAvailableSlot == null){
-            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
-            // TODO = give some cash/experience rewards for the discarding of the oldest shield
-            removeItemByPositionInUnequippedInventoryItems(0);
-            firstAvailableSlot = getFirstAvailableSlotForItem();
-        }
-        
-        // now we insert the new shield, as we know we have at least made a slot available...
-        Shield shield = new Shield(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        this.character.getAllInventoryItems().add(shield);
-        return shield;
-    }
-
-     /**
-     * spawn a helmet in the world and return the helmet entity
-     * @return a helmet to be spawned in the controller as a JavaFX node
-     */
-    public Helmet addUnequippedHelmet(){
-        
-        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-        if (firstAvailableSlot == null){
-            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
-            // TODO = give some cash/experience rewards for the discarding of the oldest helmet
-            removeItemByPositionInUnequippedInventoryItems(0);
-            firstAvailableSlot = getFirstAvailableSlotForItem();
-        }
-        
-        // now we insert the new helmet, as we know we have at least made a slot available...
-        Helmet helmet = new Helmet(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        this.character.getAllInventoryItems().add(helmet);
-        return helmet;
-    }
-
-     /**
-     * spawn a armour in the world and return the armour entity
-     * @return a armour to be spawned in the controller as a JavaFX node
-     */
-    public Armour addUnequippedArmour(){
-        
-        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-        if (firstAvailableSlot == null){
-            // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
-            // TODO = give some cash/experience rewards for the discarding of the oldest armour
-            removeItemByPositionInUnequippedInventoryItems(0);
-            firstAvailableSlot = getFirstAvailableSlotForItem();
-        }
-        
-        // now we insert the new armour, as we know we have at least made a slot available...
-        Armour armour = new Armour(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
-        this.character.getAllInventoryItems().add(armour);
-        return armour;
-    }
 
     /**
      * remove an item by x,y coordinates
@@ -651,14 +546,14 @@ import unsw.loopmania.LoopManiaApplication;
      */
     public void runTickMoves() {
     
-        character.moveDownPath();;
+        character.moveDownPath();
+        
+        for (Ally ally : allies) {
+            ally.moveDownPath();
+        }
         moveBasicEnemies();
         possiblyCollectGold();
         possiblyCollectPotion();
-        
-        for (PathBuilding p : pathBuildings) {
-            p.pathAction(character, enemies);
-        }
 
         updateLoopCount(character);
        
@@ -755,7 +650,6 @@ import unsw.loopmania.LoopManiaApplication;
      * move all enemies
      */
     private void moveBasicEnemies() {
-
         for (BasicEnemy e: enemies){
             e.move();
         }
@@ -809,7 +703,6 @@ import unsw.loopmania.LoopManiaApplication;
             } else if (newBuilding instanceof PathBuilding) {
                 pathBuildings.add((PathBuilding)newBuilding);
             }
-            buildingsList.add(newBuilding);
             card.destroy();
             this.character.getAllCards().remove(card);
             shiftCardsDownFromXCoordinate(cardNodeX);
@@ -819,16 +712,11 @@ import unsw.loopmania.LoopManiaApplication;
     }
 
     public boolean isAdjacent (int x, int y) {
-        if (x == y + 1 || x == y - 1) return true;
+        if (x == y + 1 || x == y - 1 || x == y) return true;
         return false;
     }
-    /*
-    public List<BasicEnemy> runBattles(LoopManiaWorldController world) {
-        return null;
-    }
-    */
 
-    public ArrayList<Pair<Integer, Integer>> getAllAllies() {
-        return null;
+    public List<Ally> getAllAllies() {
+        return character.getAllies();
     }
 }

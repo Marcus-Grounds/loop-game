@@ -17,6 +17,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -36,6 +37,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import unsw.loopmania.BasicItems.Sword;
@@ -112,6 +114,15 @@ public class LoopManiaWorldController {
 
     @FXML
     private GridPane unequippedInventory;
+
+    @FXML
+    private Label healthNumber;
+
+    @FXML
+    private Label goldNumber;
+    
+    @FXML
+    private Label expNumber;
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -262,6 +273,10 @@ public class LoopManiaWorldController {
         draggedEntity.setVisible(false);
         draggedEntity.setOpacity(0.7);
         anchorPaneRoot.getChildren().add(draggedEntity);
+
+        healthNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getCurrentHealth()).asString());
+        goldNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getGoldCount()).asString());
+        expNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getExperience()).asString());
     }
 
     /**
@@ -290,6 +305,11 @@ public class LoopManiaWorldController {
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
+            Ally ally = world.pathBuildingAction();
+            if (ally != null) {
+                System.out.print("loadAlly");
+                onLoad(ally);
+            }
             
             Gold gold = world.possiblySpawnGold();
             if (gold != null){
@@ -301,7 +321,9 @@ public class LoopManiaWorldController {
                 onLoad(potion);
             }
             
-
+            healthNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getCurrentHealth()).asString());
+            goldNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getGoldCount()).asString());
+            expNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getExperience()).asString());
             printThreadingNotes("HANDLED TIMER");
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -348,10 +370,7 @@ public class LoopManiaWorldController {
      * load a vampire card from the world, and pair it with an image in the GUI
      */
     private void loadCard(BasicEnemy enemy) {
-        // TODO = load more types of card
         Card card = world.loadCard(enemy);
-
-        //BasicItem item = world.addUnequippedItem(enemy);
         if (card != null){
             onLoad(card);
         }
@@ -361,9 +380,6 @@ public class LoopManiaWorldController {
      * load a sword from the world, and pair it with an image in the GUI
      */
     private void loadItem(BasicEnemy enemy){
-        // TODO = load more types of weapon
-        // start by getting first available coordinates
-        System.out.println("Load Item");
         BasicItem item = world.addUnequippedItem(enemy);
         if (item != null){
             onLoad(item);
@@ -408,17 +424,12 @@ public class LoopManiaWorldController {
      * @param weapon
      */
     private void onLoad(BasicItem weapon) {
-        System.out.println("ONLOAD BASIC ITEM");
         //ImageView view = new ImageView(swordImage);
         if (weapon != null) {
-            System.out.println("Not Null");
             ImageView view = weapon.getImageView();
             addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
             addEntity(weapon, view);
             unequippedInventory.getChildren().add(view);
-        }
-        else {
-            System.out.println("null");
         }
     }
 
@@ -434,18 +445,15 @@ public class LoopManiaWorldController {
         squares.getChildren().add(view);
     }
 
-
-   
-
     /**
      * load an enemy into the GUI
-     * @param enemy
+     * @param movingEntity
      */
-    private void onLoad(BasicEnemy enemy) {
+    private void onLoad(MovingEntity movingEntity) {
         //ImageView view = new ImageView(basicEnemyImage);
-        ImageView view = enemy.getImageView();
+        ImageView view = movingEntity.getImageView();
         
-        addEntity(enemy, view);
+        addEntity(movingEntity, view);
         squares.getChildren().add(view);
     }
 
