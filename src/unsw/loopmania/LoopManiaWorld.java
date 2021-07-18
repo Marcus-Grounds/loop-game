@@ -180,8 +180,8 @@ import unsw.loopmania.LoopManiaApplication;
      * @return wheather or not the character is on the castle (which is always the first tile on the path)
      */
     public boolean checkCharacterOnCastle (MovingEntity character) {
-        PathPosition position = new PathPosition(0, orderedPath);
-        if (character.getX() == position.getX().getValue() && character.getY() == position.getY().getValue() ) {
+        
+        if (character.getX() == heroCastle.getX() && character.getY() == heroCastle.getY()) {
             return true;
         } else {
             return false;
@@ -419,7 +419,6 @@ import unsw.loopmania.LoopManiaApplication;
         return spawningEnemies;
     }
 
-
     ////////// GOLD-RELATED METHODS ///////////////
     public Gold possiblySpawnGold() {
         Random random = new Random();
@@ -492,7 +491,6 @@ import unsw.loopmania.LoopManiaApplication;
         }
     }
     
-
     /**
      * run the expected battles in the world, based on current world state
      * @return list of enemies which have been killed
@@ -597,7 +595,6 @@ import unsw.loopmania.LoopManiaApplication;
         return item;
     }
 
-
     /**
      * remove an item by x,y coordinates
      * @param x x coordinate from 0 to width-1
@@ -642,12 +639,12 @@ import unsw.loopmania.LoopManiaApplication;
         item.destroy();
          this.character.getAllInventoryItems().remove(index);
     }
-
+    
     /**
      * get the first pair of x,y coordinates which don't have any items in it in the unequipped inventory
      * @return x,y coordinate pair
      */
-    private Pair<Integer, Integer> getFirstAvailableSlotForItem(){
+    private Pair<Integer, Integer> getFirstAvailableSlotForItem() {
         // first available slot for an item...
         // IMPORTANT - have to check by y then x, since trying to find first available slot defined by looking row by row
         for (int y=0; y<unequippedInventoryHeight; y++){
@@ -664,7 +661,7 @@ import unsw.loopmania.LoopManiaApplication;
      * shift card coordinates down starting from x coordinate
      * @param x x coordinate which can range from 0 to width-1
      */
-    private void shiftCardsDownFromXCoordinate(int x){
+    private void shiftCardsDownFromXCoordinate(int x) {
         for (Card c: this.character.getAllCards()){
             if (c.getX() >= x){
                 c.x().set(c.getX()-1);
@@ -681,7 +678,6 @@ import unsw.loopmania.LoopManiaApplication;
         }
     }
 
-    
     private Pair<Integer, Integer> getRandomPosition() {
         Random rand = new Random();
         List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
