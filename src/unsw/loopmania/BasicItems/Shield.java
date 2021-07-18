@@ -29,6 +29,7 @@ public class Shield extends BasicItem implements DefendingStrategy {
     /**
      * Reduces the damage done by the slug by 1/2
      * Slug deals damage of 1
+     * Character loses 1 health
      */
     public void reduceSlugDamage(Slug slug, Character c) {
         c.decreaseHealth(1);
@@ -37,6 +38,7 @@ public class Shield extends BasicItem implements DefendingStrategy {
     /**
      * Reduces the damage done by the zombie by 1/2
      * Zombie deals damage of 3
+     * Character loses 3 health
      */
     public void reduceZombieDamage(Zombie zombie, Character c) {
         c.decreaseHealth(3);
@@ -44,7 +46,7 @@ public class Shield extends BasicItem implements DefendingStrategy {
 
     /**
      * Reduces the damage done by the vampire by 30 if critical bite
-     * Otherwise Vampire deals damage 5
+     * Otherwise Vampire deals damage of 5
      * The chance of critical bite by Vampire is reduced by 60% 
      */
     public void reduceVampireDamage(Vampire vampire, Character c) {
