@@ -30,7 +30,7 @@ public class Doggie extends BasicEnemy{
      */
     @Override
     public BasicItem giveBasicItemWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-       return null;
+        return new DoggieCoin(x, y);
     }
 
     /**

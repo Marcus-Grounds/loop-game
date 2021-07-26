@@ -19,25 +19,25 @@ public class Character extends MovingEntity {
     public static final int START_HEALTH = 100;
     private int baseDamage = 5;
     private Gold gold;
-    private DoggieCoin doggieCoin;
     private Experience experience;
     private AttackingStrategy equippedWeapon;
     private DefendingStrategy equippedDefence;
     private List<Card> cardEntities;
     private List<Ally> allies;
     private List<BasicItem> unequippedInventoryItems;
+    private List<DoggieCoin> doggieCoins;
     
     public Character(PathPosition position) {
         
         super(position, new Health(START_HEALTH), new ImageView(new Image((new File("src/images/human_new.png")).toURI().toString())));
         this.gold = new Gold(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
-        this.doggieCoin = new DoggieCoin(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
         this.experience = new Experience();
         this.equippedWeapon = null;
         this.equippedDefence = null;        
         this.cardEntities = new ArrayList<>();
         this.unequippedInventoryItems = new ArrayList<>();
         this.allies = new ArrayList<>();
+        this.doggieCoins = new ArrayList<>();
     }
 
     public int getBaseDamage () {
@@ -68,15 +68,6 @@ public class Character extends MovingEntity {
      */
     public int increaseGold (int goldOnGorund) {
         return gold.increaseGold(goldOnGorund);
-    }
-
-    /**
-     * increase doggieCoint count basd on integer passed in
-     * @param
-     * @return
-     */
-    public void increaseDoggieCoin () {
-        doggieCoin.increaseDoggieCoin(1);
     }
 
     /**

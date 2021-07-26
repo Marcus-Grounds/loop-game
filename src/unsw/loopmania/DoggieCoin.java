@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import unsw.loopmania.BasicItems.BasicItem;
 
 import java.io.File;
+import java.util.Random;
 
 public class DoggieCoin extends BasicItem {
 
@@ -16,18 +17,17 @@ public class DoggieCoin extends BasicItem {
         this.doggieCointCount = 0;
     }
 
-    public int getDoggieCoinCount() {
-        return this.doggieCointCount;
-    }
+    @Override
+    public int getValue() {
+        //value of doggie coin will vary by 5 orders of magnitude
+        Random random = new Random();
+        int power = random.nextInt(5);
+        double base =random.nextDouble();
+        int value = (int) (base*Math.pow(10, power));
 
-    /**
-     * increase the amount of doggie coins
-     * @param amountToIncrease
-     * @return
-     */
-    public int increaseDoggieCoin(int amountToIncrease) {
-        this.doggieCointCount = this.doggieCointCount + amountToIncrease;
-        return this.doggieCointCount;
+        System.out.println(value);
+
+        return value;
     }
 
     

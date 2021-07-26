@@ -15,9 +15,11 @@ public class DoggieTests {
     //test that value of a dogecoin varies
     @Test
     public void TestDoggieCoinValue(){
+        JFXPanel jfxPanel = new JFXPanel();
         DoggieCoin doggieCoin = new DoggieCoin(null, null);
         int value1 = doggieCoin.getValue();
         int value2 = doggieCoin.getValue();
+        
         assertTrue(value1 != value2);
     }
 
