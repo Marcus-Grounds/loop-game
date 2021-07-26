@@ -16,7 +16,7 @@ public class BasicItem extends StaticEntity  {
         this.costOfItem = costOfItem;
     } 
 
-    public int getCost() {
+    public int getValue() {
         return costOfItem;
     }
 }

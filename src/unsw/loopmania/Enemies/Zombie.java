@@ -30,7 +30,7 @@ public class Zombie extends BasicEnemy{
      * @return BasicItem
      */
     @Override
-    public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    public BasicItem giveBasicItemWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         //System.out.print("generating random");
         Random random = new Random();
         double r = random.nextDouble();

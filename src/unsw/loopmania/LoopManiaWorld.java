@@ -369,10 +369,10 @@ import unsw.loopmania.LoopManiaApplication;
      */
     public BasicItem buyItemByIndexFromShop (int index) {
         BasicItem item = this.heroCastle.getItemByIndex(index);
-        if (item.getCost() <= this.getGoldCount()) {
+        if (item.getValue() <= this.getGoldCount()) {
             this.heroCastle.buyItemByIndex(index);
             this.addInventoryItem(item);
-            this.decreaseGold(item.getCost());
+            this.decreaseGold(item.getValue());
             return item;
         } else {
             return null;
@@ -607,7 +607,7 @@ import unsw.loopmania.LoopManiaApplication;
         }
         
         // now we insert the new sword, as we know we have at least made a slot available...
-        BasicItem item = enemy.giveWeaponWhenLooted(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        BasicItem item = enemy.giveBasicItemWhenLooted(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
 
         System.out.println(character.getAllInventoryItems().size());
         if (item != null){

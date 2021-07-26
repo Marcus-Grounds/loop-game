@@ -123,6 +123,7 @@ public class LoopManiaWorldController {
     
     @FXML
     private Label expNumber;
+    
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;

@@ -19,6 +19,7 @@ public class Character extends MovingEntity {
     public static final int START_HEALTH = 100;
     private int baseDamage = 5;
     private Gold gold;
+    private DoggieCoin doggieCoin;
     private Experience experience;
     private AttackingStrategy equippedWeapon;
     private DefendingStrategy equippedDefence;
@@ -30,6 +31,7 @@ public class Character extends MovingEntity {
         
         super(position, new Health(START_HEALTH), new ImageView(new Image((new File("src/images/human_new.png")).toURI().toString())));
         this.gold = new Gold(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
+        this.doggieCoin = new DoggieCoin(new SimpleIntegerProperty(0), new SimpleIntegerProperty(0));
         this.experience = new Experience();
         this.equippedWeapon = null;
         this.equippedDefence = null;        
@@ -66,6 +68,15 @@ public class Character extends MovingEntity {
      */
     public int increaseGold (int goldOnGorund) {
         return gold.increaseGold(goldOnGorund);
+    }
+
+    /**
+     * increase doggieCoint count basd on integer passed in
+     * @param
+     * @return
+     */
+    public void increaseDoggieCoin () {
+        doggieCoin.increaseDoggieCoin(1);
     }
 
     /**
@@ -169,7 +180,7 @@ public class Character extends MovingEntity {
     public BasicItem sellItemByIndex(int index) {
         BasicItem item = this.unequippedInventoryItems.get(index);
         this.unequippedInventoryItems.remove(index);
-        this.gold.increaseGold(item.getCost());
+        this.gold.increaseGold(item.getValue());
         return item;
     }
 }

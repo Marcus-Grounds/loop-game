@@ -98,7 +98,7 @@ public class EnemyTest {
         
         for (int i = 0; i < 1000; i++) {
             Slug slug = new Slug(null);
-            BasicItem item = slug.giveWeaponWhenLooted(null, null);
+            BasicItem item = slug.giveBasicItemWhenLooted(null, null);
             Card card = slug.giveCardWhenLooted(null, null);
             if (item != null){
                 lootedItems.add(item);
@@ -122,7 +122,7 @@ public class EnemyTest {
         
         for (int i = 0; i < 1000; i++) {
             Zombie zombie= new Zombie(null);
-            BasicItem item = zombie.giveWeaponWhenLooted(null, null);
+            BasicItem item = zombie.giveBasicItemWhenLooted(null, null);
             Card card = zombie.giveCardWhenLooted(null, null);
             if (item != null){
                 lootedItems2.add(item);
@@ -143,7 +143,7 @@ public class EnemyTest {
         
         for (int i = 0; i < 1000; i++) {
             Vampire vampire= new Vampire(null);
-            BasicItem item = vampire.giveWeaponWhenLooted(null, null);
+            BasicItem item = vampire.giveBasicItemWhenLooted(null, null);
             Card card = vampire.giveCardWhenLooted(null, null);
             if (item != null){
                 lootedItems3.add(item);

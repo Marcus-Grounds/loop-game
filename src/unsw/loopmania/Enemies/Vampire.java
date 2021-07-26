@@ -46,7 +46,7 @@ public class Vampire extends BasicEnemy{
      * @return BasicItem
      */
     @Override
-    public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    public BasicItem giveBasicItemWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         Random random = new Random();
         double r = random.nextDouble();
         //System.out.print(r);
