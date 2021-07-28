@@ -360,7 +360,7 @@ public class LoopManiaWorldController {
         System.out.println("react to enemy defeat");
        
         StaticEntity lootedThing = enemy.onDeath(null, null);
-        if (lootedThing instanceof AttackingStrategy || lootedThing instanceof DefendingStrategy) {
+        if (lootedThing instanceof BasicItem) {
             world.addUnequippedItem((BasicItem) lootedThing);
             onLoad((BasicItem) lootedThing);
         }
@@ -369,8 +369,6 @@ public class LoopManiaWorldController {
             world.loadCard( (Card) lootedThing);
             onLoad((Card) lootedThing);
         }
-
-
     }
 
     /**

@@ -291,6 +291,13 @@ import unsw.loopmania.LoopManiaApplication;
                 spawningEnemies.add(enemy);
             }
         }
+
+        if (loopCount % 2 == 0 && checkCharacterOnCastle()){
+            Doggie doggie = new Doggie(new PathPosition(1, orderedPath));
+            enemies.add(doggie);
+            spawningEnemies.add(doggie);
+        }
+
         
         return spawningEnemies;
     }

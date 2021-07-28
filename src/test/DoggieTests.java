@@ -30,7 +30,7 @@ public class DoggieTests {
         JFXPanel jfxPanel = new JFXPanel();
 
         Doggie doggie = new Doggie(null);
-        assertTrue(doggie.giveBasicItemWhenLooted(null, null) instanceof DoggieCoin);
+        assertTrue(doggie.onDeath(null, null) instanceof DoggieCoin);
         
     }
 }

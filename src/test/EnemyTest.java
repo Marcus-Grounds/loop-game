@@ -14,14 +14,10 @@ import unsw.loopmania.*;
 import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
 
-import unsw.loopmania.Buildings.*;
-import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
-import unsw.loopmania.Buildings.PathBuildings.TrapBuilding;
 import unsw.loopmania.Cards.*;
 
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.Enemies.Zombie;
-import unsw.loopmania.GameMode.*;
 
 public class EnemyTest {
     public static final int START_HEALTH = 100;
@@ -98,13 +94,12 @@ public class EnemyTest {
         
         for (int i = 0; i < 1000; i++) {
             Slug slug = new Slug(null);
-            BasicItem item = slug.giveBasicItemWhenLooted(null, null);
-            Card card = slug.giveCardWhenLooted(null, null);
-            if (item != null){
-                lootedItems.add(item);
+            StaticEntity lootedThing = slug.onDeath(null, null);
+            if (lootedThing instanceof BasicItem) {
+                lootedItems.add((BasicItem)lootedThing);
             }
-            if (card != null){
-                cards.add(card);
+            else if (lootedThing instanceof Card) {
+                cards.add((Card) lootedThing);
             }
         }
 
@@ -121,19 +116,18 @@ public class EnemyTest {
         List<Card> cards2 = new ArrayList<Card>();
         
         for (int i = 0; i < 1000; i++) {
-            Zombie zombie= new Zombie(null);
-            BasicItem item = zombie.giveBasicItemWhenLooted(null, null);
-            Card card = zombie.giveCardWhenLooted(null, null);
-            if (item != null){
-                lootedItems2.add(item);
+            Zombie zombie = new Zombie(null);
+            StaticEntity lootedThing = zombie.onDeath(null, null);
+            if (lootedThing instanceof BasicItem) {
+                lootedItems2.add((BasicItem)lootedThing);
             }
-            if (card != null){
-                cards2.add(card);
+            else if (lootedThing instanceof Card) {
+                cards2.add((Card) lootedThing);
             }
         }
 
         assertTrue(lootedItems2.size() > 0);
-        assertTrue(lootedItems2.size( ) < 1000);
+        assertTrue(lootedItems2.size() < 1000);
         assertTrue(cards2.size() > 0);
         assertTrue(cards2.size() < 1000);
 
@@ -143,13 +137,12 @@ public class EnemyTest {
         
         for (int i = 0; i < 1000; i++) {
             Vampire vampire= new Vampire(null);
-            BasicItem item = vampire.giveBasicItemWhenLooted(null, null);
-            Card card = vampire.giveCardWhenLooted(null, null);
-            if (item != null){
-                lootedItems3.add(item);
+            StaticEntity lootedThing = vampire.onDeath(null, null);
+            if (lootedThing instanceof BasicItem) {
+                lootedItems3.add((BasicItem)lootedThing);
             }
-            if (card != null){
-                cards3.add(card);
+            else if (lootedThing instanceof Card) {
+                cards3.add((Card) lootedThing);
             }
         }
 
@@ -157,17 +150,6 @@ public class EnemyTest {
         assertTrue(lootedItems3.size() < 1000);
         assertTrue(cards3.size() > 0);
 
-        int trapCount = 0;
-        int campFireCount = 0;
-        
-        for (Card card: cards3) {
-            if (card instanceof TrapCard) {
-                trapCount ++;
-            }
-            else if (card instanceof CampfireCard){
-                campFireCount ++;
-            }
-        }
     }
 
     /**

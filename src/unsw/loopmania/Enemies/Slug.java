@@ -56,7 +56,7 @@ public class Slug extends BasicEnemy{
             return new Shield(x, y);
         } else if (r < 0.3) {
             return new Helmet(x, y);
-        }else if (r < 0.035){
+        }else if (r < 0.35){
             return new VampireCastleCard(x, y);
         } else if (r < 0.40) {
             return new ZombiePitCard(x, y);
