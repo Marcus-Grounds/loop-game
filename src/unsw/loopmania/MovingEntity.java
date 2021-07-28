@@ -81,4 +81,8 @@ public abstract class MovingEntity extends Entity {
     public PathPosition getPathPosition() {
         return this.position;
     }
+
+    public SimpleIntegerProperty getCurrHealthProperty() {
+        return health.getCurrHealthProperty();
+    }
 }
