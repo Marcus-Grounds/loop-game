@@ -330,12 +330,12 @@ import unsw.loopmania.LoopManiaApplication;
      * @param enemy defeated enemy
      * @return Card
      */
-    public Card loadCard(BasicEnemy enemy){
+    public Card loadCard(Card card){
         if (this.character.getAllCards().size() >= getWidth()){
             removeCard(0);
         }
 
-        Card card = enemy.giveCardWhenLooted(new SimpleIntegerProperty(this.character.getAllCards().size()), new SimpleIntegerProperty(0));
+        card.setCoordinate(new SimpleIntegerProperty(this.character.getAllCards().size()), new SimpleIntegerProperty(0));
         System.out.println(character.getAllInventoryItems().size());
         if (card != null){
             this.character.getAllCards().add(card);
@@ -596,7 +596,7 @@ import unsw.loopmania.LoopManiaApplication;
      * @param enemy defeated enemy
      * @return possibly a weapon to be spawned in the controller as a JavaFX node
      */
-    public BasicItem addUnequippedItem(BasicEnemy enemy){
+    public BasicItem addUnequippedItem(BasicItem item){
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
             // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
@@ -607,7 +607,7 @@ import unsw.loopmania.LoopManiaApplication;
         }
         
         // now we insert the new sword, as we know we have at least made a slot available...
-        BasicItem item = enemy.giveBasicItemWhenLooted(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        item.setCoordinate(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
 
         System.out.println(character.getAllInventoryItems().size());
         if (item != null){

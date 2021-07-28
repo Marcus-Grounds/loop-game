@@ -41,7 +41,7 @@ public class Slug extends BasicEnemy{
      * @return BasicItem
      */
     @Override
-    public BasicItem giveBasicItemWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    public StaticEntity onDeath(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         Random random = new Random();
         double r = random.nextDouble();
         if (r < 0.05){
@@ -56,39 +56,25 @@ public class Slug extends BasicEnemy{
             return new Shield(x, y);
         } else if (r < 0.3) {
             return new Helmet(x, y);
-        }
-        return null;
-    }
-
-    /**
-     * Give randomly generated card
-     * @param x, y, the location of the card if one is generated
-     * @return Card
-     */
-    @Override
-    public Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y){
-        //15% chance of giving towerCards, 15% chance of giving 
-        Random random = new Random();
-        double r = random.nextDouble();
-        System.out.print(r);
-        if (r < 0.03){
+        }else if (r < 0.035){
             return new VampireCastleCard(x, y);
-        } else if (r < 0.06) {
+        } else if (r < 0.40) {
             return new ZombiePitCard(x, y);
-        } else if (r < 0.09) {
+        } else if (r < 0.45) {
             return new TowerCard(x, y);
-        } else if (r < 0.12) {
+        } else if (r < 0.50) {
             return new VillageCard(x, y);
-        } else if (r < 0.15) {
+        } else if (r < 0.55) {
             return new BarracksCard(x, y);
-        } else if (r < 0.18) {
+        } else if (r < 0.60) {
             return new TrapCard(x, y);
-        } else if (r < 0.21) {
+        } else if (r < 0.65) {
             return new CampfireCard(x, y);
         }
-
         return null;
     }
+
+  
 
     /**
      * slugs move forwards 25% of the time, backwards 25% of the time, and stay still otherwises

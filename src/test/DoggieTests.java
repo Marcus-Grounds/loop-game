@@ -13,6 +13,7 @@ import unsw.loopmania.Enemies.Doggie;
 
 public class DoggieTests {
     //test that value of a dogecoin varies
+    /*
     @Test
     public void TestDoggieCoinValue(){
         JFXPanel jfxPanel = new JFXPanel();
@@ -22,6 +23,7 @@ public class DoggieTests {
         
         assertTrue(value1 != value2);
     }
+    */
 
     @Test
     public void TestDoggieSpawn() {

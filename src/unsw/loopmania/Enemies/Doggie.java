@@ -13,6 +13,7 @@ import jdk.dynalink.beans.StaticClass;
 import unsw.loopmania.DoggieCoin;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.StaticEntity;
 import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.Cards.Card;
 
@@ -29,20 +30,11 @@ public class Doggie extends BasicEnemy{
      * @return BasicItem
      */
     @Override
-    public BasicItem giveBasicItemWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    public StaticEntity onDeath(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         return new DoggieCoin(x, y);
     }
 
-    /**
-     * Give randomly generated card
-     * @param x, y, the location of the card if one is generated
-     * @return Card
-     */
-    @Override
-    public Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y){
-       
-        return null;
-    }
+  
 
     /**
      * slugs move forwards 25% of the time, backwards 25% of the time, and stay still otherwises
