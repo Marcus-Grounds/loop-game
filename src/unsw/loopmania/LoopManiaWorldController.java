@@ -123,6 +123,7 @@ public class LoopManiaWorldController {
     
     @FXML
     private Label expNumber;
+    
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -350,26 +351,6 @@ public class LoopManiaWorldController {
         entityImages.add(view);
     }
 
-    /**
-     * load a vampire card from the world, and pair it with an image in the GUI
-     */
-    private void loadCard(BasicEnemy enemy) {
-        Card card = world.loadCard(enemy);
-        if (card != null){
-            onLoad(card);
-        }
-    }
-
-    /**
-     * load a sword from the world, and pair it with an image in the GUI
-     */
-    private void loadItem(BasicEnemy enemy){
-        BasicItem item = world.addUnequippedItem(enemy);
-        if (item != null){
-            onLoad(item);
-        }
-        
-    }
 
     /**
      * run GUI events after an enemy is defeated, such as spawning items/experience/gold
@@ -377,11 +358,17 @@ public class LoopManiaWorldController {
      */
     public void reactToEnemyDefeat(BasicEnemy enemy){
         System.out.println("react to enemy defeat");
-        // react to character defeating an enemy
-        // in starter code, spawning extra card/weapon...
-        // TODO = provide different benefits to defeating the enemy based on the type of enemy
-        loadItem(enemy);
-        loadCard(enemy);
+       
+        StaticEntity lootedThing = enemy.onDeath(null, null);
+        if (lootedThing instanceof BasicItem) {
+            world.addUnequippedItem((BasicItem) lootedThing);
+            onLoad((BasicItem) lootedThing);
+        }
+        else if (lootedThing instanceof Card){
+            //lootedThing.setCoordinate(new SimpleIntegerProperty(world.getCharacter().getAllCards().size()), new SimpleIntegerProperty(0));
+            world.loadCard( (Card) lootedThing);
+            onLoad((Card) lootedThing);
+        }
     }
 
     /**
@@ -442,7 +429,7 @@ public class LoopManiaWorldController {
     }
 
     /**
-     * load a building into the GUI
+     * load a building into the GUIl
      * @param building
      */
     private void onLoad(Building building){

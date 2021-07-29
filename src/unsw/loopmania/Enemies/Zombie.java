@@ -30,7 +30,7 @@ public class Zombie extends BasicEnemy{
      * @return BasicItem
      */
     @Override
-    public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    public StaticEntity onDeath(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         //System.out.print("generating random");
         Random random = new Random();
         double r = random.nextDouble();
@@ -47,39 +47,17 @@ public class Zombie extends BasicEnemy{
             return new Shield(x, y);
         } else if (r < 0.6) {
             return new Helmet(x, y);
+        }else if (r < 0.7) {
+            return new BarracksCard(x, y);
+        } else if (r < 0.85) {
+            return new TrapCard(x, y);
+        } else if (r < 0.95) {
+            return new CampfireCard(x, y);
         }
 
         return null;
     }
     
-     /**
-     * Give randomly generated card
-     * @param x, y, the location of the card if one is generated
-     * @return Card
-     */
-    @Override
-    public Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y){
-        Random random = new Random();
-        double r = random.nextDouble();
-        //System.out.print(r);
-        if (r < 0.1){
-            return new VampireCastleCard(x, y);
-        } else if (r < 0.2) {
-            return new ZombiePitCard(x, y);
-        } else if (r < 0.3) {
-            return new TowerCard(x, y);
-        } else if (r < 0.4) {
-            return new VillageCard(x, y);
-        } else if (r < 0.5) {
-            return new BarracksCard(x, y);
-        } else if (r < 0.6) {
-            return new TrapCard(x, y);
-        } else if (r < 0.7) {
-            return new CampfireCard(x, y);
-        }
-        
-        return null;
-    }
 
     /**
      * moves slowly, only moves forward 50% of the time

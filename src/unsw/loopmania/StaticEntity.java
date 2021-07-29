@@ -43,4 +43,8 @@ public abstract class StaticEntity extends Entity {
     //public ImageView getImageView() {
     //    return image;
     //}
+    public void setCoordinate(SimpleIntegerProperty x, SimpleIntegerProperty y){
+        this.x = x;
+        this.y = y;
+    }
 }

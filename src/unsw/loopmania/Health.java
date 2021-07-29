@@ -1,20 +1,29 @@
 package unsw.loopmania;
 
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Health {
-    private int currHealth;
-    private int maxHealth;
+    private SimpleIntegerProperty currHealth;
+    private SimpleIntegerProperty maxHealth;
     
     public Health (int health) {
-        this.currHealth = health;
-        this.maxHealth = health;
+        currHealth = new SimpleIntegerProperty();
+        maxHealth = new SimpleIntegerProperty();
+
+        this.currHealth.set(health);
+        this.maxHealth.set(health);
     }
 
     public int getCurrHealth () {
+        return this.currHealth.get();
+    }
+
+    public SimpleIntegerProperty getCurrHealthProperty() {
         return this.currHealth;
     }
 
     public int getMaxHealth () {
-        return this.maxHealth;
+        return this.maxHealth.get();
     }
     
      /**
@@ -22,10 +31,10 @@ public class Health {
      * @param health
      */
     public void increaseHealth (int health) {
-        if (this.currHealth + health < this.maxHealth) {
-            this.currHealth += health;
+        if (this.currHealth.get() + health < this.maxHealth.get()) {
+            currHealth.set(currHealth.get() + health);
         } else {
-            this.currHealth = this.maxHealth;
+            this.currHealth.set(this.maxHealth.get());
         }
     }
 
@@ -34,10 +43,10 @@ public class Health {
      * @param health
      */
     public void decreaseHealth (int health) {
-        if (this.currHealth - health < 0) {
-            this.currHealth = 0;
+        if (this.currHealth.get() - health < 0) {
+            this.currHealth.set(0);
         } else {
-            this.currHealth -= health;
+            this.currHealth.set(currHealth.get()-health);
         }
     }
 }
