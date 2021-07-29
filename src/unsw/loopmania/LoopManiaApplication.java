@@ -53,6 +53,11 @@ public class LoopManiaApplication extends Application {
         FXMLLoader shopSellLoader = new FXMLLoader(getClass().getResource("ShopSellView.fxml"));
         shopSellLoader.setController(shopSellController);
         Parent shopSellRoot = shopSellLoader.load();
+
+        ShopBuyController shopBuyController = new ShopBuyController();
+        FXMLLoader shopBuyLoader = new FXMLLoader(getClass().getResource("ShopBuyView.fxml"));
+        shopBuyLoader.setController(shopBuyController);
+        Parent shopBuyRoot = shopBuyLoader.load();
         
 
         Scene scene = new Scene(mainMenuRoot);
@@ -95,6 +100,11 @@ public class LoopManiaApplication extends Application {
             mainController.pause();
             shopSellController.startTimer(mainController);
         });
+        mainController.setShopBuySwitcher(() -> {  
+            switchToRoot(scene, shopBuyRoot, primaryStage);
+            mainController.pause();
+            shopBuyController.startTimer(mainController);
+        });
        
         battleEnemyController.setGameSwitcher(() -> {  
             switchToRoot(scene, gameRoot, primaryStage);
@@ -104,10 +114,24 @@ public class LoopManiaApplication extends Application {
             switchToRoot(scene, endScreenRoot, primaryStage);
         });
 
-
         shopSellController.setGameSwitcher(() -> {  
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
+        });
+        shopSellController.setShopBuySwitcher(() -> {  
+            switchToRoot(scene, shopBuyRoot, primaryStage);
+            mainController.pause();
+            shopBuyController.startTimer(mainController);
+        });
+
+        shopBuyController.setGameSwitcher(() -> {  
+            switchToRoot(scene, gameRoot, primaryStage);
+            mainController.startTimer();
+        });
+        shopBuyController.setShopSellSwitcher(() -> {  
+            switchToRoot(scene, shopBuyRoot, primaryStage);
+            mainController.pause();
+            shopBuyController.startTimer(mainController);
         });
         
         // deploy the main onto the stage

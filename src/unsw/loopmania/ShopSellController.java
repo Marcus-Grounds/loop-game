@@ -47,6 +47,8 @@ public class ShopSellController {
 
     private MenuSwitcher gameSwitcher;
 
+    private MenuSwitcher shopBuySwitcher;
+
     private LoopManiaWorld loopManiaWorld;
 
     private LoopManiaWorldController loopManiaWorldController;
@@ -68,6 +70,10 @@ public class ShopSellController {
 
     public void setGameSwitcher(MenuSwitcher gameSwitcher){
         this.gameSwitcher = gameSwitcher;
+    }
+
+    public void setShopBuySwitcher (MenuSwitcher shopBuySwitcher) {
+        this.shopBuySwitcher = shopBuySwitcher;
     }
 
     public void setLoopManiaWorld(LoopManiaWorld loopManiaWorld) {
@@ -106,9 +112,9 @@ public class ShopSellController {
     }
 
     @FXML
-    private void switchToBuy() throws IOException {
+    private void switchToShopBuy() throws IOException {
         loopManiaWorldController.getUnequippedInventory().getChildren().addAll(inventory.getChildren());
         timeline.stop();
-        gameSwitcher.switchMenu();
+        shopBuySwitcher.switchMenu();
     }
 }
