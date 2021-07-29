@@ -2,6 +2,7 @@ package unsw.loopmania.RareItems;
 
 import unsw.loopmania.*;
 import unsw.loopmania.Character;
+import unsw.loopmania.Enemies.*;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

@@ -2,6 +2,7 @@ package unsw.loopmania.RareItems;
 
 import unsw.loopmania.*;
 import unsw.loopmania.Character;
+import unsw.loopmania.Enemies.*;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,13 +26,13 @@ public class TreeStump extends StaticEntity{
      * Reduces doggie damage by 5 times
      */
     public void reduceDoggieDamage(Character character, Doggie doggie) {
-        character.decreaseHealth(doggie.getBaseDamage / 5);
+        character.decreaseHealth(doggie.getDamage() / 5);
     }
 
     /**
      * Reduces Elan Muske damage by 5 times
      */
     public void reduceElanMuskeDamage(Character character, ElanMuske elanMuske) {
-        character.decreaseHealth(elanMuske.getBasedamage / 5);
+        character.decreaseHealth(elanMuske.getDamage() / 5);
     }
 }
