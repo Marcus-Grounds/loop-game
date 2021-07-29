@@ -21,7 +21,7 @@ import unsw.loopmania.Cards.Card;
 public class Doggie extends BasicEnemy{
     
     public Doggie (PathPosition position) {
-        super(position, new Health(10), 1, 1, 2, new ImageView(new Image((new File("src/images/doggie.png")).toURI().toString())) );
+        super(position, new Health(100), 1, 1, 2, new ImageView(new Image((new File("src/images/doggie.png")).toURI().toString())) );
     }
 
     /**

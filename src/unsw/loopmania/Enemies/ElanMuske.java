@@ -23,7 +23,7 @@ import unsw.loopmania.Cards.Card;
 public class ElanMuske extends BasicEnemy{
     
     public ElanMuske (PathPosition position) {
-        super(position, new Health(10), 1, 1, 2, new ImageView(new Image((new File("src/images/ElanMuske.png")).toURI().toString())) );
+        super(position, new Health(200), 1, 1, 2, new ImageView(new Image((new File("src/images/ElanMuske.png")).toURI().toString())) );
     }
 
     /**
