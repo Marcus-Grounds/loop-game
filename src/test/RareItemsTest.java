@@ -36,7 +36,7 @@ public class RareItemsTest {
       
         assertEquals(100, doggie.getCurrentHealth());
 
-        anduril.reduceDoggieHealth(doggie);
+        anduril.reduceDoggieHealth(doggie, c);
         assertEquals(doggie.getCurrentHealth(), 85);
         
     }
@@ -59,7 +59,7 @@ public class RareItemsTest {
       
         assertEquals(200, elanMuske.getCurrentHealth());
 
-        anduril.reduceElanMuskeHealth(elanMuske);
+        anduril.reduceElanMuskeHealth(elanMuske, c);
         assertEquals(elanMuske.getCurrentHealth(), 185);
     }
 
@@ -82,7 +82,7 @@ public class RareItemsTest {
         assertEquals(100, c.getCurrentHealth());
 
         treestump.reduceDoggieDamage(c, doggie);
-        int damageDone = doggie.getBaseDamage / 5;
+        int damageDone = doggie.getDamage() / 5;
         assertEquals(c.getCurrentHealth(), 100 - damageDone);
     }
 
@@ -105,7 +105,7 @@ public class RareItemsTest {
         assertEquals(100, c.getCurrentHealth());
 
         treestump.reduceElanMuskeDamage(c, elanMuske);
-        int damageDone = elanMuske.getBaseDamage / 5;
+        int damageDone = elanMuske.getDamage() / 5;
         assertEquals(c.getCurrentHealth(), 100 - damageDone);
     }
 }

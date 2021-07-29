@@ -10,6 +10,7 @@ import org.javatuples.Pair;
 import unsw.loopmania.*;
 import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
+import unsw.loopmania.BasicItems.DoggieCoin;
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -765,7 +766,7 @@ public class ItemTest {
 
         boolean elanMuskeDead = true;
         doggiecoin.setCoinPrice(elanMuskeDead);
-        assertEquals(200, doggiecoin.getCost());
+        assertEquals(200, doggiecoin.getCoinPrice());
 
     }
 
@@ -784,7 +785,7 @@ public class ItemTest {
 
         boolean elanMuskeDead = false;
         doggiecoin.setCoinPrice(elanMuskeDead);
-        assertTrue(0 <= doggiecoin.getCost() && doggiecoin.getCost() <= 100);
+        assertTrue(0 <= doggiecoin.getCoinPrice() && doggiecoin.getCoinPrice() <= 100);
 
     }
 }
