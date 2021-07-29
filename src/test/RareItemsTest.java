@@ -84,7 +84,7 @@ public class RareItemsTest {
         assertEquals(100, c.getCurrentHealth());
 
         treestump.reduceDoggieDamage(c, doggie);
-        int damageDone = doggie.getBaseDamage / 5
+        int damageDone = doggie.getBaseDamage / 5;
         assertEquals(c.getCurrentHealth(), 100 - damageDone);
     }
 
@@ -108,7 +108,7 @@ public class RareItemsTest {
         assertEquals(100, c.getCurrentHealth());
 
         treestump.reduceElanMuskeDamage(c, elanMuske);
-        int damageDone = elanMuske.getBaseDamage / 5
+        int damageDone = elanMuske.getBaseDamage / 5;
         assertEquals(c.getCurrentHealth(), 100 - damageDone);
     }
 }
