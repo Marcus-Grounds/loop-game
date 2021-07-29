@@ -158,7 +158,14 @@ public class LoopManiaWorldTest {
         for (int i = 0; i < 1000; i ++){
             d.possiblySpawnEnemies();
         }
-        assertTrue(d.getAllBasicEnemies().size() == 5);
+        int slugCount = 0;
+        for (BasicEnemy e: d.getAllBasicEnemies()) {
+            if (e instanceof Slug){
+                slugCount ++;
+            }   
+        }
+        assertTrue (slugCount > 0);
+        assertTrue(slugCount <= 5);
     }
 
     /** 
