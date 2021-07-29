@@ -184,13 +184,16 @@ public class LoopManiaWorldController {
 
     private MenuSwitcher shopSellSwitcher;
 
+    private MenuSwitcher shopBuySwitcher;
+
     private Parent gameRoot;
 
     BattleEnemyController battleEnemyController;
 
-    ShopBuyController shopBuyController;
-
     ShopSellController shopSellController;
+
+    ShopBuyController shopBuyController;
+    
     /*
     public void setBattleEnemyScreen (BattleEnemyScreen battleEnemyScreen){
         this.battleEnemyScreen = battleEnemyScreen;
@@ -712,6 +715,10 @@ public class LoopManiaWorldController {
 
     public void setShopSellSwitcher(MenuSwitcher shopSellSwitcher){
         this.shopSellSwitcher = shopSellSwitcher;
+    }
+
+    public void setShopBuySwitcher(MenuSwitcher shopBuySwitcher){
+        this.shopBuySwitcher = shopBuySwitcher;
     }
 
     /**
