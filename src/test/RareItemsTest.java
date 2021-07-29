@@ -12,6 +12,7 @@ import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;
+import unsw.loopmania.RareItems.*;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.embed.swing.JFXPanel;
 
@@ -29,7 +30,6 @@ public class RareItemsTest {
         orderedPath.add(path2);
 
         Anduril anduril = new Anduril(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        d.addInventoryItem(anduril);
         Character c = new Character(new PathPosition(0, orderedPath));
         d.setCharacter(c);
         Doggie doggie = new Doggie(new PathPosition(1, orderedPath));
@@ -53,7 +53,6 @@ public class RareItemsTest {
         orderedPath.add(path2);
 
         Anduril anduril = new Anduril(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        d.addInventoryItem(anduril);
         Character c = new Character(new PathPosition(0, orderedPath));
         d.setCharacter(c);
         ElanMuske elanMuske = new ElanMuske(new PathPosition(1, orderedPath));
@@ -76,7 +75,6 @@ public class RareItemsTest {
         orderedPath.add(path2);
 
         TreeStump treestump = new TreeStump(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        d.addInventoryItem(treestump);
         Character c = new Character(new PathPosition(0, orderedPath));
         d.setCharacter(c);
         Doggie doggie = new Doggie(new PathPosition(1, orderedPath));
@@ -100,7 +98,6 @@ public class RareItemsTest {
         orderedPath.add(path2);
 
         TreeStump treestump = new TreeStump(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
-        d.addInventoryItem(treestump);
         Character c = new Character(new PathPosition(0, orderedPath));
         d.setCharacter(c);
         ElanMuske elanMuske = new ElanMuske(new PathPosition(1, orderedPath));
