@@ -86,4 +86,14 @@ public class Vampire extends BasicEnemy{
         }
         
     }
+
+    @Override
+    public int getGold () {
+        return 100;
+    }
+
+    @Override
+    public int getExperience () {
+        return 200;
+    }
 }

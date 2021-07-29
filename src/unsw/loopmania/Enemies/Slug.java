@@ -30,6 +30,9 @@ import unsw.loopmania.Cards.VillageCard;
 
 
 public class Slug extends BasicEnemy{
+
+    static int gold = 10;
+    static int experience = 8;
     
     public Slug (PathPosition position) {
         super(position, new Health(10), 1, 1, 2, new ImageView(new Image((new File("src/images/slug.png")).toURI().toString())) );
@@ -88,5 +91,15 @@ public class Slug extends BasicEnemy{
         else if (directionChoice == 1){
             moveDownPath();
         }
+    }
+
+    @Override
+    public int getGold () {
+        return 3;
+    }
+
+    @Override
+    public int getExperience () {
+        return 10;
     }
 }

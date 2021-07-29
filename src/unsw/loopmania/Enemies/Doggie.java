@@ -49,4 +49,14 @@ public class Doggie extends BasicEnemy{
             moveDownPath();
         }
     }
+
+    @Override
+    public int getGold () {
+        return 150;
+    }
+
+    @Override
+    public int getExperience () {
+        return 300;
+    }
 }

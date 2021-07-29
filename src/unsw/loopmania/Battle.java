@@ -166,7 +166,8 @@ public class Battle {
         for (BasicEnemy enemy: enemiesToFight){
             enemy.destroy();
             enemies.remove(enemy);
-            c.increaseGold(3);
+            c.increaseGold(enemy.getGold());
+            c.addExperience(enemy.getExperience());
         }
         if (controller != null) {
             controller.pauseBattle();

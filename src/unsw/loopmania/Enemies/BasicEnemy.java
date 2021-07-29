@@ -44,4 +44,8 @@ public abstract class BasicEnemy extends MovingEntity {
     public abstract StaticEntity onDeath(SimpleIntegerProperty x, SimpleIntegerProperty y);
     //public abstract Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y);
     public abstract void move();
+
+    public abstract int getGold();
+
+    public abstract int getExperience();
 }

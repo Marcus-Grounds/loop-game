@@ -104,4 +104,11 @@ public class ShopSellController {
         timeline.stop();
         gameSwitcher.switchMenu();
     }
+
+    @FXML
+    private void switchToBuy() throws IOException {
+        loopManiaWorldController.getUnequippedInventory().getChildren().addAll(inventory.getChildren());
+        timeline.stop();
+        gameSwitcher.switchMenu();
+    }
 }

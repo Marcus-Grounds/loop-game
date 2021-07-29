@@ -43,12 +43,22 @@ public class ShopBuyController {
     @FXML // fx:id="sellItem"
     private Button sellItem; // Value injected by FXMLLoader
 
+    private MenuSwitcher gameSwitcher;
+
+    private LoopManiaWorld loopManiaWorld;
+
+    private LoopManiaWorldController loopManiaWorldController;
+
+    private Timeline timeline;
+
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+        item1 = new ImageView((new File("src/images/empty_slot.png")).toURI().toString());
+        item2 = new ImageView((new File("src/images/empty_slot.png")).toURI().toString());
+        item3 = new ImageView((new File("src/images/empty_slot.png")).toURI().toString());
         assert item1 != null : "fx:id=\"item1\" was not injected: check your FXML file 'ShopBuyView.fxml'.";
         assert item2 != null : "fx:id=\"item2\" was not injected: check your FXML file 'ShopBuyView.fxml'.";
         assert item3 != null : "fx:id=\"item3\" was not injected: check your FXML file 'ShopBuyView.fxml'.";
         assert sellItem != null : "fx:id=\"sellItem\" was not injected: check your FXML file 'ShopBuyView.fxml'.";
-
     }
 }

@@ -51,5 +51,15 @@ public class ElanMuske extends BasicEnemy{
             moveDownPath();
         }
     }
+
+    @Override
+    public int getGold () {
+        return 800;
+    }
+
+    @Override
+    public int getExperience () {
+        return 1000;
+    }
 }
 

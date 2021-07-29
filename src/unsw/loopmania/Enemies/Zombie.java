@@ -69,4 +69,14 @@ public class Zombie extends BasicEnemy{
             moveDownPath();
         }
     }
+
+    @Override
+    public int getGold () {
+        return 50;
+    }
+
+    @Override
+    public int getExperience () {
+        return 120;
+    }
 }
