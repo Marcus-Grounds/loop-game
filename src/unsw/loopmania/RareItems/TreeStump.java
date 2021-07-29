@@ -14,7 +14,7 @@ import java.io.File;
 public class TreeStump extends StaticEntity{
     
     public TreeStump(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, new ImageView(new Image((new File("src/images/anduril_flame_of_the_west.png")).toURI().toString())));
+        super(x, y, new ImageView(new Image((new File("src/images/tree_stump.png")).toURI().toString())));
     } 
 
     public TreeStump getTreeStump() {
