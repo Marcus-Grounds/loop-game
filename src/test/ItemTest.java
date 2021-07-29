@@ -43,7 +43,7 @@ public class ItemTest {
      * When loopCount is less than or equal to 30
      */
     @Test
-    public void TestAttackOnSlugBySword1() {
+    public void TestAttackOnDoggieByAnduril() {
         JFXPanel jfxPanel = new JFXPanel();
         LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
@@ -750,4 +750,41 @@ public class ItemTest {
 
     }
     
+    @Test
+    public void TestDoggieCoin1() {
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(2, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(2, 1);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+
+        DoggieCoin doggiecoin = new DoggieCoin(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+
+        boolean elanMuskeDead = true;
+        doggiecoin.setCoinPrice(elanMuskeDead);
+        assertEquals(200, doggiecoin.getCost());
+
+    }
+
+    @Test
+    public void TestDoggieCoin2() {
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(2, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(2, 1);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+
+        DoggieCoin doggiecoin = new DoggieCoin(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+
+        boolean elanMuskeDead = false;
+        doggiecoin.setCoinPrice(elanMuskeDead);
+        assertTrue(0 <= doggiecoin.getCost() && doggiecoin.getCost() <= 100);
+
+    }
 }
