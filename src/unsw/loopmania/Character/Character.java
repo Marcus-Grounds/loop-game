@@ -9,7 +9,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import unsw.loopmania.Ally;
-import unsw.loopmania.DoggieCoin;
 import unsw.loopmania.Experience;
 import unsw.loopmania.Gold;
 import unsw.loopmania.Health;
@@ -18,6 +17,7 @@ import unsw.loopmania.PathPosition;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.DefendingStrategy;
+import unsw.loopmania.BasicItems.DoggieCoin;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Enemies.BasicEnemy;
 

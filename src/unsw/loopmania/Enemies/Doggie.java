@@ -10,18 +10,18 @@ import java.util.Random;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.embed.swing.JFXPanel;
 import jdk.dynalink.beans.StaticClass;
-import unsw.loopmania.DoggieCoin;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
 import unsw.loopmania.BasicItems.BasicItem;
+import unsw.loopmania.BasicItems.DoggieCoin;
 import unsw.loopmania.Cards.Card;
 
 
 public class Doggie extends BasicEnemy{
     
     public Doggie (PathPosition position) {
-        super(position, new Health(10), 1, 1, 2, new ImageView(new Image((new File("src/images/doggie.png")).toURI().toString())) );
+        super(position, new Health(100), 1, 1, 2, new ImageView(new Image((new File("src/images/doggie.png")).toURI().toString())) );
     }
 
     /**

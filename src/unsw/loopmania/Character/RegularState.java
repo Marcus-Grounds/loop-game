@@ -12,8 +12,8 @@ public class RegularState extends CharacterState {
     public void dealDamage(BasicEnemy enemy, int loopCount){
         AttackingStrategy weapon = character.getEquippedWeapon ();
 
-        if (enemy instanceof Doggie) {
-            System.out.println("Swiatch to stnned");
+        //a doggie can only stun if its health is greater than 30
+        if (enemy instanceof Doggie && enemy.getCurrentHealth() >= 30) {
             character.changeState(new StunnedState(character));
             
         }
@@ -21,7 +21,6 @@ public class RegularState extends CharacterState {
         enemy.decreaseHealth(character.getBaseDamage());
         if (weapon != null){
             if (enemy instanceof Slug){
-                System.out.println("Slug");
                 Slug slug = (Slug) enemy;
                 weapon.reduceSlugHealth(slug, loopCount);
             }
@@ -29,13 +28,16 @@ public class RegularState extends CharacterState {
                 Zombie zombie = (Zombie) enemy;
                 weapon.reduceZombieHealth(zombie, loopCount);
             }
-            else if (enemy instanceof Vampire){
-                System.out.println("Vamp");
+            else if (enemy instanceof Vampire);
                 Vampire vampire = (Vampire) enemy;
                 weapon.reduceVampireHealth(vampire, loopCount);
             }
+            // NEED TO CHANGE THISSSSSS
+            else if (enemy instanceof Doggie){
+                enemy.decreaseHealth(10);
+            }
         }
-    }
+    
 
     public void move() {
         character.moveDownPath();

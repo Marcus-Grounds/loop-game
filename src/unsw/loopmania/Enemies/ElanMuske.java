@@ -12,11 +12,11 @@ import javax.lang.model.util.ElementScanner7;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.embed.swing.JFXPanel;
 import jdk.dynalink.beans.StaticClass;
-import unsw.loopmania.DoggieCoin;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
 import unsw.loopmania.BasicItems.BasicItem;
+import unsw.loopmania.BasicItems.DoggieCoin;
 import unsw.loopmania.Cards.Card;
 
 

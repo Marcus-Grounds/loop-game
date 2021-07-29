@@ -89,6 +89,7 @@ import unsw.loopmania.LoopManiaApplication;
     private List<SpawnBuilding>  spawnBuildings;
 
     private List<Ally> allies;
+    private boolean defeatedElan;
 
 
     /**
@@ -120,6 +121,7 @@ import unsw.loopmania.LoopManiaApplication;
         this.goldInTheWorld = new ArrayList<>();
         thePotion = null;
         loopCount = 0;
+        defeatedElan = false;
     }
 
     public int getWidth() {
@@ -139,6 +141,7 @@ import unsw.loopmania.LoopManiaApplication;
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves() {
+
         character.move();
         
         for (Ally ally : allies) {
@@ -147,7 +150,7 @@ import unsw.loopmania.LoopManiaApplication;
         moveBasicEnemies();
         possiblyCollectGold();
         possiblyCollectPotion();
-
+        fluctuateDoggieCoinValue();
         updateLoopCount(character);
        
     }
@@ -293,7 +296,7 @@ import unsw.loopmania.LoopManiaApplication;
             }
         }
 
-        if (loopCount % 2 == 0 && checkCharacterOnCastle()){
+        if (checkCharacterOnCastle()){
             Doggie doggie = new Doggie(new PathPosition(1, orderedPath));
             enemies.add(doggie);
             spawningEnemies.add(doggie);
@@ -755,4 +758,15 @@ import unsw.loopmania.LoopManiaApplication;
     public List<Ally> getAllAllies() {
         return character.getAllies();
     }
+
+    
+    public void fluctuateDoggieCoinValue() {
+        for (BasicItem item : character.getAllInventoryItems()) {
+            if (item instanceof DoggieCoin) {
+                DoggieCoin doggieCoin = (DoggieCoin) item;
+                doggieCoin.setCoinPrice(defeatedElan);
+            }
+        }
+    }
+    
 }

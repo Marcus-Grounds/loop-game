@@ -288,6 +288,7 @@ public class LoopManiaWorldController {
             List<BasicEnemy> defeatedEnemies = new ArrayList<>();
             try {
                 if (world.checkCharacterOnCastle()) {
+
                     this.switchToShopSell();
                 } else {
                     defeatedEnemies = world.runBattles(this);
