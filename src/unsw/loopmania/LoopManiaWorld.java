@@ -374,11 +374,10 @@ import unsw.loopmania.LoopManiaApplication;
      * @param index
      * @return
      */
-    public BasicItem buyItemByIndexFromShop (int index) {
-        BasicItem item = this.heroCastle.getItemByIndex(index);
+    public BasicItem buyItem (BasicItem item) {
         if (item.getValue() <= this.getGoldCount()) {
-            this.heroCastle.buyItemByIndex(index);
-            this.addInventoryItem(item);
+            this.heroCastle.buyItem(item);
+            this.addUnequippedItem(item);
             this.decreaseGold(item.getValue());
             return item;
         } else {

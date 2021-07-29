@@ -397,7 +397,7 @@ public class LoopManiaWorldController {
      * and load the image into the unequippedInventory GridPane.
      * @param weapon
      */
-    private void onLoad(BasicItem weapon) {
+    public void onLoad(BasicItem weapon) {
         //ImageView view = new ImageView(swordImage);
         if (weapon != null) {
             ImageView view = weapon.getImageView();
@@ -407,13 +407,13 @@ public class LoopManiaWorldController {
         }
     }
 
-    private void onLoad(Gold gold){
+    public void onLoad(Gold gold){
         ImageView view = gold.getImageView();
         addEntity(gold, view);
         squares.getChildren().add(view);
     }
 
-    private void onLoad(HealthPotion potion){
+    public void onLoad(HealthPotion potion){
         ImageView view = potion.getImageView();
         addEntity(potion, view);
         squares.getChildren().add(view);
@@ -423,7 +423,7 @@ public class LoopManiaWorldController {
      * load an enemy into the GUI
      * @param movingEntity
      */
-    private void onLoad(MovingEntity movingEntity) {
+    public void onLoad(MovingEntity movingEntity) {
         //ImageView view = new ImageView(basicEnemyImage);
         ImageView view = movingEntity.getImageView();
         
@@ -435,7 +435,7 @@ public class LoopManiaWorldController {
      * load a building into the GUIl
      * @param building
      */
-    private void onLoad(Building building){
+    public void onLoad(Building building){
         //ImageView view = new ImageView(vampireCastleBuildingImage);        
         ImageView view = building.getImageView();
         
