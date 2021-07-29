@@ -5,6 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.geometry.HPos;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.DefendingStrategy;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
@@ -52,6 +58,31 @@ public class Battle {
      * each enemy will deal damage to and recieve damate from an allied soldier and character
      */
     public void dealDamageOnce(){
+        /*
+        List<BasicEnemy> enemiesList = getEnemiesToFight();
+        int currentEnemyNum = 0;
+        
+        GridPane grid = controller.getGrid();
+        grid.getChildren().clear();
+        for(int y = 0; y < 3; y++) {
+            for(int x = 0; x < 3; x++) {
+                if (currentEnemyNum < enemiesList.size()){
+                    BasicEnemy currentEnemy = enemiesList.get(currentEnemyNum);
+                    ImageView enemyImage = currentEnemy.getImageView();
+                    grid.add(enemyImage, x, y);
+
+                    Label healthNumber = new Label();
+                    healthNumber.textProperty().bind(new SimpleIntegerProperty (currentEnemy.getCurrentHealth()).asString());
+                    grid.add(healthNumber, x, y);
+                    GridPane.setHalignment(healthNumber, HPos.RIGHT);
+
+                    currentEnemyNum++;
+                }
+                
+
+            }
+        }
+        */
 
         boolean allEnemiesDead = true;
         AttackingStrategy weapon = c.getEquippedWeapon ();
@@ -135,7 +166,8 @@ public class Battle {
         for (BasicEnemy enemy: enemiesToFight){
             enemy.destroy();
             enemies.remove(enemy);
-            c.increaseGold(3);
+            c.increaseGold(enemy.getGold());
+            c.addExperience(enemy.getExperience());
         }
         if (controller != null) {
             controller.pauseBattle();

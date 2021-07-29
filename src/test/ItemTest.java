@@ -707,7 +707,7 @@ public class ItemTest {
    
         gold.increaseGold(30);
         int currGold = gold.getGoldCount();
-        gold.decreaseGold(shield.getCost());
+        gold.decreaseGold(shield.getValue());
         assertEquals(gold.getGoldCount(), currGold-20);
 
     }
@@ -723,7 +723,7 @@ public class ItemTest {
         Gold gold = new Gold(new SimpleIntegerProperty(2), new SimpleIntegerProperty(2));
 
         int currGold = gold.getGoldCount();
-        gold.increaseGold(sword.getCost());
+        gold.increaseGold(sword.getValue());
         assertEquals(gold.getGoldCount(), currGold+5);
     }
 

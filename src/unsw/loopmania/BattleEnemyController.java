@@ -3,17 +3,23 @@ package unsw.loopmania;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+import unsw.loopmania.Enemies.BasicEnemy;
 
 public class BattleEnemyController {
     private MenuSwitcher gameSwitcher;
@@ -28,10 +34,13 @@ public class BattleEnemyController {
     private Label healthCharacter;
     
     @FXML
-    private ImageView enemyImage;
+    private GridPane grid;
 
     @FXML
-    private ImageView characterImage;
+    private ImageView characterView;
+
+    @FXML
+    private Label characterHealth;
     
     public BattleEnemyController() {
       
@@ -68,7 +77,38 @@ public class BattleEnemyController {
         System.out.println("starting timer enemy fight");
         
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
-        timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+        characterView.setImage(battle.getCharacter().getImageView().getImage());
+        characterHealth.textProperty().bind(battle.getCharacter().getCurrHealthProperty().asString());
+        List<BasicEnemy> enemiesList = battle.getEnemiesToFight();
+        int currentEnemyNum = 0;
+        
+        grid.getChildren().clear();
+        for(int y = 0; y < 3; y++) {
+            for(int x = 0; x < 3; x++) {
+                if (currentEnemyNum < enemiesList.size()){
+                    BasicEnemy currentEnemy = enemiesList.get(currentEnemyNum);
+                    ImageView enemyImage = currentEnemy.getImageView();
+                    this.grid.add(enemyImage, x, y);
+                    
+
+                    Label healthNumber = new Label();
+                    //healthNumber.textProperty().bind(new SimpleIntegerProperty (currentEnemy.getCurrentHealth()).asString());
+                    healthNumber.textProperty().bind(currentEnemy.getCurrHealthProperty().asString());
+                    this.grid.add(healthNumber, x, y);
+                    GridPane.setHalignment(healthNumber, HPos.RIGHT);
+
+                    currentEnemyNum++;
+                }
+                /*
+                else {
+                    grid.add(new ImageView(new Image((new File("src/images/blank.png")).toURI().toString()) ), x, y);
+                }
+                */
+
+            }
+        }
+        
+        timeline = new Timeline(new KeyFrame(Duration.seconds(0.5), event -> {
             battle.dealDamageOnce();
         }));
     
@@ -79,8 +119,15 @@ public class BattleEnemyController {
 
     public void pauseBattle() {
         try {
-            timeline.stop();
+            
 
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            timeline.stop();
             switchToGame();
         } catch (IOException e) {
             e.printStackTrace();
@@ -94,6 +141,10 @@ public class BattleEnemyController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public GridPane getGrid () {
+        return this.grid;
     }
 
 }

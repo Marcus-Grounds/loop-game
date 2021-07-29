@@ -25,6 +25,7 @@ public class Character extends MovingEntity {
     private List<Card> cardEntities;
     private List<Ally> allies;
     private List<BasicItem> unequippedInventoryItems;
+    private List<DoggieCoin> doggieCoins;
     
     public Character(PathPosition position) {
         
@@ -36,6 +37,7 @@ public class Character extends MovingEntity {
         this.cardEntities = new ArrayList<>();
         this.unequippedInventoryItems = new ArrayList<>();
         this.allies = new ArrayList<>();
+        this.doggieCoins = new ArrayList<>();
     }
 
     public int getBaseDamage () {
@@ -169,7 +171,7 @@ public class Character extends MovingEntity {
     public BasicItem sellItemByIndex(int index) {
         BasicItem item = this.unequippedInventoryItems.get(index);
         this.unequippedInventoryItems.remove(index);
-        this.gold.increaseGold(item.getCost());
+        this.gold.increaseGold(item.getValue());
         return item;
     }
 }

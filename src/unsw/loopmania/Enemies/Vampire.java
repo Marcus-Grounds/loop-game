@@ -46,7 +46,7 @@ public class Vampire extends BasicEnemy{
      * @return BasicItem
      */
     @Override
-    public BasicItem giveWeaponWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    public StaticEntity onDeath(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         Random random = new Random();
         double r = random.nextDouble();
         //System.out.print(r);
@@ -57,43 +57,23 @@ public class Vampire extends BasicEnemy{
         } else if (r < 0.45){
             return new Staff(x, y);
         } else if (r < 0.6){
-            return new Armour(x, y);
-        } else if (r < 0.75) {
-            return new Shield(x, y);
-        } else if (r < 0.9) {
-            return new Helmet(x, y);
-        }
-
-        return null;
-    }
-
-     /**
-     * Give randomly generated card
-     * @param x, y, the location of the card if one is generated
-     * @return Card
-     */
-    @Override
-    public Card giveCardWhenLooted(SimpleIntegerProperty x, SimpleIntegerProperty y){
-        Random random = new Random();
-        double r = random.nextDouble();
-        //System.out.print(r);
-        if (r < 0.1){
             return new VampireCastleCard(x, y);
-        } else if (r < 0.25) {
+        } else if (r < 0.75) {
             return new ZombiePitCard(x, y);
-        } else if (r < 0.4) {
-            return new TowerCard(x, y);
-        } else if (r < 0.55) {
+        } else if (r < 0.9) {
             return new VillageCard(x, y);
-        } else if (r < 0.7) {
-            return new BarracksCard(x, y);
-        } else if (r < 0.85) {
-            return new TrapCard(x, y);
-        } else if (r < 1) {
-            return new CampfireCard(x, y);
         }
-        return null;
+        else if (r < 0.95){
+            return new TowerCard(x, y);
+        }
+
+       else {
+           return null;
+       }
+
     }
+
+     
 
     /**
      * move forwards 90% of the time, otherwise stays still
@@ -105,5 +85,15 @@ public class Vampire extends BasicEnemy{
             moveDownPath();
         }
         
+    }
+
+    @Override
+    public int getGold () {
+        return 100;
+    }
+
+    @Override
+    public int getExperience () {
+        return 200;
     }
 }

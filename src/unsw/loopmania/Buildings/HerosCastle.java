@@ -45,8 +45,7 @@ public class HerosCastle extends Building {
      * @param index the index of the item you want to buy.
      * @return the item you selected.
      */
-    public BasicItem buyItemByIndex(int index) {
-        BasicItem item = this.items.get(index);
+    public BasicItem buyItem(BasicItem item) {
         this.items.remove(item);
         this.fillShop();
         return item;

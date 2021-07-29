@@ -2,10 +2,13 @@ package unsw.loopmania;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,7 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
-
+import unsw.loopmania.BasicItems.BasicItem;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -27,6 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.geometry.HPos;
 
 public class ShopSellController {
 
@@ -46,6 +50,8 @@ public class ShopSellController {
     private Button continueGame; // Value injected by FXMLLoader
 
     private MenuSwitcher gameSwitcher;
+
+    private MenuSwitcher shopBuySwitcher;
 
     private LoopManiaWorld loopManiaWorld;
 
@@ -70,6 +76,10 @@ public class ShopSellController {
         this.gameSwitcher = gameSwitcher;
     }
 
+    public void setShopBuySwitcher (MenuSwitcher shopBuySwitcher) {
+        this.shopBuySwitcher = shopBuySwitcher;
+    }
+
     public void setLoopManiaWorld(LoopManiaWorld loopManiaWorld) {
         this.loopManiaWorld = loopManiaWorld;
     }
@@ -77,9 +87,58 @@ public class ShopSellController {
     public void startTimer(LoopManiaWorldController loopManiaWorldController){
         // TODO = handle more aspects of the behaviour required by the specification
         this.loopManiaWorldController = loopManiaWorldController;
+
         System.out.println("starting timer for shop");
+        
+        //get cost for corresponding item
+        
+        int itemIndex = 0;
+        //ArrayList<Button> buttons = new ArrayList<>();
+        
+        List <BasicItem> unequippedInventory = loopManiaWorldController.getWorld().getAllInventoryItems();
+        inventory.getChildren().clear();
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                
+                if (itemIndex < unequippedInventory.size()){
+                    //Label itemCost = new Label();
+                    BasicItem currentItem = unequippedInventory.get(itemIndex);
+                    Integer cost = currentItem.getValue();
+
+                    //SimpleIntegerProperty cost = new SimpleIntegerProperty(currentItem.getValue());
+                    //itemCost.textProperty().bind((cost.asString()) );
+                    //this.inventory.add(itemCost, x, y);
+                    //GridPane.setHalignment(itemCost, HPos.CENTER);
+
+                    Button button = new Button(cost.toString());
+                    inventory.add (button, x, y);
+                    GridPane.setHalignment(button, HPos.CENTER);
+                    button.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override public void handle(ActionEvent e) {
+                            System.out.println("Almost SELL ITEM");
+                            int row = GridPane.getRowIndex(button);
+                            System.out.println(row);
+                            int column = GridPane.getColumnIndex(button);
+                            System.out.println(column);
+                            BasicItem itemToSell = getItemByInventoryPosition(row, column);
+                            loopManiaWorldController.getWorld().removeUnequippedInventoryItem((Entity) itemToSell);
+                            loopManiaWorldController.getWorld().getCharacter().increaseGold(itemToSell.getValue());
+                            //inventory.getChildren().remove(itemToSell);
+                            inventory.add(new ImageView(new Image((new File("src/images/empty_slot.png")).toURI().toString())), column, row);
+                        }
+                    });
+                }
+                itemIndex++;
+            }
+        }
+
         GridPane worldInventory = loopManiaWorldController.getUnequippedInventory();
         this.inventory.getChildren().addAll(worldInventory.getChildren());
+
+        
+
+
+
         //ObservableList<Node> worldList = loopManiaWorldController.getUnequippedInventory().getChildren();
         //ObservableList<Node> childList = this.inventory.getChildren();
         EventHandler<ActionEvent> switchToGame = new EventHandler<ActionEvent>(){
@@ -103,5 +162,31 @@ public class ShopSellController {
         loopManiaWorldController.getUnequippedInventory().getChildren().addAll(inventory.getChildren());
         timeline.stop();
         gameSwitcher.switchMenu();
+    }
+
+    @FXML
+    private void switchToShopBuy() throws IOException {
+        loopManiaWorldController.getUnequippedInventory().getChildren().addAll(inventory.getChildren());
+        timeline.stop();
+        shopBuySwitcher.switchMenu();
+    }
+
+    public BasicItem getItemByInventoryPosition(int y, int x){
+        List <BasicItem> unequippedInventory = loopManiaWorldController.getWorld().getAllInventoryItems();
+        int index = y * 4 + x;
+        return unequippedInventory.get(index);
+    }
+
+
+    public void sellItem(Button button) {
+        System.out.println("SELL ITEM");
+        int row = GridPane.getRowIndex(button);
+        System.out.println(row);
+        int column = GridPane.getColumnIndex(button);
+        System.out.println(column);
+        BasicItem itemToSell = getItemByInventoryPosition(row, column);
+        loopManiaWorldController.getWorld().removeUnequippedInventoryItem((Entity) itemToSell);
+        loopManiaWorldController.getWorld().getCharacter().increaseGold(itemToSell.getValue());
+
     }
 }

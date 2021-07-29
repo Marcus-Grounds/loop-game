@@ -158,7 +158,14 @@ public class LoopManiaWorldTest {
         for (int i = 0; i < 1000; i ++){
             d.possiblySpawnEnemies();
         }
-        assertTrue(d.getAllBasicEnemies().size() == 5);
+        int slugCount = 0;
+        for (BasicEnemy e: d.getAllBasicEnemies()) {
+            if (e instanceof Slug){
+                slugCount ++;
+            }   
+        }
+        assertTrue (slugCount > 0);
+        assertTrue(slugCount <= 5);
     }
 
     /** 
@@ -222,7 +229,11 @@ public class LoopManiaWorldTest {
         assertTrue(c.getAllInventoryItems().size() == 0);
         assertTrue(c.getGoldCount() == 0);
         for (int i = 0; i < 200; i++){
-            d.addUnequippedItem(new Slug(null));
+            StaticEntity lootedThing = new Slug(null).onDeath(null, null);
+            if (lootedThing instanceof BasicItem) {
+                d.addUnequippedItem((BasicItem) lootedThing);
+            }
+            
         }
         assertTrue(c.getAllInventoryItems().size() != 0);
         assertTrue(c.getGoldCount() > 0);
@@ -255,14 +266,12 @@ public class LoopManiaWorldTest {
         Character c = new Character(null);
         d.setCharacter(c);
         
-        int cardCount = 0;
+ 
         for (int i = 0; i < 200; i++){
-            Card card = d.loadCard(new Slug(null));
-            if (card != null){
-                cardCount++;
-            }
+            d.loadCard(new CampfireCard(null, null));
         }
-        assertTrue(cardCount > 0);
+        
+
         int sizeBeforeRemoval = d.getAllCards().size();
         d.removeCard(0);
         int sizeAfterRemoval = d.getAllCards().size();

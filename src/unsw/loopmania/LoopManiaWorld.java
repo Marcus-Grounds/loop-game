@@ -291,6 +291,13 @@ import unsw.loopmania.LoopManiaApplication;
                 spawningEnemies.add(enemy);
             }
         }
+
+        if (loopCount % 2 == 0 && checkCharacterOnCastle()){
+            Doggie doggie = new Doggie(new PathPosition(1, orderedPath));
+            enemies.add(doggie);
+            spawningEnemies.add(doggie);
+        }
+
         
         return spawningEnemies;
     }
@@ -330,12 +337,12 @@ import unsw.loopmania.LoopManiaApplication;
      * @param enemy defeated enemy
      * @return Card
      */
-    public Card loadCard(BasicEnemy enemy){
+    public Card loadCard(Card card){
         if (this.character.getAllCards().size() >= getWidth()){
             removeCard(0);
         }
 
-        Card card = enemy.giveCardWhenLooted(new SimpleIntegerProperty(this.character.getAllCards().size()), new SimpleIntegerProperty(0));
+        card.setCoordinate(new SimpleIntegerProperty(this.character.getAllCards().size()), new SimpleIntegerProperty(0));
         System.out.println(character.getAllInventoryItems().size());
         if (card != null){
             this.character.getAllCards().add(card);
@@ -367,12 +374,11 @@ import unsw.loopmania.LoopManiaApplication;
      * @param index
      * @return
      */
-    public BasicItem buyItemByIndexFromShop (int index) {
-        BasicItem item = this.heroCastle.getItemByIndex(index);
-        if (item.getCost() <= this.getGoldCount()) {
-            this.heroCastle.buyItemByIndex(index);
-            this.addInventoryItem(item);
-            this.decreaseGold(item.getCost());
+    public BasicItem buyItem (BasicItem item) {
+        if (item.getValue() <= this.getGoldCount()) {
+            this.heroCastle.buyItem(item);
+            this.addUnequippedItem(item);
+            this.decreaseGold(item.getValue());
             return item;
         } else {
             return null;
@@ -596,7 +602,7 @@ import unsw.loopmania.LoopManiaApplication;
      * @param enemy defeated enemy
      * @return possibly a weapon to be spawned in the controller as a JavaFX node
      */
-    public BasicItem addUnequippedItem(BasicEnemy enemy){
+    public BasicItem addUnequippedItem(BasicItem item){
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
         if (firstAvailableSlot == null){
             // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
@@ -607,7 +613,7 @@ import unsw.loopmania.LoopManiaApplication;
         }
         
         // now we insert the new sword, as we know we have at least made a slot available...
-        BasicItem item = enemy.giveWeaponWhenLooted(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        item.setCoordinate(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
 
         System.out.println(character.getAllInventoryItems().size());
         if (item != null){
@@ -640,7 +646,7 @@ import unsw.loopmania.LoopManiaApplication;
      * remove an item from the unequipped inventory
      * @param item item to be removed
      */
-    private void removeUnequippedInventoryItem(Entity item){
+    public void removeUnequippedInventoryItem(Entity item){
         item.destroy();
         this.character.getAllInventoryItems().remove(item);
     }
@@ -652,7 +658,7 @@ import unsw.loopmania.LoopManiaApplication;
      * @param y y index from 0 to height-1
      * @return unequipped inventory item at the input position
      */
-    private Entity getUnequippedInventoryItemEntityByCoordinates(int x, int y){
+    public Entity getUnequippedInventoryItemEntityByCoordinates(int x, int y){
         for (Entity e:  this.character.getAllInventoryItems()){
             if ((e.getX() == x) && (e.getY() == y)){
                 return e;
@@ -668,7 +674,7 @@ import unsw.loopmania.LoopManiaApplication;
     private void removeItemByPositionInUnequippedInventoryItems(int index){
         Entity item =  this.character.getAllInventoryItems().get(index);
         item.destroy();
-         this.character.getAllInventoryItems().remove(index);
+        this.character.getAllInventoryItems().remove(index);
     }
 
     /**

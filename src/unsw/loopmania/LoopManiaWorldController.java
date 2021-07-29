@@ -123,6 +123,7 @@ public class LoopManiaWorldController {
     
     @FXML
     private Label expNumber;
+    
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -183,13 +184,16 @@ public class LoopManiaWorldController {
 
     private MenuSwitcher shopSellSwitcher;
 
+    private MenuSwitcher shopBuySwitcher;
+
     private Parent gameRoot;
 
     BattleEnemyController battleEnemyController;
 
-    ShopBuyController shopBuyController;
-
     ShopSellController shopSellController;
+
+    ShopBuyController shopBuyController;
+    
     /*
     public void setBattleEnemyScreen (BattleEnemyScreen battleEnemyScreen){
         this.battleEnemyScreen = battleEnemyScreen;
@@ -350,26 +354,6 @@ public class LoopManiaWorldController {
         entityImages.add(view);
     }
 
-    /**
-     * load a vampire card from the world, and pair it with an image in the GUI
-     */
-    private void loadCard(BasicEnemy enemy) {
-        Card card = world.loadCard(enemy);
-        if (card != null){
-            onLoad(card);
-        }
-    }
-
-    /**
-     * load a sword from the world, and pair it with an image in the GUI
-     */
-    private void loadItem(BasicEnemy enemy){
-        BasicItem item = world.addUnequippedItem(enemy);
-        if (item != null){
-            onLoad(item);
-        }
-        
-    }
 
     /**
      * run GUI events after an enemy is defeated, such as spawning items/experience/gold
@@ -377,11 +361,17 @@ public class LoopManiaWorldController {
      */
     public void reactToEnemyDefeat(BasicEnemy enemy){
         System.out.println("react to enemy defeat");
-        // react to character defeating an enemy
-        // in starter code, spawning extra card/weapon...
-        // TODO = provide different benefits to defeating the enemy based on the type of enemy
-        loadItem(enemy);
-        loadCard(enemy);
+       
+        StaticEntity lootedThing = enemy.onDeath(null, null);
+        if (lootedThing instanceof BasicItem) {
+            world.addUnequippedItem((BasicItem) lootedThing);
+            onLoad((BasicItem) lootedThing);
+        }
+        else if (lootedThing instanceof Card){
+            //lootedThing.setCoordinate(new SimpleIntegerProperty(world.getCharacter().getAllCards().size()), new SimpleIntegerProperty(0));
+            world.loadCard( (Card) lootedThing);
+            onLoad((Card) lootedThing);
+        }
     }
 
     /**
@@ -407,7 +397,7 @@ public class LoopManiaWorldController {
      * and load the image into the unequippedInventory GridPane.
      * @param weapon
      */
-    private void onLoad(BasicItem weapon) {
+    public void onLoad(BasicItem weapon) {
         //ImageView view = new ImageView(swordImage);
         if (weapon != null) {
             ImageView view = weapon.getImageView();
@@ -417,13 +407,13 @@ public class LoopManiaWorldController {
         }
     }
 
-    private void onLoad(Gold gold){
+    public void onLoad(Gold gold){
         ImageView view = gold.getImageView();
         addEntity(gold, view);
         squares.getChildren().add(view);
     }
 
-    private void onLoad(HealthPotion potion){
+    public void onLoad(HealthPotion potion){
         ImageView view = potion.getImageView();
         addEntity(potion, view);
         squares.getChildren().add(view);
@@ -433,7 +423,7 @@ public class LoopManiaWorldController {
      * load an enemy into the GUI
      * @param movingEntity
      */
-    private void onLoad(MovingEntity movingEntity) {
+    public void onLoad(MovingEntity movingEntity) {
         //ImageView view = new ImageView(basicEnemyImage);
         ImageView view = movingEntity.getImageView();
         
@@ -442,10 +432,10 @@ public class LoopManiaWorldController {
     }
 
     /**
-     * load a building into the GUI
+     * load a building into the GUIl
      * @param building
      */
-    private void onLoad(Building building){
+    public void onLoad(Building building){
         //ImageView view = new ImageView(vampireCastleBuildingImage);        
         ImageView view = building.getImageView();
         
@@ -727,6 +717,10 @@ public class LoopManiaWorldController {
         this.shopSellSwitcher = shopSellSwitcher;
     }
 
+    public void setShopBuySwitcher(MenuSwitcher shopBuySwitcher){
+        this.shopBuySwitcher = shopBuySwitcher;
+    }
+
     /**
      * this method is triggered when click button to go to main menu in FXML
      * @throws IOException
@@ -852,5 +846,9 @@ public class LoopManiaWorldController {
 
     public GridPane getUnequippedInventory () {
         return this.unequippedInventory;
+    }
+
+    public LoopManiaWorld getWorld () {
+        return world;
     }
 }
