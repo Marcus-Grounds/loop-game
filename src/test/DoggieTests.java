@@ -23,6 +23,8 @@ import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
 import unsw.loopmania.Cards.*;
 import unsw.loopmania.Character.Character;
+import unsw.loopmania.Character.RegularState;
+import unsw.loopmania.Character.StunnedState;
 import unsw.loopmania.Enemies.*;
 
 import unsw.loopmania.GameMode.*;
@@ -53,6 +55,7 @@ public class DoggieTests {
     /**
      * test that when a doggie and other enemies are in a battle with character, character is sometimes stunned
      */
+    @Test
     public void TestDoggieStun() {
         JFXPanel jfxPanel = new JFXPanel();
         //test battle
@@ -61,7 +64,7 @@ public class DoggieTests {
         
         Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 1);
         Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
-        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(5, 0);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(1, 2);
         
         orderedPath.add(path1);
         orderedPath.add(path2);
@@ -83,7 +86,11 @@ public class DoggieTests {
 
         Character c = new Character(p2);
 
-        Battle battle = new Battle(c, null, enemies, z1, new ArrayList<BattleBuilding>(), 0);
+        Battle battle = new Battle(c, null, enemies, d1, new ArrayList<BattleBuilding>(), 0);
+        assertTrue(c.getState() instanceof RegularState);
         battle.dealDamageOnce();
+        assertTrue(c.getState() instanceof StunnedState);
+        battle.dealDamageOnce();
+     
     }
 }

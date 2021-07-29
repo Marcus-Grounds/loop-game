@@ -12,9 +12,16 @@ public class RegularState extends CharacterState {
     public void dealDamage(BasicEnemy enemy, int loopCount){
         AttackingStrategy weapon = character.getEquippedWeapon ();
 
+        if (enemy instanceof Doggie) {
+            System.out.println("Swiatch to stnned");
+            character.changeState(new StunnedState(character));
+            
+        }
+
         enemy.decreaseHealth(character.getBaseDamage());
         if (weapon != null){
             if (enemy instanceof Slug){
+                System.out.println("Slug");
                 Slug slug = (Slug) enemy;
                 weapon.reduceSlugHealth(slug, loopCount);
             }
@@ -23,11 +30,9 @@ public class RegularState extends CharacterState {
                 weapon.reduceZombieHealth(zombie, loopCount);
             }
             else if (enemy instanceof Vampire){
+                System.out.println("Vamp");
                 Vampire vampire = (Vampire) enemy;
                 weapon.reduceVampireHealth(vampire, loopCount);
-            }
-            else if (enemy instanceof Doggie) {
-                character.changeState(new StunnedState(character));
             }
         }
     }

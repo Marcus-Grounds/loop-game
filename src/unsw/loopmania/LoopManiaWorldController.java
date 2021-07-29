@@ -184,6 +184,8 @@ public class LoopManiaWorldController {
 
     private MenuSwitcher shopSellSwitcher;
 
+    private MenuSwitcher shopBuySwitcher;
+
     private Parent gameRoot;
 
     BattleEnemyController battleEnemyController;
@@ -191,6 +193,10 @@ public class LoopManiaWorldController {
     ShopBuyController shopBuyController;
 
     ShopSellController shopSellController;
+
+    
+
+
     /*
     public void setBattleEnemyScreen (BattleEnemyScreen battleEnemyScreen){
         this.battleEnemyScreen = battleEnemyScreen;
@@ -713,6 +719,11 @@ public class LoopManiaWorldController {
     public void setShopSellSwitcher(MenuSwitcher shopSellSwitcher){
         this.shopSellSwitcher = shopSellSwitcher;
     }
+
+    public void setShopBuySwitcher(MenuSwitcher shopBuySwitcher){
+        this.shopBuySwitcher = shopBuySwitcher;
+    }
+
 
     /**
      * this method is triggered when click button to go to main menu in FXML
