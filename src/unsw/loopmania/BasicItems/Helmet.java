@@ -1,10 +1,10 @@
 package unsw.loopmania.BasicItems;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Character.Character;
 import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Vampire;
 import unsw.loopmania.Enemies.Zombie;
-import unsw.loopmania.Character;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.File;

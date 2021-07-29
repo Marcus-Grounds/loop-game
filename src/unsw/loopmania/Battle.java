@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.DefendingStrategy;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
+import unsw.loopmania.Character.Character;
 import unsw.loopmania.Enemies.BasicEnemy;
 import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Zombie;
@@ -101,6 +102,8 @@ public class Battle {
                 alliesAction(e);
             }
 
+            c.dealDamage(e, loopCount);
+            /*
             e.decreaseHealth(c.getBaseDamage());
             if (weapon != null){
                 if (e instanceof Slug){
@@ -116,7 +119,7 @@ public class Battle {
                     weapon.reduceVampireHealth(vampire, loopCount);
                 }
             }
-
+            */
             if (e.getCurrentHealth() > 0) {
                 allEnemiesDead = false;
             }

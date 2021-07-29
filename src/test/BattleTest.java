@@ -17,13 +17,12 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import unsw.loopmania.*;
-import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
 
 import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
 import unsw.loopmania.Cards.*;
-
+import unsw.loopmania.Character.Character;
 import unsw.loopmania.Enemies.*;
 
 import unsw.loopmania.GameMode.*;

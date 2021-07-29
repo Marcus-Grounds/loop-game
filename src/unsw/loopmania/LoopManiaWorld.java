@@ -21,6 +21,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.BasicItems.Sword;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Cards.VampireCastleCard;
+import unsw.loopmania.Character.Character;
 import unsw.loopmania.Enemies.BasicEnemy;
 import unsw.loopmania.LoopManiaApplication;
 
@@ -138,7 +139,7 @@ import unsw.loopmania.LoopManiaApplication;
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves() {
-        character.moveDownPath();
+        character.move();
         
         for (Ally ally : allies) {
             ally.moveDownPath();

@@ -11,11 +11,10 @@ import org.junit.jupiter.api.Test;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.ImageView;
 import unsw.loopmania.*;
-import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
 
 import unsw.loopmania.Cards.*;
-
+import unsw.loopmania.Character.Character;
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.Enemies.Zombie;
 

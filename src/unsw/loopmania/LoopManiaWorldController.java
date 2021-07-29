@@ -184,16 +184,13 @@ public class LoopManiaWorldController {
 
     private MenuSwitcher shopSellSwitcher;
 
-    private MenuSwitcher shopBuySwitcher;
-
     private Parent gameRoot;
 
     BattleEnemyController battleEnemyController;
 
-    ShopSellController shopSellController;
-
     ShopBuyController shopBuyController;
-    
+
+    ShopSellController shopSellController;
     /*
     public void setBattleEnemyScreen (BattleEnemyScreen battleEnemyScreen){
         this.battleEnemyScreen = battleEnemyScreen;
@@ -717,10 +714,6 @@ public class LoopManiaWorldController {
         this.shopSellSwitcher = shopSellSwitcher;
     }
 
-    public void setShopBuySwitcher(MenuSwitcher shopBuySwitcher){
-        this.shopBuySwitcher = shopBuySwitcher;
-    }
-
     /**
      * this method is triggered when click button to go to main menu in FXML
      * @throws IOException
@@ -848,7 +841,7 @@ public class LoopManiaWorldController {
         return this.unequippedInventory;
     }
 
-    public LoopManiaWorld getWorld () {
-        return world;
+    public LoopManiaWorld getWorld() {
+        return this.world;
     }
 }

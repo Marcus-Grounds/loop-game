@@ -96,7 +96,11 @@ public class ShopSellController {
         //ArrayList<Button> buttons = new ArrayList<>();
         
         List <BasicItem> unequippedInventory = loopManiaWorldController.getWorld().getAllInventoryItems();
-        inventory.getChildren().clear();
+        
+
+        GridPane worldInventory = loopManiaWorldController.getUnequippedInventory();
+        this.inventory.getChildren().addAll(worldInventory.getChildren());
+
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 
@@ -132,9 +136,6 @@ public class ShopSellController {
             }
         }
 
-        GridPane worldInventory = loopManiaWorldController.getUnequippedInventory();
-        this.inventory.getChildren().addAll(worldInventory.getChildren());
-
         
 
 
@@ -144,6 +145,7 @@ public class ShopSellController {
         EventHandler<ActionEvent> switchToGame = new EventHandler<ActionEvent>(){
             public void handle (ActionEvent t) {
                 GridPane worldInventory = loopManiaWorldController.getUnequippedInventory();
+                inventory.getChildren().clear();
                 worldInventory.getChildren().addAll(inventory.getChildren());
                 timeline.stop();
                 gameSwitcher.switchMenu();

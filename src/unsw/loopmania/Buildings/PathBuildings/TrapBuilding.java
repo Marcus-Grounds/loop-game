@@ -7,8 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.MovingEntity;
+import unsw.loopmania.Character.Character;
 import unsw.loopmania.Ally;
-import unsw.loopmania.Character;
 import unsw.loopmania.Enemies.BasicEnemy;
 
 public class TrapBuilding extends PathBuilding {

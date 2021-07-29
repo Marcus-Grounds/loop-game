@@ -1,6 +1,6 @@
 package unsw.loopmania.BasicItems;
 
-import unsw.loopmania.Character;
+import unsw.loopmania.Character.Character;
 import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Vampire;
 import unsw.loopmania.Enemies.Zombie;
