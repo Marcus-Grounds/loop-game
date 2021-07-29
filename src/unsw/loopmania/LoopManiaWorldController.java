@@ -847,4 +847,8 @@ public class LoopManiaWorldController {
     public GridPane getUnequippedInventory () {
         return this.unequippedInventory;
     }
+
+    public LoopManiaWorld getWorld () {
+        return world;
+    }
 }
