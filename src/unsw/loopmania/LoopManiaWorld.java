@@ -647,7 +647,7 @@ import unsw.loopmania.LoopManiaApplication;
      * remove an item from the unequipped inventory
      * @param item item to be removed
      */
-    private void removeUnequippedInventoryItem(Entity item){
+    public void removeUnequippedInventoryItem(Entity item){
         item.destroy();
         this.character.getAllInventoryItems().remove(item);
     }
@@ -659,7 +659,7 @@ import unsw.loopmania.LoopManiaApplication;
      * @param y y index from 0 to height-1
      * @return unequipped inventory item at the input position
      */
-    private Entity getUnequippedInventoryItemEntityByCoordinates(int x, int y){
+    public Entity getUnequippedInventoryItemEntityByCoordinates(int x, int y){
         for (Entity e:  this.character.getAllInventoryItems()){
             if ((e.getX() == x) && (e.getY() == y)){
                 return e;
@@ -675,7 +675,7 @@ import unsw.loopmania.LoopManiaApplication;
     private void removeItemByPositionInUnequippedInventoryItems(int index){
         Entity item =  this.character.getAllInventoryItems().get(index);
         item.destroy();
-         this.character.getAllInventoryItems().remove(index);
+        this.character.getAllInventoryItems().remove(index);
     }
 
     /**

@@ -78,7 +78,7 @@ public class BattleEnemyController {
         
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         characterView.setImage(battle.getCharacter().getImageView().getImage());
-        
+        characterHealth.textProperty().bind(battle.getCharacter().getCurrHealthProperty().asString());
         List<BasicEnemy> enemiesList = battle.getEnemiesToFight();
         int currentEnemyNum = 0;
         
@@ -89,7 +89,7 @@ public class BattleEnemyController {
                     BasicEnemy currentEnemy = enemiesList.get(currentEnemyNum);
                     ImageView enemyImage = currentEnemy.getImageView();
                     this.grid.add(enemyImage, x, y);
-                    characterHealth.textProperty().bind(battle.getCharacter().getCurrHealthProperty().asString());
+                    
 
                     Label healthNumber = new Label();
                     //healthNumber.textProperty().bind(new SimpleIntegerProperty (currentEnemy.getCurrentHealth()).asString());
