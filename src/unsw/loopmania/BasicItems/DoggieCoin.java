@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.File;
 
-public class DoggieCoin extends BasicItem{
+public class DoggieCoin extends BasicItem {
     
     public static int COST;
 
@@ -18,13 +18,17 @@ public class DoggieCoin extends BasicItem{
         return this;
     }
 
+    public int getCoinPrice() {
+        return COST;
+    }
+
     /** 
      * Price of DoggieCoin randomly fluctuates between 0 to 100
      * If Elan Muske has been defeated, Price of DoggieCoin plummets
      * and set to 200
      */ 
 
-    public int setCoinPrice(boolean defeatedElanMuske) {
+    public void setCoinPrice(boolean defeatedElanMuske) {
 
         if (defeatedElanMuske == true) {
             COST = 200;
@@ -33,7 +37,6 @@ public class DoggieCoin extends BasicItem{
             Random price = new Random(5);
             COST = price.nextInt(100);
         }
-        return COST;
     }
     
 }
