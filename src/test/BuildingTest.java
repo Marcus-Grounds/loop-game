@@ -201,7 +201,7 @@ public class BuildingTest {
         List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
 
         // Create battle so that the tower can deal damage
-        Battle battle = new Battle(c, null, enemies, v1, battleBuildings, 0);
+        Battle battle = new Battle(null, c, null, enemies, v1, battleBuildings, 0);
         battle.dealDamageOnce();
         
         //SHOULD ONLY REGISTER DAMAGE FROM 2 TOWERS AS ONE IS OUT OF RANGE
@@ -325,7 +325,7 @@ public class BuildingTest {
         battleBuildings.add(campfireBuilding);
         
         // create a battle so the campfire can perform action on character
-        Battle battle = new Battle(c, null, enemies, s1, battleBuildings, 0);
+        Battle battle = new Battle(null, c, null, enemies, s1, battleBuildings, 0);
         battle.dealDamageOnce();
         
         //Should double the health of base damge of the player

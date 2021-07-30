@@ -8,7 +8,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane fx:id="listItems" layoutX="100.0" layoutY="70.0" prefHeight="180.0" prefWidth="60.0">
+      <GridPane fx:id="listItems" layoutX="100.0" layoutY="70.0" prefHeight="270.0" prefWidth="90.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -18,7 +18,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <Button fx:id="sellItem" layoutX="511.0" layoutY="188.0" mnemonicParsing="false" onAction="#switchToShopSell" text="Sell Item" />
+      <Button fx:id="sellItem" layoutX="499.0" layoutY="188.0" mnemonicParsing="false" onAction="#switchToShopSell" text="Go to sell page" />
       <Button fx:id="continueGame" layoutX="498.0" layoutY="324.0" mnemonicParsing="false" onAction="#switchToGame" text="Continue game" />
    </children>
 </Pane>

@@ -14,11 +14,6 @@ public class JailState extends CharacterState {
     public void dealDamage(BasicEnemy enemy, int loopCount){
         AttackingStrategy weapon = character.getEquippedWeapon ();
 
-        //a doggie can only stun if its health is greater than 30
-        if (enemy instanceof Doggie && enemy.getCurrentHealth() >= 30) {
-            character.changeState(new StunnedState(character));
-            
-        }
 
         enemy.decreaseHealth(character.getBaseDamage());
         if (weapon != null){

@@ -54,8 +54,8 @@ public class ShopTest {
         Character c = new Character(p1);
         c.increaseGold(1000);
         d.setCharacter(c);
-
-        BasicItem item = d.buyItemByIndexFromShop(0);
+        List<BasicItem> itemList = d.getAllItemsFromShop();
+        BasicItem item = d.buyItem(itemList.get(0));
         assertEquals(item, d.getAllInventoryItems().get(0));
     }
 
@@ -81,7 +81,9 @@ public class ShopTest {
         c.increaseGold(1);
         d.setCharacter(c);
 
-        BasicItem item = d.buyItemByIndexFromShop(0);
+        d.setCharacter(c);
+        List<BasicItem> itemList = d.getAllItemsFromShop();
+        BasicItem item = d.buyItem(itemList.get(0));
         assertEquals(0, d.getAllInventoryItems().size());
     }
     

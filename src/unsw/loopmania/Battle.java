@@ -5,16 +5,25 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.geometry.HPos;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import org.javatuples.Pair;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.DefendingStrategy;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
 import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.BasicEnemy;
+import unsw.loopmania.Enemies.Ghost;
 import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Zombie;
 import unsw.loopmania.Enemies.Vampire;
 
 public class Battle {
+    LoopManiaWorld loopManiaWorld;
     private List<BasicEnemy> enemiesToFight;
     private Character c;
     private BattleEnemyController controller;
@@ -24,7 +33,8 @@ public class Battle {
     private int loopCount;
     private List<Ally> allies;
 
-    public Battle(Character c, BattleEnemyController controller, List<BasicEnemy> enemies, BasicEnemy mainEnemy,  List<BattleBuilding> battleBuildings, int loopCount) {
+    public Battle(LoopManiaWorld loopManiaWorld, Character c, BattleEnemyController controller, List<BasicEnemy> enemies, BasicEnemy mainEnemy,  List<BattleBuilding> battleBuildings, int loopCount) {
+        this.loopManiaWorld = loopManiaWorld;
         this.c = c;
         this.controller = controller;
         this.enemies = enemies;
@@ -107,6 +117,9 @@ public class Battle {
             enemies.remove(enemy);
             c.increaseGold(enemy.getGold());
             c.addExperience(enemy.getExperience());
+            if (enemy instanceof Ghost) {
+                this.loopManiaWorld.setIsThereGhost();
+            }
         }
         if (controller != null) {
             controller.pauseBattle();

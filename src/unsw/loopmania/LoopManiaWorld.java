@@ -93,6 +93,8 @@ import unsw.loopmania.LoopManiaApplication;
     private List<Ally> allies;
     boolean elanHere;
 
+    private boolean isThereGhost = false;
+
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -107,7 +109,6 @@ import unsw.loopmania.LoopManiaApplication;
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
     public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
-        
         
         this.width = width;
         this.height = height;
@@ -261,7 +262,7 @@ import unsw.loopmania.LoopManiaApplication;
      * get a randomly generated position which could be used to spawn an enemy
      * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
      */
-    private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition () {
+    public Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition () {
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(2);
@@ -278,15 +279,22 @@ import unsw.loopmania.LoopManiaApplication;
      * @return list of the enemies to be displayed on screen
      */
     public List<BasicEnemy> possiblySpawnEnemies(){
-                
+
         Pair<Integer, Integer> pos = possiblyGetBasicEnemySpawnPosition();
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
             //Slug is randomly spawned
-            Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
-            enemies.add(enemy);
-            spawningEnemies.add(enemy);
+            if (this.isThereGhost == false) {
+                Ghost enemy = new Ghost(new PathPosition(indexInPath, orderedPath));
+                enemies.add(enemy);
+                spawningEnemies.add(enemy);
+                this.isThereGhost = true;
+            } else {
+                Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
+                enemies.add(enemy);
+                spawningEnemies.add(enemy);
+            }
         }
 
         for (SpawnBuilding b : spawnBuildings) {
@@ -299,14 +307,18 @@ import unsw.loopmania.LoopManiaApplication;
         }
 
         if (checkCharacterOnCastle()){
-            Doggie doggie = new Doggie(new PathPosition(10, orderedPath));
-            enemies.add(doggie);
-            spawningEnemies.add(doggie);
+            if (loopCount % 20 == 0) {
+                Doggie doggie = new Doggie(new PathPosition(10, orderedPath));
+                enemies.add(doggie);
+                spawningEnemies.add(doggie);
+            }
 
-            ElanMuske elan = new ElanMuske(new PathPosition(20, orderedPath));
-            enemies.add(elan);
-            spawningEnemies.add(elan);
-            elanHere = true;
+            if(loopCount % 40 == 0){
+                ElanMuske elan = new ElanMuske(new PathPosition(20, orderedPath));
+                enemies.add(elan);
+                spawningEnemies.add(elan);
+                elanHere = true;
+            }
         }
 
         
@@ -385,11 +397,10 @@ import unsw.loopmania.LoopManiaApplication;
      * @param index
      * @return
      */
-    public BasicItem buyItemByIndexFromShop (int index) {
-        BasicItem item = this.heroCastle.getItemByIndex(index);
+    public BasicItem buyItem (BasicItem item) {
         if (item.getValue() <= this.getGoldCount()) {
-            this.heroCastle.buyItemByIndex(index);
-            this.addInventoryItem(item);
+            this.heroCastle.buyItem(item);
+            this.addUnequippedItem(item);
             this.decreaseGold(item.getValue());
             return item;
         } else {
@@ -773,19 +784,18 @@ import unsw.loopmania.LoopManiaApplication;
                 if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= Math.pow(e.getAttackRadius(),2)){
                     BattleEnemyController battleEnemyController = controller.getBattleController();
     
-                    Battle battle = new Battle(character, battleEnemyController, enemies, e, battleBuildings, loopCount);
+                    Battle battle = new Battle(this, character, battleEnemyController, enemies, e, battleBuildings, loopCount);
                     battleEnemyController.setBattle(battle);
                     try {
                         controller.switchToBattle();
                         //return newBattle.getDefeatedEnemies();
-                        return battle.getEnemiesToFight();
-                        
+                        return battle.getEnemiesToFight();                        
                     } catch (IOException e2) {
                         e2.printStackTrace();
                     }
-                    defeatedEnemies = battle.getEnemiesToFight();
                 }
             }
+           
             return defeatedEnemies;
         }
 
@@ -803,4 +813,12 @@ import unsw.loopmania.LoopManiaApplication;
         }
     }
     
+    public boolean getIsThereGhost () {
+        return this.isThereGhost;
+    }
+
+    public void setIsThereGhost () {
+        this.isThereGhost = !this.isThereGhost;
+    }
+
 }

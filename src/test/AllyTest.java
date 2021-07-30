@@ -97,7 +97,7 @@ public class AllyTest {
             List<BasicEnemy> enemyList = new ArrayList();
             Zombie z1 = new Zombie(p1);
             enemyList.add(z1);
-            Battle battle = new Battle(c, null, enemyList, z1, new ArrayList<BattleBuilding>(), 0);
+            Battle battle = new Battle(null, c, null, enemyList, z1, new ArrayList<BattleBuilding>(), 0);
             while (z1.getCurrentHealth() > 0) {
                 battle.dealDamageOnce();
             }
@@ -109,7 +109,7 @@ public class AllyTest {
             List<BasicEnemy> enemyList2 = new ArrayList();
             Zombie z2 = new Zombie(p1);
             enemyList2.add(z2);
-            Battle battle2 = new Battle(c2, null, enemyList2, z2, new ArrayList<BattleBuilding>(), 0);
+            Battle battle2 = new Battle(null, c2, null, enemyList2, z2, new ArrayList<BattleBuilding>(), 0);
             while (z2.getCurrentHealth() > 0) {
                 battle2.dealDamageOnce();
             }

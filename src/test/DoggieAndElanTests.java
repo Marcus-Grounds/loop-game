@@ -86,7 +86,7 @@ public class DoggieAndElanTests {
 
         Character c = new Character(p2);
 
-        Battle battle = new Battle(c, null, enemies, d1, new ArrayList<BattleBuilding>(), 0);
+        Battle battle = new Battle(null, c, null, enemies, d1, new ArrayList<BattleBuilding>(), 0);
         assertTrue(c.getState() instanceof RegularState);
         battle.dealDamageOnce();
         assertTrue(c.getState() instanceof StunnedState);
@@ -121,11 +121,11 @@ public class DoggieAndElanTests {
         Zombie z = new Zombie(p2);
         enemies1.add(z);
 
-        Battle battle1 = new Battle(c, null, enemies1, z, new ArrayList<BattleBuilding>(), 0);
+        Battle battle1 = new Battle(null, c, null, enemies1, z, new ArrayList<BattleBuilding>(), 0);
         battle1.dealDamageOnce();
         battle1.dealDamageOnce();
        
-        
+    
         List<BasicEnemy> enemies2 = new ArrayList<BasicEnemy>();
 
         Zombie z2 = new Zombie(p2);
@@ -135,7 +135,7 @@ public class DoggieAndElanTests {
         enemies2.add(elan);
 
 
-        Battle battle2 = new Battle(c, null, enemies2, elan, new ArrayList<BattleBuilding>(), 0);
+        Battle battle2 = new Battle(null, c, null, enemies2, elan, new ArrayList<BattleBuilding>(), 0);
         battle2.dealDamageOnce();
         battle2.dealDamageOnce();
 
