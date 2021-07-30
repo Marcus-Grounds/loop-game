@@ -19,6 +19,7 @@ import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
 import unsw.loopmania.Buildings.BattleBuildings.CampfireBuilding;
 import unsw.loopmania.Buildings.BattleBuildings.TowerBuilding;
 import unsw.loopmania.Buildings.PathBuildings.BarracksBuilding;
+import unsw.loopmania.Buildings.PathBuildings.JailBuilding;
 import unsw.loopmania.Buildings.PathBuildings.PathBuilding;
 import unsw.loopmania.Buildings.PathBuildings.TrapBuilding;
 import unsw.loopmania.Buildings.PathBuildings.VillageBuilding;
@@ -365,5 +366,46 @@ public class BuildingTest {
 
         d.runTickMovesCharacter();
         assertEquals(d.getAllAllies().isEmpty(), false);
+    }
+
+    @Test
+    public void jailTest() {
+        JFXPanel jfxPanel = new JFXPanel(); 
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        
+        JailBuilding jail = new JailBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(0));
+        
+        d.addPathBuilding(jail);
+
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+            
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(0, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(2, 0);
+
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+        orderedPath.add(path3);
+ 
+        PathPosition p1 = new PathPosition(0, orderedPath);
+        PathPosition p2 = new PathPosition(1, orderedPath);
+        
+        Character c = new Character(p2);
+        d.setCharacter(c);
+
+        //check that character health is halved
+        assertTrue(c.getCurrentHealth() == 50);
+        
+        //and that character is incapacitated
+        assertTrue(c.getState() instanceof JailState);
+
+        //check that character cannot move
+        d.runTickMoves();
+        assertTrue(c.getPathPosition() == p2);
+        d.runTickMoves();
+        assertTrue(c.getPathPosition() == p2);
+        d.runTickMoves();
+        assertTrue(c.getPathPosition() == p2);
+
     }
 }
