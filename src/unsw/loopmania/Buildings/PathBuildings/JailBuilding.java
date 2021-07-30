@@ -7,8 +7,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import unsw.loopmania.Ally;
-import unsw.loopmania.Character.Character;
-import unsw.loopmania.Character.JailState;
+import unsw.loopmania.CharacterFolder.Character;
+import unsw.loopmania.CharacterFolder.JailState;
 import unsw.loopmania.Enemies.BasicEnemy;
 
 public class JailBuilding extends PathBuilding {

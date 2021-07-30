@@ -11,7 +11,7 @@ import org.json.JSONTokener;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.Buildings.HerosCastle;
-import unsw.loopmania.Character.Character;
+import unsw.loopmania.CharacterFolder.Character;
 
 import java.util.List;
 

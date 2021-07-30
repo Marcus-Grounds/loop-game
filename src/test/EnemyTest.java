@@ -14,7 +14,7 @@ import unsw.loopmania.*;
 import unsw.loopmania.BasicItems.*;
 
 import unsw.loopmania.Cards.*;
-import unsw.loopmania.Character.Character;
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.Enemies.Zombie;
 
@@ -198,4 +198,6 @@ public class EnemyTest {
         assertTrue(slug.getY() < zombie.getY());
         assertTrue(zombie.getY() < vampire.getY());
     }
+
+    
 }

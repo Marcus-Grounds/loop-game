@@ -11,7 +11,7 @@ import unsw.loopmania.MovingEntity;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.Buildings.Building;
 import unsw.loopmania.Buildings.SpawnBuildings.SpawnBuilding;
-import unsw.loopmania.Character.Character;
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.BasicEnemy;
 
 public class BarracksBuilding extends PathBuilding {

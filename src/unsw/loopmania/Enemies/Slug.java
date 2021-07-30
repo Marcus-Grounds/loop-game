@@ -5,6 +5,8 @@ import unsw.loopmania.LoopManiaWorld;
 import java.io.File;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.List;
 import java.util.Random;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -24,6 +26,7 @@ import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Buildings.SpawnBuildings.*;
 import unsw.loopmania.Buildings.BattleBuildings.*;
 import unsw.loopmania.Buildings.PathBuildings.*;
+import unsw.loopmania.CharacterFolder.Character;
 
 
 public class Slug extends BasicEnemy{
@@ -99,5 +102,16 @@ public class Slug extends BasicEnemy{
     @Override
     public int getExperience () {
         return 10;
+    }
+
+    @Override
+    public void dealDamage(DefendingStrategy defence, Character c, List<BasicEnemy> enemies) {
+        if (defence == null){
+            c.decreaseHealth(this.getDamage());
+        }
+        else {
+            defence.reduceSlugDamage(this, c);
+        }
+        
     }
 }

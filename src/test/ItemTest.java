@@ -9,7 +9,7 @@ import org.javatuples.Pair;
 
 import unsw.loopmania.*;
 import unsw.loopmania.BasicItems.*;
-import unsw.loopmania.Character.Character;
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;
 import javafx.beans.property.SimpleIntegerProperty;

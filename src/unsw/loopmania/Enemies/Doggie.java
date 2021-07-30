@@ -5,6 +5,8 @@ import unsw.loopmania.LoopManiaWorld;
 import java.io.File;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.List;
 import java.util.Random;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -14,8 +16,10 @@ import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
 import unsw.loopmania.BasicItems.BasicItem;
+import unsw.loopmania.BasicItems.DefendingStrategy;
 import unsw.loopmania.BasicItems.DoggieCoin;
 import unsw.loopmania.Cards.Card;
+import unsw.loopmania.CharacterFolder.Character;
 
 
 public class Doggie extends BasicEnemy{
@@ -58,5 +62,11 @@ public class Doggie extends BasicEnemy{
     @Override
     public int getExperience () {
         return 300;
+    }
+
+    @Override
+    public void dealDamage(DefendingStrategy defence, Character c, List<BasicEnemy> enemies) {
+        decreaseHealth(this.getDamage());
+        
     }
 }

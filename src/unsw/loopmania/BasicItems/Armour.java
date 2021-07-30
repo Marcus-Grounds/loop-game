@@ -1,7 +1,7 @@
 package unsw.loopmania.BasicItems;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import unsw.loopmania.Character.Character;
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Vampire;
 import unsw.loopmania.Enemies.Zombie;

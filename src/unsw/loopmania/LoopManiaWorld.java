@@ -23,7 +23,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.BasicItems.Sword;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Cards.VampireCastleCard;
-import unsw.loopmania.Character.Character;
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.BasicEnemy;
 import unsw.loopmania.LoopManiaApplication;
 
@@ -91,7 +91,7 @@ import unsw.loopmania.LoopManiaApplication;
     private List<SpawnBuilding>  spawnBuildings;
 
     private List<Ally> allies;
-    private boolean defeatedElan;
+    boolean elanHere;
 
 
     /**
@@ -123,7 +123,7 @@ import unsw.loopmania.LoopManiaApplication;
         this.goldInTheWorld = new ArrayList<>();
         thePotion = null;
         loopCount = 0;
-        defeatedElan = false;
+        elanHere = false;
     }
 
     public int getWidth() {
@@ -299,9 +299,14 @@ import unsw.loopmania.LoopManiaApplication;
         }
 
         if (checkCharacterOnCastle()){
-            Doggie doggie = new Doggie(new PathPosition(1, orderedPath));
+            Doggie doggie = new Doggie(new PathPosition(10, orderedPath));
             enemies.add(doggie);
             spawningEnemies.add(doggie);
+
+            ElanMuske elan = new ElanMuske(new PathPosition(20, orderedPath));
+            enemies.add(elan);
+            spawningEnemies.add(elan);
+            elanHere = true;
         }
 
         
@@ -531,7 +536,7 @@ import unsw.loopmania.LoopManiaApplication;
     public JailBuilding possiblySpawnJailBuilding() {
         Random random = new Random();
         double r = random.nextDouble();
-        if (r < 0.01) {
+        if (r < 0.02) {
             Pair<Integer, Integer> pos = getRandomPosition();
             int indexInPath = orderedPath.indexOf(pos);
             PathPosition position = new PathPosition(indexInPath, orderedPath);
@@ -793,7 +798,7 @@ import unsw.loopmania.LoopManiaApplication;
         for (BasicItem item : character.getAllInventoryItems()) {
             if (item instanceof DoggieCoin) {
                 DoggieCoin doggieCoin = (DoggieCoin) item;
-                doggieCoin.setCoinPrice(defeatedElan);
+                doggieCoin.setCoinPrice(elanHere);
             }
         }
     }
