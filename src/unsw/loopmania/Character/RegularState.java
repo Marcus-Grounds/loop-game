@@ -28,7 +28,7 @@ public class RegularState extends CharacterState {
                 Zombie zombie = (Zombie) enemy;
                 weapon.reduceZombieHealth(zombie, loopCount);
             }
-            else if (enemy instanceof Vampire);
+            else if (enemy instanceof Vampire){
                 Vampire vampire = (Vampire) enemy;
                 weapon.reduceVampireHealth(vampire, loopCount);
             }
@@ -38,7 +38,7 @@ public class RegularState extends CharacterState {
             }
         }
     
-
+    }
     public void move() {
         character.moveDownPath();
     }

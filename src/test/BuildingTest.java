@@ -28,6 +28,7 @@ import unsw.loopmania.Buildings.SpawnBuildings.VampireCastleBuilding;
 import unsw.loopmania.Buildings.SpawnBuildings.ZombiePitBuilding;
 import unsw.loopmania.Cards.*;
 import unsw.loopmania.Character.Character;
+import unsw.loopmania.Character.JailState;
 import unsw.loopmania.Enemies.*;
 
 import unsw.loopmania.GameMode.*;
@@ -371,29 +372,30 @@ public class BuildingTest {
     @Test
     public void jailTest() {
         JFXPanel jfxPanel = new JFXPanel(); 
-        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+      
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+
+        for (int i = 0; i < 1000; i++){
+            orderedPath.add(new Pair<Integer,Integer>(0, i));
+        }
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, orderedPath);
         
-        JailBuilding jail = new JailBuilding(new SimpleIntegerProperty(1), new SimpleIntegerProperty(0));
+        JailBuilding jail = new JailBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(1));
         
         d.addPathBuilding(jail);
-
-        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
-            
-        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(0, 0);
-        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 0);
-        Pair<Integer, Integer> path3 = new Pair<Integer,Integer>(2, 0);
-
-        orderedPath.add(path1);
-        orderedPath.add(path2);
-        orderedPath.add(path3);
- 
-        PathPosition p1 = new PathPosition(0, orderedPath);
-        PathPosition p2 = new PathPosition(1, orderedPath);
         
-        Character c = new Character(p2);
+        Character c = new Character(new PathPosition(0, orderedPath));
         d.setCharacter(c);
 
-        //check that character health is halved
+        assertTrue(c.getPathPosition().getX().get() == 0);
+        assertTrue(c.getPathPosition().getY().get() == 0);
+
+        d.runTickMoves();
+        d.pathBuildingAction();
+        c.getPathPosition().resetCoordinatesBasedOnPositionInPath();
+        assertTrue(c.getPathPosition().getX().get() == 0);
+        assertTrue(c.getPathPosition().getY().get() == 1);
+        
         assertTrue(c.getCurrentHealth() == 50);
         
         //and that character is incapacitated
@@ -401,11 +403,15 @@ public class BuildingTest {
 
         //check that character cannot move
         d.runTickMoves();
-        assertTrue(c.getPathPosition() == p2);
+        d.pathBuildingAction();
+        assertTrue(c.getPathPosition().getX().get() == 0);
+        assertTrue(c.getPathPosition().getY().get() == 1);
+        
         d.runTickMoves();
-        assertTrue(c.getPathPosition() == p2);
-        d.runTickMoves();
-        assertTrue(c.getPathPosition() == p2);
-
+        d.pathBuildingAction();
+        assertTrue(c.getPathPosition().getX().get() == 0);
+        assertTrue(c.getPathPosition().getY().get() == 1);
+        
+    
     }
 }

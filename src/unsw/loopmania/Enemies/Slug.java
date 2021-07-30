@@ -24,9 +24,6 @@ import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Buildings.SpawnBuildings.*;
 import unsw.loopmania.Buildings.BattleBuildings.*;
 import unsw.loopmania.Buildings.PathBuildings.*;
-import unsw.loopmania.Cards.Card;
-import unsw.loopmania.Cards.TowerCard;
-import unsw.loopmania.Cards.VillageCard;
 
 
 public class Slug extends BasicEnemy{
@@ -47,6 +44,7 @@ public class Slug extends BasicEnemy{
     public StaticEntity onDeath(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         Random random = new Random();
         double r = random.nextDouble();
+       
         if (r < 0.05){
             return new Sword(x, y);
         } else if (r < 0.1) {

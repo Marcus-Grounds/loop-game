@@ -3,6 +3,7 @@ package unsw.loopmania;
 import unsw.loopmania.BasicItems.*;
 import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
+import unsw.loopmania.Buildings.PathBuildings.JailBuilding;
 import unsw.loopmania.Buildings.PathBuildings.PathBuilding;
 import unsw.loopmania.Buildings.SpawnBuildings.SpawnBuilding;
 import unsw.loopmania.Cards.*;
@@ -11,6 +12,7 @@ import unsw.loopmania.GameMode.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -436,10 +438,19 @@ import unsw.loopmania.LoopManiaApplication;
      */
     public Ally pathBuildingAction() {
         Ally ally = null;
-        for (PathBuilding p : pathBuildings) {
+        Iterator<PathBuilding> iter = pathBuildings.iterator();
+        while (iter.hasNext()) {
+            PathBuilding p = iter.next();
             Ally possiblyAlly = p.pathAction(character, enemies);
             if (possiblyAlly != null){
                 ally = possiblyAlly;
+            }
+            if (p instanceof JailBuilding && p.checkOnPath(character) && allies.size() > 0) {
+                pathBuildings.remove(p);
+                p.destroy();
+                Ally allyToRemove = allies.get(allies.size() - 1 );
+                allies.remove(allyToRemove);
+                allyToRemove.destroy();
             }
         }
         return ally;
@@ -512,6 +523,21 @@ import unsw.loopmania.LoopManiaApplication;
         return newBuilding;
     }
 
+    public JailBuilding possiblySpawnJailBuilding() {
+        Random random = new Random();
+        double r = random.nextDouble();
+        if (r < 0.01) {
+            Pair<Integer, Integer> pos = getRandomPosition();
+            int indexInPath = orderedPath.indexOf(pos);
+            PathPosition position = new PathPosition(indexInPath, orderedPath);
+            JailBuilding jail = new JailBuilding(position.getX(), position.getY());
+            addPathBuilding(jail);
+            return jail;
+        }
+        return null;
+        
+    }
+
 
     ////////// GOLD-RELATED METHODS ///////////////
     /**
@@ -540,8 +566,6 @@ import unsw.loopmania.LoopManiaApplication;
         for (int i = 0; i < goldInTheWorld.size(); i++){
             Gold g = goldInTheWorld.get(i);
             if (g.getX() == character.getX() && g.getY() == character.getY()){
-                System.out.println("GOLDCOUNT");
-                System.out.println(character.increaseGold(g));
                 goldInTheWorld.remove(g);
                 g.destroy();
                 goldInTheWorld.remove(g);

@@ -33,7 +33,7 @@ public class ElanMuske extends BasicEnemy{
      */
     @Override
     public StaticEntity onDeath(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        return new DoggieCoin(x, y);
+        return null;
     }
 
   

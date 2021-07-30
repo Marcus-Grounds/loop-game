@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import unsw.loopmania.Ally;
 import unsw.loopmania.Character.Character;
+import unsw.loopmania.Character.JailState;
 import unsw.loopmania.Enemies.BasicEnemy;
 
 public class JailBuilding extends PathBuilding {
@@ -18,7 +19,13 @@ public class JailBuilding extends PathBuilding {
 
     @Override
     public Ally pathAction(Character character, List<BasicEnemy> enemies) {
-        // TODO Auto-generated method stub
+        if (checkOnPath(character) && character.getAllies().size() == 0){
+            if (! (character.getState() instanceof JailState)) {
+                character.changeState(new JailState(character));
+                character.decreaseHealth(character.getCurrentHealth()/2);
+            }
+            
+        }
         return null;
     }
     
