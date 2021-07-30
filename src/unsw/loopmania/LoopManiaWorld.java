@@ -89,6 +89,8 @@ import unsw.loopmania.LoopManiaApplication;
 
     private List<Ally> allies;
 
+    private boolean is_there_ghost = false;
+
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -103,7 +105,6 @@ import unsw.loopmania.LoopManiaApplication;
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
     public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
-        
         
         this.width = width;
         this.height = height;
@@ -272,15 +273,22 @@ import unsw.loopmania.LoopManiaApplication;
      * @return list of the enemies to be displayed on screen
      */
     public List<BasicEnemy> possiblySpawnEnemies(){
-                
+
         Pair<Integer, Integer> pos = possiblyGetBasicEnemySpawnPosition();
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
             //Slug is randomly spawned
-            Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
-            enemies.add(enemy);
-            spawningEnemies.add(enemy);
+            if (this.is_there_ghost == false) {
+                Ghost enemy = new Ghost(new PathPosition(indexInPath, orderedPath));
+                enemies.add(enemy);
+                spawningEnemies.add(enemy);
+                this.is_there_ghost = true;
+            } else {
+                Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
+                enemies.add(enemy);
+                spawningEnemies.add(enemy);
+            }
         }
 
         for (SpawnBuilding b : spawnBuildings) {
@@ -739,12 +747,21 @@ import unsw.loopmania.LoopManiaApplication;
                     try {
                         controller.switchToBattle();
                         //return newBattle.getDefeatedEnemies();
-                        return battle.getEnemiesToFight();
-                        
+                        defeatedEnemies = battle.getEnemiesToFight();                        
                     } catch (IOException e2) {
                         e2.printStackTrace();
                     }
-                    defeatedEnemies = battle.getEnemiesToFight();
+                }
+            }
+            for (BasicEnemy enemy : defeatedEnemies) {
+                if (enemy instanceof Ghost) {
+                    Pair<Integer, Integer> pos = getRandomPosition();
+                    if (pos != null){
+                        int indexInPath = orderedPath.indexOf(pos);
+                        //Slug is randomly spawned
+                        Ghost ghost = new Ghost(new PathPosition(indexInPath, orderedPath));
+                        enemies.add(ghost);
+                    }
                 }
             }
             return defeatedEnemies;
