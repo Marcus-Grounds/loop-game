@@ -22,7 +22,7 @@ import unsw.loopmania.Cards.*;
 public class Ghost extends BasicEnemy{
     public static int level = 1;
     public Ghost(PathPosition position) {
-        super(position, new Health(level), 1, 1, 5, new ImageView(new Image((new File("src/images/Ghost.png")).toURI().toString())));
+        super(position, new Health(level), 3, 3, 5, new ImageView(new Image((new File("src/images/Ghost.png")).toURI().toString())));
     }
     
     /**

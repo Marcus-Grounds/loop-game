@@ -89,7 +89,7 @@ import unsw.loopmania.LoopManiaApplication;
 
     private List<Ally> allies;
 
-    private boolean is_there_ghost = false;
+    private boolean isThereGhost = false;
 
 
     /**
@@ -256,7 +256,7 @@ import unsw.loopmania.LoopManiaApplication;
      * get a randomly generated position which could be used to spawn an enemy
      * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
      */
-    private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition () {
+    public Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition () {
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(2);
@@ -279,11 +279,11 @@ import unsw.loopmania.LoopManiaApplication;
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
             //Slug is randomly spawned
-            if (this.is_there_ghost == false) {
+            if (this.isThereGhost == false) {
                 Ghost enemy = new Ghost(new PathPosition(indexInPath, orderedPath));
                 enemies.add(enemy);
                 spawningEnemies.add(enemy);
-                this.is_there_ghost = true;
+                this.isThereGhost = true;
             } else {
                 Slug enemy = new Slug(new PathPosition(indexInPath, orderedPath));
                 enemies.add(enemy);
@@ -742,12 +742,12 @@ import unsw.loopmania.LoopManiaApplication;
                 if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) <= Math.pow(e.getAttackRadius(),2)){
                     BattleEnemyController battleEnemyController = controller.getBattleController();
     
-                    Battle battle = new Battle(character, battleEnemyController, enemies, e, battleBuildings, loopCount);
+                    Battle battle = new Battle(this, character, battleEnemyController, enemies, e, battleBuildings, loopCount);
                     battleEnemyController.setBattle(battle);
                     try {
                         controller.switchToBattle();
                         //return newBattle.getDefeatedEnemies();
-                        defeatedEnemies = battle.getEnemiesToFight();                        
+                        return battle.getEnemiesToFight();                        
                     } catch (IOException e2) {
                         e2.printStackTrace();
                     }
@@ -769,5 +769,13 @@ import unsw.loopmania.LoopManiaApplication;
 
     public List<Ally> getAllAllies() {
         return character.getAllies();
+    }
+
+    public boolean getIsThereGhost () {
+        return this.isThereGhost;
+    }
+
+    public void setIsThereGhost () {
+        this.isThereGhost = !this.isThereGhost;
     }
 }
