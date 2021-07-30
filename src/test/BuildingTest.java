@@ -412,6 +412,47 @@ public class BuildingTest {
         assertTrue(c.getPathPosition().getX().get() == 0);
         assertTrue(c.getPathPosition().getY().get() == 1);
         
-    
+    }
+    @Test
+    public void jailTest2() {
+        JFXPanel jfxPanel = new JFXPanel(); 
+      
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+
+        for (int i = 0; i < 1000; i++){
+            orderedPath.add(new Pair<Integer,Integer>(0, i));
+        }
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, orderedPath);
+        
+        JailBuilding jail = new JailBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(1));
+        
+        d.addPathBuilding(jail);
+        
+        Character c = new Character(new PathPosition(0, orderedPath));
+        d.setCharacter(c);
+
+        //check that character will not be detained if there is an allied soldier
+        c.addAlly(new Ally(new PathPosition(0, orderedPath), 10));
+
+        assertTrue(c.getPathPosition().getX().get() == 0);
+        assertTrue(c.getPathPosition().getY().get() == 0);
+
+        d.runTickMoves();
+        d.pathBuildingAction();
+        c.getPathPosition().resetCoordinatesBasedOnPositionInPath();
+        assertTrue(c.getPathPosition().getX().get() == 0);
+        assertTrue(c.getPathPosition().getY().get() == 1);
+
+        assertTrue(c.getCurrentHealth() == 100);
+        
+
+        //check that character can move
+        d.runTickMoves();
+        d.pathBuildingAction();
+        assertTrue(c.getPathPosition().getX().get() == 0);
+        assertTrue(c.getPathPosition().getY().get() == 2);
+        
+        assertTrue(c.getAllies().size() == 0);
+
     }
 }

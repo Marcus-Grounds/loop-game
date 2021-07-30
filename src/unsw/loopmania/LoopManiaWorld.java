@@ -439,20 +439,25 @@ import unsw.loopmania.LoopManiaApplication;
     public Ally pathBuildingAction() {
         Ally ally = null;
         Iterator<PathBuilding> iter = pathBuildings.iterator();
+        PathBuilding toRemove = null;
         while (iter.hasNext()) {
             PathBuilding p = iter.next();
             Ally possiblyAlly = p.pathAction(character, enemies);
             if (possiblyAlly != null){
                 ally = possiblyAlly;
             }
-            if (p instanceof JailBuilding && p.checkOnPath(character) && allies.size() > 0) {
-                pathBuildings.remove(p);
-                p.destroy();
+            else if (p instanceof JailBuilding && p.checkOnPath(character) && allies.size() > 0) {
                 Ally allyToRemove = allies.get(allies.size() - 1 );
                 allies.remove(allyToRemove);
                 allyToRemove.destroy();
+                toRemove = p;
             }
         }
+
+        if (toRemove != null) {
+            pathBuildings.remove(toRemove);
+            toRemove.destroy();
+        }   
         return ally;
     }
 
