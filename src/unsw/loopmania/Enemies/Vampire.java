@@ -1,6 +1,7 @@
 package unsw.loopmania.Enemies;
 
 import java.io.File;
+import java.util.List;
 import java.util.Random;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -18,6 +19,7 @@ import unsw.loopmania.Cards.CampfireCard;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Cards.TrapCard;
 import unsw.loopmania.Cards.*;
+import unsw.loopmania.CharacterFolder.Character;
 
 public class Vampire extends BasicEnemy{
 
@@ -95,5 +97,15 @@ public class Vampire extends BasicEnemy{
     @Override
     public int getExperience () {
         return 200;
+    }
+
+    @Override
+    public void dealDamage(DefendingStrategy defence, Character c, List<BasicEnemy> enemies) {
+        if (defence == null){
+            c.decreaseHealth(this.getDamage());
+        }
+        else {
+            defence.reduceVampireDamage(this, c);
+        }
     }
 }

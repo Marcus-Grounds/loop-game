@@ -2,6 +2,7 @@ package unsw.loopmania;
 
 import unsw.loopmania.BasicItems.*;
 import unsw.loopmania.Buildings.*;
+import unsw.loopmania.Buildings.PathBuildings.JailBuilding;
 import unsw.loopmania.Buildings.SpawnBuildings.VampireCastleBuilding;
 import unsw.loopmania.Cards.*;
 import unsw.loopmania.Enemies.*;
@@ -190,10 +191,13 @@ public class LoopManiaWorldController {
 
     BattleEnemyController battleEnemyController;
 
+    ShopBuyController shopBuyController;
+
     ShopSellController shopSellController;
 
-    ShopBuyController shopBuyController;
     
+
+
     /*
     public void setBattleEnemyScreen (BattleEnemyScreen battleEnemyScreen){
         this.battleEnemyScreen = battleEnemyScreen;
@@ -275,37 +279,40 @@ public class LoopManiaWorldController {
      * create and run the timer
      */
     public void startTimer(){
-        // TODO = handle more aspects of the behaviour required by the specification
-        System.out.println("starting timer");
+       
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.4), event -> {
+
+            Ally ally = world.pathBuildingAction();
+            
+            if (ally != null) {
+                onLoad(ally);
+            }
+
             world.runTickMoves();
+
+
             //List<BasicEnemy> defeatedEnemies = world.runBattles(this);
             List<BasicEnemy> defeatedEnemies = new ArrayList<>();
             try {
                 if (world.checkCharacterOnCastle()) {
+
                     this.switchToShopSell();
                 } else {
                     defeatedEnemies = world.runBattles(this);
                 }
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
             for (BasicEnemy e: defeatedEnemies){
-                System.out.println("about to react to enemy defeat");
                 reactToEnemyDefeat(e);
             }
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
-            Ally ally = world.pathBuildingAction();
-            if (ally != null) {
-                System.out.print("loadAlly");
-                onLoad(ally);
-            }
+            
             
             Gold gold = world.possiblySpawnGold();
             if (gold != null){
@@ -315,6 +322,11 @@ public class LoopManiaWorldController {
             HealthPotion potion = world.possiblySpawnHealthPotion();
             if (potion != null){
                 onLoad(potion);
+            }
+
+            Building jail = world.possiblySpawnJailBuilding();
+            if (jail != null){
+                onLoad(jail);
             }
             
             healthNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getCurrentHealth()).asString());
@@ -721,6 +733,7 @@ public class LoopManiaWorldController {
         this.shopBuySwitcher = shopBuySwitcher;
     }
 
+
     /**
      * this method is triggered when click button to go to main menu in FXML
      * @throws IOException
@@ -848,7 +861,7 @@ public class LoopManiaWorldController {
         return this.unequippedInventory;
     }
 
-    public LoopManiaWorld getWorld () {
-        return world;
+    public LoopManiaWorld getWorld() {
+        return this.world;
     }
 }

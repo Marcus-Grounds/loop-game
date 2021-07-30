@@ -1,6 +1,7 @@
 package unsw.loopmania.Enemies;
 
 import java.io.File;
+import java.util.List;
 import java.util.Random;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -18,6 +19,7 @@ import unsw.loopmania.BasicItems.*;
 import unsw.loopmania.Cards.BarracksCard;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Cards.*;
+import unsw.loopmania.CharacterFolder.Character;
 
 public class Zombie extends BasicEnemy{    
     public Zombie(PathPosition position) {
@@ -78,5 +80,16 @@ public class Zombie extends BasicEnemy{
     @Override
     public int getExperience () {
         return 120;
+    }
+
+    @Override
+    public void dealDamage(DefendingStrategy defence, Character c, List<BasicEnemy> enemies) {
+        if (defence == null){
+            c.decreaseHealth(this.getDamage());
+        }
+        else {
+            defence.reduceZombieDamage(this, c);
+        }
+        
     }
 }

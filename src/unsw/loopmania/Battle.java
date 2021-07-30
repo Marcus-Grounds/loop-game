@@ -15,6 +15,7 @@ import org.javatuples.Pair;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.DefendingStrategy;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.BasicEnemy;
 import unsw.loopmania.Enemies.Ghost;
 import unsw.loopmania.Enemies.Slug;
@@ -62,29 +63,6 @@ public class Battle {
      * each enemy will deal damage to and recieve damate from an allied soldier and character
      */
     public void dealDamageOnce(){
-        List<BasicEnemy> enemiesList = getEnemiesToFight();
-        int currentEnemyNum = 0;
-        
-        GridPane grid = controller.getGrid();
-        grid.getChildren().clear();
-        for(int y = 0; y < 3; y++) {
-            for(int x = 0; x < 3; x++) {
-                if (currentEnemyNum < enemiesList.size()){
-                    BasicEnemy currentEnemy = enemiesList.get(currentEnemyNum);
-                    ImageView enemyImage = currentEnemy.getImageView();
-                    grid.add(enemyImage, x, y);
-
-                    Label healthNumber = new Label();
-                    healthNumber.textProperty().bind(new SimpleIntegerProperty (currentEnemy.getCurrentHealth()).asString());
-                    grid.add(healthNumber, x, y);
-                    GridPane.setHalignment(healthNumber, HPos.RIGHT);
-
-                    currentEnemyNum++;
-                }
-                
-
-            }
-        }
 
         boolean allEnemiesDead = true;
         AttackingStrategy weapon = c.getEquippedWeapon ();
@@ -103,43 +81,12 @@ public class Battle {
                 alliesAction(e);
             }
 
-            e.decreaseHealth(c.getBaseDamage());
-            if (weapon != null){
-                if (e instanceof Slug){
-                    Slug slug = (Slug) e;
-                    weapon.reduceSlugHealth(slug, loopCount);
-                }
-                else if (e instanceof Zombie){
-                    Zombie zombie = (Zombie) e;
-                    weapon.reduceZombieHealth(zombie, loopCount);
-                }
-                else if (e instanceof Vampire){
-                    Vampire vampire = (Vampire) e;
-                    weapon.reduceVampireHealth(vampire, loopCount);
-                }
-            }
-
+            c.dealDamage(e, loopCount);
             if (e.getCurrentHealth() > 0) {
                 allEnemiesDead = false;
             }
 
-            if (defence == null){
-                c.decreaseHealth(e.getDamage());
-            }
-            else {
-                if (e instanceof Slug){
-                    Slug slug = (Slug) e;
-                    defence.reduceSlugDamage(slug, c);
-                }
-                else if (e instanceof Zombie){
-                    Zombie zombie = (Zombie) e;
-                    defence.reduceZombieDamage(zombie, c);
-                }
-                else if (e instanceof Vampire){
-                    Vampire vampire = (Vampire) e;
-                    defence.reduceVampireDamage(vampire, c);
-                }
-            }
+            e.dealDamage(defence, c, enemies);
             if (c.getCurrentHealth() <= 0) {
                 c.destroy();
                 controller.endGame();

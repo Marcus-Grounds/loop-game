@@ -3,6 +3,7 @@ package unsw.loopmania;
 import unsw.loopmania.BasicItems.*;
 import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
+import unsw.loopmania.Buildings.PathBuildings.JailBuilding;
 import unsw.loopmania.Buildings.PathBuildings.PathBuilding;
 import unsw.loopmania.Buildings.SpawnBuildings.SpawnBuilding;
 import unsw.loopmania.Cards.*;
@@ -11,6 +12,7 @@ import unsw.loopmania.GameMode.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -21,6 +23,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.BasicItems.Sword;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Cards.VampireCastleCard;
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.BasicEnemy;
 import unsw.loopmania.LoopManiaApplication;
 
@@ -88,6 +91,7 @@ import unsw.loopmania.LoopManiaApplication;
     private List<SpawnBuilding>  spawnBuildings;
 
     private List<Ally> allies;
+    boolean elanHere;
 
     private boolean isThereGhost = false;
 
@@ -120,6 +124,7 @@ import unsw.loopmania.LoopManiaApplication;
         this.goldInTheWorld = new ArrayList<>();
         thePotion = null;
         loopCount = 0;
+        elanHere = false;
     }
 
     public int getWidth() {
@@ -139,7 +144,8 @@ import unsw.loopmania.LoopManiaApplication;
      * run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves() {
-        character.moveDownPath();
+
+        character.move();
         
         for (Ally ally : allies) {
             ally.moveDownPath();
@@ -147,7 +153,7 @@ import unsw.loopmania.LoopManiaApplication;
         moveBasicEnemies();
         possiblyCollectGold();
         possiblyCollectPotion();
-
+        fluctuateDoggieCoinValue();
         updateLoopCount(character);
        
     }
@@ -300,10 +306,19 @@ import unsw.loopmania.LoopManiaApplication;
             }
         }
 
-        if (loopCount % 2 == 0 && checkCharacterOnCastle()){
-            Doggie doggie = new Doggie(new PathPosition(1, orderedPath));
-            enemies.add(doggie);
-            spawningEnemies.add(doggie);
+        if (checkCharacterOnCastle()){
+            if (loopCount % 20 == 0) {
+                Doggie doggie = new Doggie(new PathPosition(10, orderedPath));
+                enemies.add(doggie);
+                spawningEnemies.add(doggie);
+            }
+
+            if(loopCount % 40 == 0){
+                ElanMuske elan = new ElanMuske(new PathPosition(20, orderedPath));
+                enemies.add(elan);
+                spawningEnemies.add(elan);
+                elanHere = true;
+            }
         }
 
         
@@ -439,12 +454,26 @@ import unsw.loopmania.LoopManiaApplication;
      */
     public Ally pathBuildingAction() {
         Ally ally = null;
-        for (PathBuilding p : pathBuildings) {
+        Iterator<PathBuilding> iter = pathBuildings.iterator();
+        PathBuilding toRemove = null;
+        while (iter.hasNext()) {
+            PathBuilding p = iter.next();
             Ally possiblyAlly = p.pathAction(character, enemies);
             if (possiblyAlly != null){
                 ally = possiblyAlly;
             }
+            else if (p instanceof JailBuilding && p.checkOnPath(character) && allies.size() > 0) {
+                Ally allyToRemove = allies.get(allies.size() - 1 );
+                allies.remove(allyToRemove);
+                allyToRemove.destroy();
+                toRemove = p;
+            }
         }
+
+        if (toRemove != null) {
+            pathBuildings.remove(toRemove);
+            toRemove.destroy();
+        }   
         return ally;
     }
 
@@ -515,6 +544,21 @@ import unsw.loopmania.LoopManiaApplication;
         return newBuilding;
     }
 
+    public JailBuilding possiblySpawnJailBuilding() {
+        Random random = new Random();
+        double r = random.nextDouble();
+        if (r < 0.02) {
+            Pair<Integer, Integer> pos = getRandomPosition();
+            int indexInPath = orderedPath.indexOf(pos);
+            PathPosition position = new PathPosition(indexInPath, orderedPath);
+            JailBuilding jail = new JailBuilding(position.getX(), position.getY());
+            addPathBuilding(jail);
+            return jail;
+        }
+        return null;
+        
+    }
+
 
     ////////// GOLD-RELATED METHODS ///////////////
     /**
@@ -543,8 +587,6 @@ import unsw.loopmania.LoopManiaApplication;
         for (int i = 0; i < goldInTheWorld.size(); i++){
             Gold g = goldInTheWorld.get(i);
             if (g.getX() == character.getX() && g.getY() == character.getY()){
-                System.out.println("GOLDCOUNT");
-                System.out.println(character.increaseGold(g));
                 goldInTheWorld.remove(g);
                 g.destroy();
                 goldInTheWorld.remove(g);
@@ -753,17 +795,7 @@ import unsw.loopmania.LoopManiaApplication;
                     }
                 }
             }
-            for (BasicEnemy enemy : defeatedEnemies) {
-                if (enemy instanceof Ghost) {
-                    Pair<Integer, Integer> pos = getRandomPosition();
-                    if (pos != null){
-                        int indexInPath = orderedPath.indexOf(pos);
-                        //Slug is randomly spawned
-                        Ghost ghost = new Ghost(new PathPosition(indexInPath, orderedPath));
-                        enemies.add(ghost);
-                    }
-                }
-            }
+           
             return defeatedEnemies;
         }
 
@@ -771,6 +803,16 @@ import unsw.loopmania.LoopManiaApplication;
         return character.getAllies();
     }
 
+    
+    public void fluctuateDoggieCoinValue() {
+        for (BasicItem item : character.getAllInventoryItems()) {
+            if (item instanceof DoggieCoin) {
+                DoggieCoin doggieCoin = (DoggieCoin) item;
+                doggieCoin.setCoinPrice(elanHere);
+            }
+        }
+    }
+    
     public boolean getIsThereGhost () {
         return this.isThereGhost;
     }
@@ -778,4 +820,5 @@ import unsw.loopmania.LoopManiaApplication;
     public void setIsThereGhost () {
         this.isThereGhost = !this.isThereGhost;
     }
+
 }
