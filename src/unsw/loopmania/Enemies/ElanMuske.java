@@ -68,7 +68,7 @@ public class ElanMuske extends BasicEnemy{
     }
     @Override
     public void dealDamage(DefendingStrategy defence, Character c, List<BasicEnemy> enemies) {
-        decreaseHealth(this.getDamage());
+        c.decreaseHealth(this.getDamage());
 
         //bosts health of all enemies that arnt already dead
         for (BasicEnemy enemy: enemies) {

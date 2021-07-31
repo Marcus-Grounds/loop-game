@@ -66,7 +66,7 @@ public class Doggie extends BasicEnemy{
 
     @Override
     public void dealDamage(DefendingStrategy defence, Character c, List<BasicEnemy> enemies) {
-        decreaseHealth(this.getDamage());
+        c.decreaseHealth(this.getDamage());
         
     }
 }

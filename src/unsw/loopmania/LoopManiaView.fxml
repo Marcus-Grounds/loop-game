@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -55,7 +56,7 @@
             </BorderPane>
          </children>
       </VBox>
-      <VBox prefHeight="214.0" prefWidth="113.0">
+      <VBox prefHeight="317.0" prefWidth="154.0">
          <children>
             <!-- equippedItems contains the equipment equipped by the character in special slots -->
             <!-- TODO = extend this to have slots for equipping armour, shields, helmets, and any other equippable items -->
@@ -123,6 +124,10 @@
                   <Label fx:id="expNumber" alignment="CENTER" prefHeight="30.0" prefWidth="49.0" text="EXPP" textFill="#0084ff" />
                </children>
             </TilePane>
+            <CheckBox fx:id="doggieGoal" mnemonicParsing="false" prefHeight="35.0" prefWidth="98.0" text="Killed Doggie" />
+            <CheckBox fx:id="elanGoal" mnemonicParsing="false" prefHeight="35.0" prefWidth="119.0" text="Killed ElanMuske" />
+            <CheckBox fx:id="goldGoal" mnemonicParsing="false" prefHeight="35.0" prefWidth="160.0" text="Gained 10 000 Gold" />
+            <CheckBox fx:id="expGoal" mnemonicParsing="false" prefHeight="35.0" prefWidth="140.0" text="Gained 20 000 Exp" />
          </children>
       </VBox>
    </HBox>

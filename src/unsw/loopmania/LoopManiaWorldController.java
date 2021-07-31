@@ -39,6 +39,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
+import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import unsw.loopmania.BasicItems.Sword;
@@ -124,6 +125,19 @@ public class LoopManiaWorldController {
     
     @FXML
     private Label expNumber;
+
+    @FXML
+    private CheckBox doggieGoal;
+
+    @FXML
+    private CheckBox elanGoal;
+
+    @FXML
+    private CheckBox goldGoal;
+
+    @FXML
+    private CheckBox expGoal;
+
     
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
@@ -225,11 +239,16 @@ public class LoopManiaWorldController {
         //battleEnemyScreen = new BattleEnemyScreen();
         this.battleEnemyController = battleEnemyController;
         this.shopSellController = shopSellController;
+
     }
 
     @FXML
     public void initialize() {
         // TODO = load more images/entities during initialization
+        doggieGoal.setDisable(true);
+        elanGoal.setDisable(true);
+        expGoal.setDisable(true);
+        goldGoal.setDisable(true);
         
         Image pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
         Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
@@ -273,6 +292,7 @@ public class LoopManiaWorldController {
         healthNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getCurrentHealth()).asString());
         goldNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getGoldCount()).asString());
         expNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getExperience()).asString());
+
     }
 
     /**
@@ -332,6 +352,14 @@ public class LoopManiaWorldController {
             healthNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getCurrentHealth()).asString());
             goldNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getGoldCount()).asString());
             expNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getExperience()).asString());
+
+            if (world.getGoldCount() >= 500) {
+                goldGoal.selectedProperty().set(true);
+            }
+            if (world.getExperience() >= 20000){
+                expGoal.selectedProperty().set(true);
+            }
+
             printThreadingNotes("HANDLED TIMER");
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -373,6 +401,12 @@ public class LoopManiaWorldController {
      */
     public void reactToEnemyDefeat(BasicEnemy enemy){
         System.out.println("react to enemy defeat");
+        if (enemy instanceof Doggie){
+            doggieGoal.selectedProperty().set(true);
+        }
+        else if (enemy instanceof ElanMuske) {
+            elanGoal.selectedProperty().set(true);
+        }
        
         StaticEntity lootedThing = enemy.onDeath(null, null);
         if (lootedThing instanceof BasicItem) {
@@ -380,10 +414,10 @@ public class LoopManiaWorldController {
             onLoad((BasicItem) lootedThing);
         }
         else if (lootedThing instanceof Card){
-            //lootedThing.setCoordinate(new SimpleIntegerProperty(world.getCharacter().getAllCards().size()), new SimpleIntegerProperty(0));
             world.loadCard( (Card) lootedThing);
             onLoad((Card) lootedThing);
         }
+
     }
 
     /**
