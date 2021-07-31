@@ -30,8 +30,8 @@ public class LoopManiaApplication extends Application {
      */
     private LoopManiaWorldController mainController;    
     
-    private MediaPlayer mediaPlayerGame;
-    private MediaPlayer mediaPlayerAttack;
+    private MediaPlayer gameMusic;
+    private MediaPlayer other;
 
     
     //private BattleEnemyController battleEnemyController;
@@ -39,8 +39,8 @@ public class LoopManiaApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         
-        Music game = new Music(mediaPlayerGame);
-        Music attack = new Music(mediaPlayerAttack);
+        Music game = new Music(gameMusic);
+        Music misc = new Music(other);
         // set title on top of window bar
         primaryStage.setTitle("Loop Mania");
 
@@ -103,7 +103,7 @@ public class LoopManiaApplication extends Application {
             switchToRoot(scene, battleRoot, primaryStage);
             mainController.pause();
             battleEnemyController.startTimer();
-            attack.playMusic("music/epicAttack.wav");
+            misc.playMusic("music/epicAttack.wav");
 
         });
         mainController.setShopSellSwitcher(() -> {  
@@ -123,6 +123,7 @@ public class LoopManiaApplication extends Application {
         });
         battleEnemyController.setEndSwitcher(() -> {  
             switchToRoot(scene, endScreenRoot, primaryStage);
+            misc.playMusic("music/died.wav");
         });
 
         shopSellController.setGameSwitcher(() -> {  
