@@ -56,7 +56,7 @@
             </BorderPane>
          </children>
       </VBox>
-      <VBox prefHeight="317.0" prefWidth="154.0">
+      <VBox prefHeight="295.0" prefWidth="113.0">
          <children>
             <!-- equippedItems contains the equipment equipped by the character in special slots -->
             <!-- TODO = extend this to have slots for equipping armour, shields, helmets, and any other equippable items -->
@@ -128,6 +128,10 @@
             <CheckBox fx:id="elanGoal" mnemonicParsing="false" prefHeight="35.0" prefWidth="119.0" text="Killed ElanMuske" />
             <CheckBox fx:id="goldGoal" mnemonicParsing="false" prefHeight="35.0" prefWidth="160.0" text="Gained 500 Gold" />
             <CheckBox fx:id="expGoal" mnemonicParsing="false" prefHeight="35.0" prefWidth="140.0" text="Gained 20 000 Exp" />
+            <Button fx:id="standardMode" mnemonicParsing="false" onAction="#setStandardMode" text="Standard mode" />
+            <Button fx:id="survivalMode" mnemonicParsing="false" onAction="#setSurvivalMode" text="Survival    mode" />
+            <Button fx:id="berserkerMode" mnemonicParsing="false" onAction="#setBerserkerMode" text="Berserker mode" />
+            <Button fx:id="confusingMode" mnemonicParsing="false" onAction="#setConfusingMode" text="Confusing mode" />
          </children>
       </VBox>
    </HBox>

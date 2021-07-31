@@ -40,6 +40,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import unsw.loopmania.BasicItems.Sword;
@@ -138,7 +139,17 @@ public class LoopManiaWorldController {
     @FXML
     private CheckBox expGoal;
 
-    
+    @FXML
+    private Button standardMode;
+
+    @FXML
+    private Button survivalMode;
+
+    @FXML
+    private Button berserkerMode;
+
+    @FXML
+    private Button confusingMode;
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -897,5 +908,25 @@ public class LoopManiaWorldController {
 
     public LoopManiaWorld getWorld() {
         return this.world;
+    }
+    
+    @FXML
+    private void setStandardMode() {
+        this.world.setGameMode(0);
+    }
+
+    @FXML
+    private void setSurvivalMode() {
+        this.world.setGameMode(1);
+    }
+
+    @FXML
+    private void setBerserkerMode() {
+        this.world.setGameMode(2);
+    }
+
+    @FXML
+    private void setConfusingMode() {
+        this.world.setGameMode(3);
     }
 }

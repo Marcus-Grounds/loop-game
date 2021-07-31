@@ -99,6 +99,7 @@ import unsw.loopmania.LoopManiaApplication;
 
     private boolean isThereGhost = false;
 
+    private int gameMode;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -113,7 +114,7 @@ import unsw.loopmania.LoopManiaApplication;
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
     public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
-        
+        this.gameMode = 0;
         this.width = width;
         this.height = height;
         this.nonSpecifiedEntities = new ArrayList<>();
@@ -312,7 +313,7 @@ import unsw.loopmania.LoopManiaApplication;
         }
 
         if (checkCharacterOnCastle()){
-            if (loopCount % 1 == 0) {
+            if (loopCount % 20 == 0) {
                 Doggie doggie = new Doggie(new PathPosition(10, orderedPath));
                 enemies.add(doggie);
                 spawningEnemies.add(doggie);
@@ -831,4 +832,11 @@ import unsw.loopmania.LoopManiaApplication;
         return character.getExperience();
     }
 
+    public int getGameMode() {
+        return this.gameMode;
+    }
+
+    public void setGameMode(int gameMode) {
+        this.gameMode = gameMode;
+    }
 }
