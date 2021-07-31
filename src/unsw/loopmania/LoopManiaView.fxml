@@ -55,7 +55,7 @@
             </BorderPane>
          </children>
       </VBox>
-      <VBox prefHeight="214.0" prefWidth="113.0">
+      <VBox prefHeight="295.0" prefWidth="113.0">
          <children>
             <!-- equippedItems contains the equipment equipped by the character in special slots -->
             <!-- TODO = extend this to have slots for equipping armour, shields, helmets, and any other equippable items -->
@@ -123,6 +123,10 @@
                   <Label fx:id="expNumber" alignment="CENTER" prefHeight="30.0" prefWidth="49.0" text="EXPP" textFill="#0084ff" />
                </children>
             </TilePane>
+            <Button fx:id="standardMode" mnemonicParsing="false" onAction="#setStandardMode" text="Standard mode" />
+            <Button fx:id="survivalMode" mnemonicParsing="false" onAction="#setSurvivalMode" text="Survival    mode" />
+            <Button fx:id="berserkerMode" mnemonicParsing="false" onAction="#setBerserkerMode" text="Berserker mode" />
+            <Button fx:id="confusingMode" mnemonicParsing="false" onAction="#setConfusingMode" text="Confusing mode" />
          </children>
       </VBox>
    </HBox>
