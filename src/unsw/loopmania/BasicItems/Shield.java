@@ -1,6 +1,8 @@
 package unsw.loopmania.BasicItems;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Enemies.Doggie;
+import unsw.loopmania.Enemies.ElanMuske;
 import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Vampire;
@@ -63,4 +65,11 @@ public class Shield extends BasicItem implements DefendingStrategy {
         }
     }
     
+    @Override
+    public void reduceDoggieDamage(Character character, Doggie doggie) {
+    }
+
+    @Override
+    public void reduceElanMuskeDamage(Character character, ElanMuske elanMuske) {  
+    }
 }
