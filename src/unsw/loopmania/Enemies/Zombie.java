@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
+import unsw.loopmania.TheOneRing;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.Staff;
@@ -29,13 +30,14 @@ public class Zombie extends BasicEnemy{
     /**
      * Give randomly generated weapon
      * @param x, y, the location of the weapon if one is generated
-     * @return BasicItem
+     * @return StaticEntity
      */
     @Override
     public StaticEntity onDeath(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         //System.out.print("generating random");
         Random random = new Random();
         double r = random.nextDouble();
+        double r2 = random.nextInt(200);
         //System.out.print(r);
         if (r < 0.1){
             return new Sword(x, y);
@@ -49,7 +51,11 @@ public class Zombie extends BasicEnemy{
             return new Shield(x, y);
         } else if (r < 0.6) {
             return new Helmet(x, y);
-        }else if (r < 0.7) {
+        } else if (r < 0.65) {
+            if (r2 <= 30 || r2 >= 170) {
+                return new TheOneRing(x, y);
+            }
+        } else if (r < 0.7) {
             return new BarracksCard(x, y);
         } else if (r < 0.85) {
             return new TrapCard(x, y);

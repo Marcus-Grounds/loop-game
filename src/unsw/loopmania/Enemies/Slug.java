@@ -15,6 +15,7 @@ import jdk.dynalink.beans.StaticClass;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
+import unsw.loopmania.TheOneRing;
 import unsw.loopmania.BasicItems.Armour;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
@@ -41,13 +42,13 @@ public class Slug extends BasicEnemy{
     /**
      * Give randomly generated weapon
      * @param x, y, the location of the weapon if one is generated
-     * @return BasicItem
+     * @return StaticEntity
      */
     @Override
     public StaticEntity onDeath(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         Random random = new Random();
         double r = random.nextDouble();
-       
+        double r2 = random.nextInt(200);
         if (r < 0.05){
             return new Sword(x, y);
         } else if (r < 0.1) {
@@ -74,6 +75,10 @@ public class Slug extends BasicEnemy{
             return new TrapCard(x, y);
         } else if (r < 0.65) {
             return new CampfireCard(x, y);
+        } else if (r < 0.70) {
+            if (r2 <= 10 || r2 >= 190) {
+                return new TheOneRing(x, y);
+            }
         }
         return null;
     }

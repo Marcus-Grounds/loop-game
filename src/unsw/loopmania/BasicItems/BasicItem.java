@@ -9,7 +9,7 @@ import unsw.loopmania.StaticEntity;
  */
 public class BasicItem extends StaticEntity  {
 
-    private int costOfItem;
+    public int costOfItem;
     
     public BasicItem(SimpleIntegerProperty x, SimpleIntegerProperty y, int costOfItem, ImageView image) {
         super(x, y, image);
