@@ -21,6 +21,8 @@ import unsw.loopmania.Cards.BarracksCard;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Cards.*;
 import unsw.loopmania.CharacterFolder.Character;
+import unsw.loopmania.RareItems.Anduril;
+import unsw.loopmania.RareItems.TreeStump;
 
 public class Zombie extends BasicEnemy{    
     public Zombie(PathPosition position) {
@@ -57,7 +59,16 @@ public class Zombie extends BasicEnemy{
             }
         } else if (r < 0.7) {
             return new BarracksCard(x, y);
-        } else if (r < 0.85) {
+        }  else if (r < 0.75) {
+            if (r2 <= 20 || r2 >= 180) {
+                return new Anduril(x, y);
+            }
+        }
+        else if (r < 0.80) {
+            if (r2 <= 15 || r2 >= 185) {
+                return new TreeStump(x, y);
+            }
+        }else if (r < 0.85) {
             return new TrapCard(x, y);
         } else if (r < 0.95) {
             return new CampfireCard(x, y);

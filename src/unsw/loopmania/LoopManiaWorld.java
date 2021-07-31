@@ -39,6 +39,8 @@ import unsw.loopmania.LoopManiaApplication;
 
     public static final int unequippedInventoryWidth = 4;
     public static final int unequippedInventoryHeight = 4;
+    public static final int rareInventoryWidth = 4;
+    public static final int rareInventoryHeight = 2;
 
     public static final int START_HEALTH = 100;
     public static final int START_EXP = 0;
@@ -718,7 +720,7 @@ import unsw.loopmania.LoopManiaApplication;
     }
 
     /**
-     * remove item at a particular index in the unequipped inventory items list (this is ordered based on age in the starter code)
+     * remove item at a particular index in the rare inventory items list (this is ordered based on age in the starter code)
      * @param index index from 0 to length-1
      */
     private void removeItemByPositionInUnequippedInventoryItems(int index){
@@ -737,6 +739,106 @@ import unsw.loopmania.LoopManiaApplication;
         for (int y=0; y<unequippedInventoryHeight; y++){
             for (int x=0; x<unequippedInventoryWidth; x++){
                 if (getUnequippedInventoryItemEntityByCoordinates(x, y) == null){
+                    return new Pair<Integer, Integer>(x, y);
+                }
+            }
+        }
+        return null;
+    }
+
+        ////////// RARE ITEMS INVENTORY METHODS ///////////////
+
+    /**
+     * spawn a rare item depending on the enemy looted
+     * @param enemy defeated enemy
+     * @return possibly a rare item to be spawned in the controller as a JavaFX node
+     */
+    public StaticEntity addRareItemToInventory(StaticEntity item){
+        Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForRareItem();
+        if (firstAvailableSlot == null){
+            // eject the oldest rare item and replace it... oldest item is that at beginning of items
+            removeItemByPositionInRareInventoryItems(0);
+            firstAvailableSlot = getFirstAvailableSlotForRareItem();
+            //for each rare item lost, 2 gold is gained
+            character.increaseGold(2);
+        }
+        
+        // now we insert the new item, as we know we have at least made a slot available...
+        item.setCoordinate(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+
+        System.out.print(item);
+        System.out.println(character.getRareInventoryItems().size());
+        if (item != null){
+            this.character.getRareInventoryItems().add(item);
+        }
+        
+        System.out.println(character.getRareInventoryItems().size());
+        return item;
+    }
+
+    public void addRareItem (StaticEntity item) {
+        this.character.addRareItem(item);
+    }
+
+    public List<StaticEntity> getAllRareItems () {
+        return this.character.getRareInventoryItems();
+    }
+
+    /**
+     * remove an item by x,y coordinates
+     * @param x x coordinate from 0 to width-1
+     * @param y y coordinate from 0 to height-1
+     */
+    public void removeRareInventoryItemByCoordinates(int x, int y){
+        Entity item = getRareInventoryItemEntityByCoordinates(x, y);
+        removeRareInventoryItem(item);
+    }
+
+    /**
+     * remove an item from the rare items inventory
+     * @param item item to be removed
+     */
+    public void removeRareInventoryItem(Entity item){
+        item.destroy();
+        this.character.getRareInventoryItems().remove(item);
+    }
+
+    /**
+     * return an rare items inventory item by x and y coordinates
+     * assumes that no 2 rare items inventory items share x and y coordinates
+     * @param x x index from 0 to width-1
+     * @param y y index from 0 to height-1
+     * @return rare items inventory item at the input position
+     */
+    public Entity getRareInventoryItemEntityByCoordinates(int x, int y){
+        for (Entity e:  this.character.getRareInventoryItems()){
+            if ((e.getX() == x) && (e.getY() == y)){
+                return e;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * remove item at a particular index in the rare items inventory items list (this is ordered based on age in the starter code)
+     * @param index index from 0 to length-1
+     */
+    private void removeItemByPositionInRareInventoryItems(int index){
+        Entity item =  this.character.getRareInventoryItems().get(index);
+        item.destroy();
+        this.character.getRareInventoryItems().remove(index);
+    }
+
+    /**
+     * get the first pair of x,y coordinates which don't have any items in it in the rare iteminventory
+     * @return x,y coordinate pair
+     */
+    private Pair<Integer, Integer> getFirstAvailableSlotForRareItem(){
+        // first available slot for an item...
+        // IMPORTANT - have to check by y then x, since trying to find first available slot defined by looking row by row
+        for (int y=0; y<rareInventoryHeight; y++){
+            for (int x=0; x<rareInventoryWidth; x++){
+                if (getRareInventoryItemEntityByCoordinates(x, y) == null){
                     return new Pair<Integer, Integer>(x, y);
                 }
             }
