@@ -126,7 +126,7 @@
             </TilePane>
             <CheckBox fx:id="doggieGoal" mnemonicParsing="false" prefHeight="35.0" prefWidth="98.0" text="Killed Doggie" />
             <CheckBox fx:id="elanGoal" mnemonicParsing="false" prefHeight="35.0" prefWidth="119.0" text="Killed ElanMuske" />
-            <CheckBox fx:id="goldGoal" mnemonicParsing="false" prefHeight="35.0" prefWidth="160.0" text="Gained 10 000 Gold" />
+            <CheckBox fx:id="goldGoal" mnemonicParsing="false" prefHeight="35.0" prefWidth="160.0" text="Gained 500 Gold" />
             <CheckBox fx:id="expGoal" mnemonicParsing="false" prefHeight="35.0" prefWidth="140.0" text="Gained 20 000 Exp" />
          </children>
       </VBox>
