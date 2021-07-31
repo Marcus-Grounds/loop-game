@@ -17,13 +17,12 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import unsw.loopmania.*;
-import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
 
 import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
 import unsw.loopmania.Cards.*;
-
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.*;
 
 import unsw.loopmania.GameMode.*;
@@ -97,7 +96,7 @@ public class BattleTest {
         enemies.add(s2);
 
         BattleEnemyController battleEnemyController = new BattleEnemyController();
-        Battle battle = new Battle(c, battleEnemyController, enemies, s1, new ArrayList<BattleBuilding>(), 50);
+        Battle battle = new Battle(null, c, battleEnemyController, enemies, s1, new ArrayList<BattleBuilding>(), 50);
         battle.dealDamageOnce();
         
 
@@ -139,7 +138,7 @@ public class BattleTest {
             //spawn another slug far away from character
 
             BattleEnemyController battleEnemyController = new BattleEnemyController();
-            Battle battle = new Battle(c, battleEnemyController, enemies, v1, new ArrayList<BattleBuilding>(), 0);
+            Battle battle = new Battle(null, c, battleEnemyController, enemies, v1, new ArrayList<BattleBuilding>(), 0);
             battle.dealDamageOnce();
 
             if (c.getCurrentHealth() < 100 - HIGH_DAMAGE) {
@@ -181,7 +180,7 @@ public class BattleTest {
         Character c = new Character(p2);
 
         //d.runBattles(null);
-        Battle battle = new Battle(c, null, enemies, v1, new ArrayList<BattleBuilding>(), 50);
+        Battle battle = new Battle(null, c, null, enemies, v1, new ArrayList<BattleBuilding>(), 50);
         battle.dealDamageOnce();
         assertTrue(v1.getCurrentHealth() == HIGH_HEALTH);
         assertTrue(c.getCurrentHealth() == START_HEALTH);
@@ -190,7 +189,7 @@ public class BattleTest {
         //spawn slug and character next to eachother, should trigger zombie to join
         Slug s1 = new Slug(p1);
         enemies.add(s1);
-        Battle battle1 = new Battle(c, null, enemies, s1,  new ArrayList<BattleBuilding>(), 50);
+        Battle battle1 = new Battle(null, c, null, enemies, s1,  new ArrayList<BattleBuilding>(), 50);
         battle1.dealDamageOnce();
 
         //d.runBattles(new LoopManiaWorldController(world, initialEntities);
@@ -236,7 +235,7 @@ public class BattleTest {
         Character c = new Character(p2);
         c.changeEquippedWeapon(new Sword(null, null));
 
-        Battle battle1 = new Battle(c, null, enemies, s1,  new ArrayList<BattleBuilding>(), 50);
+        Battle battle1 = new Battle(null, c, null, enemies, s1,  new ArrayList<BattleBuilding>(), 50);
         battle1.dealDamageOnce();
 
         //d.runBattles(new LoopManiaWorldController(world, initialEntities);
@@ -282,7 +281,7 @@ public class BattleTest {
 
         Character c = new Character(p2);
         c.changeEquippedDefence(new Armour(null, null));
-        Battle battle1 = new Battle(c, null, enemies, s1,  new ArrayList<BattleBuilding>(), 50);
+        Battle battle1 = new Battle(null, c, null, enemies, s1,  new ArrayList<BattleBuilding>(), 50);
         battle1.dealDamageOnce();
 
         //d.runBattles(new LoopManiaWorldController(world, initialEntities);
@@ -335,10 +334,10 @@ public class BattleTest {
             Vampire v2 = new Vampire(p1);
             enemies2.add(v2);
 
-            Battle battle1 = new Battle(c1, null, enemies1, v1,  new ArrayList<BattleBuilding>(), 50);
+            Battle battle1 = new Battle(null, c1, null, enemies1, v1,  new ArrayList<BattleBuilding>(), 50);
             battle1.dealDamageOnce();
 
-            Battle battle2 = new Battle(c2, null, enemies2, v2,  new ArrayList<BattleBuilding>(), 50);
+            Battle battle2 = new Battle(null, c2, null, enemies2, v2,  new ArrayList<BattleBuilding>(), 50);
             battle2.dealDamageOnce();
 
             if (c1.getCurrentHealth() < c2.getCurrentHealth()) {
@@ -382,7 +381,7 @@ public class BattleTest {
         Zombie z = new Zombie (p2);
         enemies1.add(z);
 
-        Battle battle1 = new Battle(c, null, enemies1, z,  new ArrayList<BattleBuilding>(), 50);
+        Battle battle1 = new Battle(null, c, null, enemies1, z,  new ArrayList<BattleBuilding>(), 50);
 
 
         int enemiesSize = battle1.getEnemiesToFight().size();

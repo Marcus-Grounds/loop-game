@@ -1,15 +1,25 @@
-package unsw.loopmania;
+package unsw.loopmania.CharacterFolder;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.stream.events.Characters;
+
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import unsw.loopmania.Ally;
+import unsw.loopmania.Experience;
+import unsw.loopmania.Gold;
+import unsw.loopmania.Health;
+import unsw.loopmania.MovingEntity;
+import unsw.loopmania.PathPosition;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.DefendingStrategy;
+import unsw.loopmania.BasicItems.DoggieCoin;
 import unsw.loopmania.Cards.Card;
+import unsw.loopmania.Enemies.BasicEnemy;
 
 
 /**
@@ -26,6 +36,7 @@ public class Character extends MovingEntity {
     private List<Ally> allies;
     private List<BasicItem> unequippedInventoryItems;
     private List<DoggieCoin> doggieCoins;
+    private CharacterState state;
     
     public Character(PathPosition position) {
         
@@ -38,6 +49,7 @@ public class Character extends MovingEntity {
         this.unequippedInventoryItems = new ArrayList<>();
         this.allies = new ArrayList<>();
         this.doggieCoins = new ArrayList<>();
+        state = new RegularState(this);
     }
 
     public int getBaseDamage () {
@@ -173,5 +185,21 @@ public class Character extends MovingEntity {
         this.unequippedInventoryItems.remove(index);
         this.gold.increaseGold(item.getValue());
         return item;
+    }
+
+    public void dealDamage(BasicEnemy enemy, int loopCount){
+        state.dealDamage(enemy, loopCount);
+    }
+
+    public void move() {
+        state.move();
+    }
+
+    public void changeState(CharacterState state){
+        this.state = state;
+    }
+
+    public CharacterState getState(){
+        return state;
     }
 }

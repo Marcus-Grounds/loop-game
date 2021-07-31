@@ -86,6 +86,7 @@ public class LoopManiaApplication extends Application {
         endScreenLoader.setController(endScreenController);
         Parent endScreenRoot = endScreenLoader.load();
         
+
         mainController.setGameRoot(gameRoot);
 
         // set functions which are activated when button click to switch menu is pressed

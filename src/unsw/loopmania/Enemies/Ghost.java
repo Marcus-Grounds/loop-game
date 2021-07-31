@@ -1,33 +1,27 @@
 package unsw.loopmania.Enemies;
 
-import unsw.loopmania.LoopManiaWorld;
-
 import java.io.File;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 import java.util.List;
 import java.util.Random;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.embed.swing.JFXPanel;
-import jdk.dynalink.beans.StaticClass;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
-import unsw.loopmania.BasicItems.BasicItem;
-import unsw.loopmania.BasicItems.DefendingStrategy;
-import unsw.loopmania.BasicItems.DoggieCoin;
+import unsw.loopmania.BasicItems.*;
+import unsw.loopmania.Cards.BarracksCard;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.CharacterFolder.Character;
+import unsw.loopmania.Cards.*;
 
-
-public class Doggie extends BasicEnemy{
-    
-    public Doggie (PathPosition position) {
-        super(position, new Health(100), 1, 1, 2, new ImageView(new Image((new File("src/images/doggie.png")).toURI().toString())) );
+public class Ghost extends BasicEnemy{
+    public static int level = 1;
+    public Ghost(PathPosition position) {
+        super(position, new Health(level), 3, 3, 5, new ImageView(new Image((new File("src/images/Ghost.png")).toURI().toString())));
     }
-
+    
     /**
      * Give randomly generated weapon
      * @param x, y, the location of the weapon if one is generated
@@ -35,38 +29,32 @@ public class Doggie extends BasicEnemy{
      */
     @Override
     public StaticEntity onDeath(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        return new DoggieCoin(x, y);
+        return null;
     }
 
-  
-
     /**
-     * slugs move forwards 25% of the time, backwards 25% of the time, and stay still otherwises
+     * moves slowly, only moves forward 50% of the time
      */
     @Override
     public void move(){
-        int directionChoice = (new Random()).nextInt(4);
+        int directionChoice = (new Random()).nextInt(2);
         if (directionChoice == 0){
-            moveUpPath();
-        }
-        else if (directionChoice == 1){
             moveDownPath();
         }
     }
 
     @Override
     public int getGold () {
-        return 150;
+        return level++;
     }
 
     @Override
     public int getExperience () {
-        return 300;
+        return level;
     }
 
     @Override
     public void dealDamage(DefendingStrategy defence, Character c, List<BasicEnemy> enemies) {
         c.decreaseHealth(this.getDamage());
-        
     }
 }

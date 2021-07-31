@@ -11,11 +11,10 @@ import org.junit.jupiter.api.Test;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.ImageView;
 import unsw.loopmania.*;
-import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
 
 import unsw.loopmania.Cards.*;
-
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.Enemies.Zombie;
 
@@ -199,4 +198,6 @@ public class EnemyTest {
         assertTrue(slug.getY() < zombie.getY());
         assertTrue(zombie.getY() < vampire.getY());
     }
+
+    
 }

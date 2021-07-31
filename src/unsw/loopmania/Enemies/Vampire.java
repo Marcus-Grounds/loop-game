@@ -1,6 +1,7 @@
 package unsw.loopmania.Enemies;
 
 import java.io.File;
+import java.util.List;
 import java.util.Random;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -9,6 +10,7 @@ import javafx.scene.image.ImageView;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
+import unsw.loopmania.TheOneRing;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.Helmet;
@@ -18,6 +20,7 @@ import unsw.loopmania.Cards.CampfireCard;
 import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Cards.TrapCard;
 import unsw.loopmania.Cards.*;
+import unsw.loopmania.CharacterFolder.Character;
 
 public class Vampire extends BasicEnemy{
 
@@ -43,12 +46,13 @@ public class Vampire extends BasicEnemy{
     /**
      * Give randomly generated weapon
      * @param x, y, the location of the weapon if one is generated
-     * @return BasicItem
+     * @return StaticEntity
      */
     @Override
     public StaticEntity onDeath(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         Random random = new Random();
         double r = random.nextDouble();
+        double r2 = random.nextInt(200);
         //System.out.print(r);
         if (r < 0.5){
             return new Sword(x, y);
@@ -58,6 +62,10 @@ public class Vampire extends BasicEnemy{
             return new Staff(x, y);
         } else if (r < 0.6){
             return new VampireCastleCard(x, y);
+        } else if (r < 0.70) {
+            if (r2 <= 50 || r2 >= 150) {
+                return new TheOneRing(x, y);
+            }
         } else if (r < 0.75) {
             return new ZombiePitCard(x, y);
         } else if (r < 0.9) {
@@ -66,10 +74,7 @@ public class Vampire extends BasicEnemy{
         else if (r < 0.95){
             return new TowerCard(x, y);
         }
-
-       else {
-           return null;
-       }
+        return null;
 
     }
 
@@ -95,5 +100,15 @@ public class Vampire extends BasicEnemy{
     @Override
     public int getExperience () {
         return 200;
+    }
+
+    @Override
+    public void dealDamage(DefendingStrategy defence, Character c, List<BasicEnemy> enemies) {
+        if (defence == null){
+            c.decreaseHealth(this.getDamage());
+        }
+        else {
+            defence.reduceVampireDamage(this, c);
+        }
     }
 }

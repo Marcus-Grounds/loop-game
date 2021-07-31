@@ -5,6 +5,8 @@ import unsw.loopmania.LoopManiaWorld;
 import java.io.File;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.List;
 import java.util.Random;
 
 import javafx.beans.property.SimpleIntegerProperty;
@@ -13,6 +15,7 @@ import jdk.dynalink.beans.StaticClass;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
+import unsw.loopmania.TheOneRing;
 import unsw.loopmania.BasicItems.Armour;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
@@ -24,9 +27,7 @@ import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Buildings.SpawnBuildings.*;
 import unsw.loopmania.Buildings.BattleBuildings.*;
 import unsw.loopmania.Buildings.PathBuildings.*;
-import unsw.loopmania.Cards.Card;
-import unsw.loopmania.Cards.TowerCard;
-import unsw.loopmania.Cards.VillageCard;
+import unsw.loopmania.CharacterFolder.Character;
 
 
 public class Slug extends BasicEnemy{
@@ -41,12 +42,13 @@ public class Slug extends BasicEnemy{
     /**
      * Give randomly generated weapon
      * @param x, y, the location of the weapon if one is generated
-     * @return BasicItem
+     * @return StaticEntity
      */
     @Override
     public StaticEntity onDeath(SimpleIntegerProperty x, SimpleIntegerProperty y) {
         Random random = new Random();
         double r = random.nextDouble();
+        double r2 = random.nextInt(200);
         if (r < 0.05){
             return new Sword(x, y);
         } else if (r < 0.1) {
@@ -73,6 +75,10 @@ public class Slug extends BasicEnemy{
             return new TrapCard(x, y);
         } else if (r < 0.65) {
             return new CampfireCard(x, y);
+        } else if (r < 0.70) {
+            if (r2 <= 10 || r2 >= 190) {
+                return new TheOneRing(x, y);
+            }
         }
         return null;
     }
@@ -101,5 +107,16 @@ public class Slug extends BasicEnemy{
     @Override
     public int getExperience () {
         return 10;
+    }
+
+    @Override
+    public void dealDamage(DefendingStrategy defence, Character c, List<BasicEnemy> enemies) {
+        if (defence == null){
+            c.decreaseHealth(this.getDamage());
+        }
+        else {
+            defence.reduceSlugDamage(this, c);
+        }
+        
     }
 }

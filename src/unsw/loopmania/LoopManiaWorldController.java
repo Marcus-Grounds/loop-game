@@ -2,6 +2,7 @@ package unsw.loopmania;
 
 import unsw.loopmania.BasicItems.*;
 import unsw.loopmania.Buildings.*;
+import unsw.loopmania.Buildings.PathBuildings.JailBuilding;
 import unsw.loopmania.Buildings.SpawnBuildings.VampireCastleBuilding;
 import unsw.loopmania.Cards.*;
 import unsw.loopmania.Enemies.*;
@@ -38,6 +39,8 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Label;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import unsw.loopmania.BasicItems.Sword;
@@ -123,7 +126,30 @@ public class LoopManiaWorldController {
     
     @FXML
     private Label expNumber;
-    
+
+    @FXML
+    private CheckBox doggieGoal;
+
+    @FXML
+    private CheckBox elanGoal;
+
+    @FXML
+    private CheckBox goldGoal;
+
+    @FXML
+    private CheckBox expGoal;
+
+    @FXML
+    private Button standardMode;
+
+    @FXML
+    private Button survivalMode;
+
+    @FXML
+    private Button berserkerMode;
+
+    @FXML
+    private Button confusingMode;
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -190,10 +216,13 @@ public class LoopManiaWorldController {
 
     BattleEnemyController battleEnemyController;
 
+    ShopBuyController shopBuyController;
+
     ShopSellController shopSellController;
 
-    ShopBuyController shopBuyController;
     
+
+
     /*
     public void setBattleEnemyScreen (BattleEnemyScreen battleEnemyScreen){
         this.battleEnemyScreen = battleEnemyScreen;
@@ -221,11 +250,16 @@ public class LoopManiaWorldController {
         //battleEnemyScreen = new BattleEnemyScreen();
         this.battleEnemyController = battleEnemyController;
         this.shopSellController = shopSellController;
+
     }
 
     @FXML
     public void initialize() {
         // TODO = load more images/entities during initialization
+        doggieGoal.setDisable(true);
+        elanGoal.setDisable(true);
+        expGoal.setDisable(true);
+        goldGoal.setDisable(true);
         
         Image pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
         Image inventorySlotImage = new Image((new File("src/images/empty_slot.png")).toURI().toString());
@@ -269,43 +303,47 @@ public class LoopManiaWorldController {
         healthNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getCurrentHealth()).asString());
         goldNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getGoldCount()).asString());
         expNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getExperience()).asString());
+
     }
 
     /**
      * create and run the timer
      */
     public void startTimer(){
-        // TODO = handle more aspects of the behaviour required by the specification
-        System.out.println("starting timer");
+       
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.4), event -> {
+
+            Ally ally = world.pathBuildingAction();
+            
+            if (ally != null) {
+                onLoad(ally);
+            }
+
             world.runTickMoves();
+
+
             //List<BasicEnemy> defeatedEnemies = world.runBattles(this);
             List<BasicEnemy> defeatedEnemies = new ArrayList<>();
             try {
                 if (world.checkCharacterOnCastle()) {
+
                     this.switchToShopSell();
                 } else {
                     defeatedEnemies = world.runBattles(this);
                 }
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
             for (BasicEnemy e: defeatedEnemies){
-                System.out.println("about to react to enemy defeat");
                 reactToEnemyDefeat(e);
             }
             List<BasicEnemy> newEnemies = world.possiblySpawnEnemies();
             for (BasicEnemy newEnemy: newEnemies){
                 onLoad(newEnemy);
             }
-            Ally ally = world.pathBuildingAction();
-            if (ally != null) {
-                System.out.print("loadAlly");
-                onLoad(ally);
-            }
+            
             
             Gold gold = world.possiblySpawnGold();
             if (gold != null){
@@ -316,10 +354,23 @@ public class LoopManiaWorldController {
             if (potion != null){
                 onLoad(potion);
             }
+
+            Building jail = world.possiblySpawnJailBuilding();
+            if (jail != null){
+                onLoad(jail);
+            }
             
             healthNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getCurrentHealth()).asString());
             goldNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getGoldCount()).asString());
             expNumber.textProperty().bind(new SimpleIntegerProperty (world.getCharacter().getExperience()).asString());
+
+            if (world.getGoldCount() >= 500) {
+                goldGoal.selectedProperty().set(true);
+            }
+            if (world.getExperience() >= 20000){
+                expGoal.selectedProperty().set(true);
+            }
+
             printThreadingNotes("HANDLED TIMER");
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -361,17 +412,23 @@ public class LoopManiaWorldController {
      */
     public void reactToEnemyDefeat(BasicEnemy enemy){
         System.out.println("react to enemy defeat");
+        if (enemy instanceof Doggie){
+            doggieGoal.selectedProperty().set(true);
+        }
+        else if (enemy instanceof ElanMuske) {
+            elanGoal.selectedProperty().set(true);
+        }
        
         StaticEntity lootedThing = enemy.onDeath(null, null);
-        if (lootedThing instanceof BasicItem) {
+        if (lootedThing instanceof BasicItem){
             world.addUnequippedItem((BasicItem) lootedThing);
             onLoad((BasicItem) lootedThing);
         }
         else if (lootedThing instanceof Card){
-            //lootedThing.setCoordinate(new SimpleIntegerProperty(world.getCharacter().getAllCards().size()), new SimpleIntegerProperty(0));
             world.loadCard( (Card) lootedThing);
             onLoad((Card) lootedThing);
         }
+
     }
 
     /**
@@ -721,6 +778,7 @@ public class LoopManiaWorldController {
         this.shopBuySwitcher = shopBuySwitcher;
     }
 
+
     /**
      * this method is triggered when click button to go to main menu in FXML
      * @throws IOException
@@ -848,7 +906,27 @@ public class LoopManiaWorldController {
         return this.unequippedInventory;
     }
 
-    public LoopManiaWorld getWorld () {
-        return world;
+    public LoopManiaWorld getWorld() {
+        return this.world;
+    }
+    
+    @FXML
+    private void setStandardMode() {
+        this.world.setGameMode(0);
+    }
+
+    @FXML
+    private void setSurvivalMode() {
+        this.world.setGameMode(1);
+    }
+
+    @FXML
+    private void setBerserkerMode() {
+        this.world.setGameMode(2);
+    }
+
+    @FXML
+    private void setConfusingMode() {
+        this.world.setGameMode(3);
     }
 }

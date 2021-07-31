@@ -12,7 +12,6 @@ import org.junit.jupiter.engine.discovery.predicates.IsTestMethod;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.embed.swing.JFXPanel;
 import unsw.loopmania.*;
-import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
 
 import unsw.loopmania.Buildings.*;
@@ -20,6 +19,7 @@ import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
 import unsw.loopmania.Buildings.BattleBuildings.CampfireBuilding;
 import unsw.loopmania.Buildings.BattleBuildings.TowerBuilding;
 import unsw.loopmania.Buildings.PathBuildings.BarracksBuilding;
+import unsw.loopmania.Buildings.PathBuildings.JailBuilding;
 import unsw.loopmania.Buildings.PathBuildings.PathBuilding;
 import unsw.loopmania.Buildings.PathBuildings.TrapBuilding;
 import unsw.loopmania.Buildings.PathBuildings.VillageBuilding;
@@ -27,7 +27,8 @@ import unsw.loopmania.Buildings.SpawnBuildings.SpawnBuilding;
 import unsw.loopmania.Buildings.SpawnBuildings.VampireCastleBuilding;
 import unsw.loopmania.Buildings.SpawnBuildings.ZombiePitBuilding;
 import unsw.loopmania.Cards.*;
-
+import unsw.loopmania.CharacterFolder.Character;
+import unsw.loopmania.CharacterFolder.JailState;
 import unsw.loopmania.Enemies.*;
 
 import unsw.loopmania.GameMode.*;
@@ -200,7 +201,7 @@ public class BuildingTest {
         List<BasicEnemy> enemies = new ArrayList<BasicEnemy>();
 
         // Create battle so that the tower can deal damage
-        Battle battle = new Battle(c, null, enemies, v1, battleBuildings, 0);
+        Battle battle = new Battle(null, c, null, enemies, v1, battleBuildings, 0);
         battle.dealDamageOnce();
         
         //SHOULD ONLY REGISTER DAMAGE FROM 2 TOWERS AS ONE IS OUT OF RANGE
@@ -324,7 +325,7 @@ public class BuildingTest {
         battleBuildings.add(campfireBuilding);
         
         // create a battle so the campfire can perform action on character
-        Battle battle = new Battle(c, null, enemies, s1, battleBuildings, 0);
+        Battle battle = new Battle(null, c, null, enemies, s1, battleBuildings, 0);
         battle.dealDamageOnce();
         
         //Should double the health of base damge of the player
@@ -366,5 +367,92 @@ public class BuildingTest {
 
         d.runTickMovesCharacter();
         assertEquals(d.getAllAllies().isEmpty(), false);
+    }
+
+    @Test
+    public void jailTest() {
+        JFXPanel jfxPanel = new JFXPanel(); 
+      
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+
+        for (int i = 0; i < 1000; i++){
+            orderedPath.add(new Pair<Integer,Integer>(0, i));
+        }
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, orderedPath);
+        
+        JailBuilding jail = new JailBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(1));
+        
+        d.addPathBuilding(jail);
+        
+        Character c = new Character(new PathPosition(0, orderedPath));
+        d.setCharacter(c);
+
+        assertTrue(c.getPathPosition().getX().get() == 0);
+        assertTrue(c.getPathPosition().getY().get() == 0);
+
+        d.runTickMoves();
+        d.pathBuildingAction();
+        c.getPathPosition().resetCoordinatesBasedOnPositionInPath();
+        assertTrue(c.getPathPosition().getX().get() == 0);
+        assertTrue(c.getPathPosition().getY().get() == 1);
+        
+        assertTrue(c.getCurrentHealth() == 50);
+        
+        //and that character is incapacitated
+        assertTrue(c.getState() instanceof JailState);
+
+        //check that character cannot move
+        d.runTickMoves();
+        d.pathBuildingAction();
+        assertTrue(c.getPathPosition().getX().get() == 0);
+        assertTrue(c.getPathPosition().getY().get() == 1);
+        
+        d.runTickMoves();
+        d.pathBuildingAction();
+        assertTrue(c.getPathPosition().getX().get() == 0);
+        assertTrue(c.getPathPosition().getY().get() == 1);
+        
+    }
+    @Test
+    public void jailTest2() {
+        JFXPanel jfxPanel = new JFXPanel(); 
+      
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+
+        for (int i = 0; i < 1000; i++){
+            orderedPath.add(new Pair<Integer,Integer>(0, i));
+        }
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, orderedPath);
+        
+        JailBuilding jail = new JailBuilding(new SimpleIntegerProperty(0), new SimpleIntegerProperty(1));
+        
+        d.addPathBuilding(jail);
+        
+        Character c = new Character(new PathPosition(0, orderedPath));
+        d.setCharacter(c);
+
+        //check that character will not be detained if there is an allied soldier
+        c.addAlly(new Ally(new PathPosition(0, orderedPath), 10));
+
+        assertTrue(c.getPathPosition().getX().get() == 0);
+        assertTrue(c.getPathPosition().getY().get() == 0);
+
+        d.runTickMoves();
+        d.pathBuildingAction();
+        c.getPathPosition().resetCoordinatesBasedOnPositionInPath();
+        assertTrue(c.getPathPosition().getX().get() == 0);
+        assertTrue(c.getPathPosition().getY().get() == 1);
+
+        assertTrue(c.getCurrentHealth() == 100);
+        
+
+        //check that character can move
+        d.runTickMoves();
+        d.pathBuildingAction();
+        assertTrue(c.getPathPosition().getX().get() == 0);
+        assertTrue(c.getPathPosition().getY().get() == 2);
+        
+        assertTrue(c.getAllies().size() == 0);
+
     }
 }

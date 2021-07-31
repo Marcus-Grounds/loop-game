@@ -3,6 +3,8 @@ package unsw.loopmania;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import unsw.loopmania.CharacterFolder.Character;
+
 import java.io.File;
 
 /**

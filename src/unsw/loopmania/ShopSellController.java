@@ -96,7 +96,8 @@ public class ShopSellController {
         //ArrayList<Button> buttons = new ArrayList<>();
         
         List <BasicItem> unequippedInventory = loopManiaWorldController.getWorld().getAllInventoryItems();
-        inventory.getChildren().clear();
+        
+
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 
@@ -115,11 +116,9 @@ public class ShopSellController {
                     GridPane.setHalignment(button, HPos.CENTER);
                     button.setOnAction(new EventHandler<ActionEvent>() {
                         @Override public void handle(ActionEvent e) {
-                            System.out.println("Almost SELL ITEM");
                             int row = GridPane.getRowIndex(button);
-                            System.out.println(row);
                             int column = GridPane.getColumnIndex(button);
-                            System.out.println(column);
+                            
                             BasicItem itemToSell = getItemByInventoryPosition(row, column);
                             loopManiaWorldController.getWorld().removeUnequippedInventoryItem((Entity) itemToSell);
                             loopManiaWorldController.getWorld().getCharacter().increaseGold(itemToSell.getValue());
@@ -137,13 +136,12 @@ public class ShopSellController {
 
         
 
-
-
         //ObservableList<Node> worldList = loopManiaWorldController.getUnequippedInventory().getChildren();
         //ObservableList<Node> childList = this.inventory.getChildren();
         EventHandler<ActionEvent> switchToGame = new EventHandler<ActionEvent>(){
             public void handle (ActionEvent t) {
                 GridPane worldInventory = loopManiaWorldController.getUnequippedInventory();
+                inventory.getChildren().clear();
                 worldInventory.getChildren().addAll(inventory.getChildren());
                 timeline.stop();
                 gameSwitcher.switchMenu();
