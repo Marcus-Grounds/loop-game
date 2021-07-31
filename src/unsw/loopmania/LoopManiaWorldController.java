@@ -445,7 +445,6 @@ public class LoopManiaWorldController {
             world.loadCard( (Card) lootedThing);
             onLoad((Card) lootedThing);
         }
-<<<<<<< HEAD
         else if (lootedThing instanceof StaticEntity) {
             world.addRareItemToInventory((StaticEntity) lootedThing);
             onLoad((StaticEntity) lootedThing);
@@ -459,9 +458,6 @@ public class LoopManiaWorldController {
             addEntity(rareitem, view);
             rareItemsInventory.getChildren().add(view);
         }
-=======
-
->>>>>>> master
     }
 
     /**
