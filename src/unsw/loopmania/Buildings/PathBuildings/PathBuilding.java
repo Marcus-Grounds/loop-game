@@ -6,8 +6,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.ImageView;
 import unsw.loopmania.MovingEntity;
 import unsw.loopmania.Ally;
-import unsw.loopmania.Character;
 import unsw.loopmania.Buildings.Building;
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.BasicEnemy;
 
 public abstract class PathBuilding extends Building{

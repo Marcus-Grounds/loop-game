@@ -1,14 +1,20 @@
 package unsw.loopmania.Enemies;
 
+import java.util.List;
 import java.util.Random;
 
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.ImageView;
-import unsw.loopmania.*;
+import unsw.loopmania.Health;
+import unsw.loopmania.MovingEntity;
+import unsw.loopmania.PathPosition;
+import unsw.loopmania.StaticEntity;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
+import unsw.loopmania.BasicItems.DefendingStrategy;
 import unsw.loopmania.Cards.Card;
+import unsw.loopmania.CharacterFolder.Character;
 
 
 /**
@@ -48,4 +54,6 @@ public abstract class BasicEnemy extends MovingEntity {
     public abstract int getGold();
 
     public abstract int getExperience();
+
+    public abstract void dealDamage(DefendingStrategy defence, Character c, List<BasicEnemy> enemies);
 }

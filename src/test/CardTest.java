@@ -15,13 +15,12 @@ import org.junit.jupiter.api.Test;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.embed.swing.JFXPanel;
 import unsw.loopmania.*;
-import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
 
 import unsw.loopmania.Buildings.*;
 
 import unsw.loopmania.Cards.*;
-
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.*;
 
 import unsw.loopmania.GameMode.*;

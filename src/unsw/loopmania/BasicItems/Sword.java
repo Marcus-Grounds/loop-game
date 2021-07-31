@@ -7,7 +7,7 @@ import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Vampire;
 import unsw.loopmania.Enemies.Zombie;
 import unsw.loopmania.LoopManiaWorld;
-import unsw.loopmania.Character;
+import unsw.loopmania.CharacterFolder.Character;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.File;

@@ -1,7 +1,7 @@
 package unsw.loopmania.BasicItems;
 
 import unsw.loopmania.LoopManiaWorld;
-import unsw.loopmania.Character;
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.Doggie;
 import unsw.loopmania.Enemies.ElanMuske;
 import unsw.loopmania.Enemies.Slug;

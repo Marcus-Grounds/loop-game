@@ -12,7 +12,6 @@ import org.junit.jupiter.engine.discovery.predicates.IsTestMethod;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.embed.swing.JFXPanel;
 import unsw.loopmania.*;
-import unsw.loopmania.Character;
 import unsw.loopmania.BasicItems.*;
 
 import unsw.loopmania.Buildings.*;
@@ -27,7 +26,7 @@ import unsw.loopmania.Buildings.SpawnBuildings.SpawnBuilding;
 import unsw.loopmania.Buildings.SpawnBuildings.VampireCastleBuilding;
 import unsw.loopmania.Buildings.SpawnBuildings.ZombiePitBuilding;
 import unsw.loopmania.Cards.*;
-
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.Enemies.*;
 
 import unsw.loopmania.GameMode.*;
@@ -55,8 +54,8 @@ public class ShopTest {
         Character c = new Character(p1);
         c.increaseGold(1000);
         d.setCharacter(c);
-
-        BasicItem item = d.buyItemByIndexFromShop(0);
+        List<BasicItem> itemList = d.getAllItemsFromShop();
+        BasicItem item = d.buyItem(itemList.get(0));
         assertEquals(item, d.getAllInventoryItems().get(0));
     }
 
@@ -82,7 +81,9 @@ public class ShopTest {
         c.increaseGold(1);
         d.setCharacter(c);
 
-        BasicItem item = d.buyItemByIndexFromShop(0);
+        d.setCharacter(c);
+        List<BasicItem> itemList = d.getAllItemsFromShop();
+        BasicItem item = d.buyItem(itemList.get(0));
         assertEquals(0, d.getAllInventoryItems().size());
     }
     

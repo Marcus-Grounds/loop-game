@@ -19,4 +19,8 @@ public class BasicItem extends StaticEntity  {
     public int getValue() {
         return costOfItem;
     }
+
+    public void setCost(int value) {
+        costOfItem = value;
+    }   
 }

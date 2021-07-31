@@ -1,7 +1,7 @@
 package unsw.loopmania.RareItems;
 
 import unsw.loopmania.*;
-import unsw.loopmania.Character;
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.Enemies.*;
 import javafx.beans.property.SimpleIntegerProperty;

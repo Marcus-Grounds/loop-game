@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.javatuples.Pair;
 
 import unsw.loopmania.*;
-import unsw.loopmania.Character;
+import unsw.loopmania.CharacterFolder.Character;
 import unsw.loopmania.BasicItems.*;
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;

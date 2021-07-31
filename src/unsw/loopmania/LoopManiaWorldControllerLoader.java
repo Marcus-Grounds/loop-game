@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import unsw.loopmania.Buildings.HerosCastle;
+import unsw.loopmania.CharacterFolder.Character;
 import javafx.geometry.Rectangle2D;
 
 import java.io.File;
