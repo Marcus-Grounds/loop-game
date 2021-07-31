@@ -10,6 +10,7 @@ import unsw.loopmania.Cards.*;
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -161,7 +162,8 @@ import unsw.loopmania.LoopManiaApplication;
         possiblyCollectPotion();
         fluctuateDoggieCoinValue();
         updateLoopCount(character);
-       
+        
+        
     }
 
     // Created for testing purposes
