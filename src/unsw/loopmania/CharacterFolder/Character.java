@@ -14,6 +14,7 @@ import unsw.loopmania.Gold;
 import unsw.loopmania.Health;
 import unsw.loopmania.MovingEntity;
 import unsw.loopmania.PathPosition;
+import unsw.loopmania.StaticEntity;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.DefendingStrategy;
@@ -35,6 +36,7 @@ public class Character extends MovingEntity {
     private List<Card> cardEntities;
     private List<Ally> allies;
     private List<BasicItem> unequippedInventoryItems;
+    private List<StaticEntity> unequippedRareItems;
     private List<DoggieCoin> doggieCoins;
     private CharacterState state;
     
@@ -47,6 +49,7 @@ public class Character extends MovingEntity {
         this.equippedDefence = null;        
         this.cardEntities = new ArrayList<>();
         this.unequippedInventoryItems = new ArrayList<>();
+        this.unequippedRareItems = new ArrayList<>();
         this.allies = new ArrayList<>();
         this.doggieCoins = new ArrayList<>();
         state = new RegularState(this);
@@ -163,6 +166,18 @@ public class Character extends MovingEntity {
 
     public List<BasicItem> getAllInventoryItems () {
         return this.unequippedInventoryItems;
+    }
+
+    /**
+     * add another item to the character's rare items inventory
+     * @param item
+     */
+    public void addRareItem (StaticEntity item) {
+        this.unequippedRareItems.add(item);
+    }
+
+    public List<StaticEntity> getRareInventoryItems () {
+        return this.unequippedRareItems;
     }
 
     /**

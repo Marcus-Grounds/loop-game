@@ -119,6 +119,9 @@ public class LoopManiaWorldController {
     private GridPane unequippedInventory;
 
     @FXML
+    private GridPane rareItemsInventory;
+
+    @FXML
     private Label healthNumber;
 
     @FXML
@@ -294,6 +297,20 @@ public class LoopManiaWorldController {
             }
         }
 
+        
+        // add the empty slot images for the rare item inventory
+        for (int x=0; x<LoopManiaWorld.rareInventoryWidth; x++){
+            for (int y=0; y<LoopManiaWorld.rareInventoryHeight; y++){
+                
+                ImageView emptySlotView = new ImageView(inventorySlotImage);
+                System.out.print(emptySlotView);
+                System.out.print(rareItemsInventory);
+                rareItemsInventory.add(emptySlotView, x, y);
+
+            }
+        }
+        
+
         // create the draggable icon
         draggedEntity = new DragIcon();
         draggedEntity.setVisible(false);
@@ -428,7 +445,19 @@ public class LoopManiaWorldController {
             world.loadCard( (Card) lootedThing);
             onLoad((Card) lootedThing);
         }
+        else if (lootedThing instanceof StaticEntity) {
+            world.addRareItemToInventory((StaticEntity) lootedThing);
+            onLoad((StaticEntity) lootedThing);
+        }
+    }
 
+    private void onLoad(StaticEntity rareitem) {
+        if (rareitem != null) {
+            ImageView view = rareitem.getImageView();
+            addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, rareItemsInventory, equippedItems);
+            addEntity(rareitem, view);
+            rareItemsInventory.getChildren().add(view);
+        }
     }
 
     /**
@@ -549,6 +578,7 @@ public class LoopManiaWorldController {
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn an item in the new location. The above code for spawning a building will help, it is very similar
                                 removeItemByCoordinates(nodeX, nodeY);
+                                removeRareItemByCoordinates(nodeX, nodeY);
                                 targetGridPane.add(image, x, y, 1, 1);
                                 break;
                             default:
@@ -634,6 +664,15 @@ public class LoopManiaWorldController {
      */
     private void removeItemByCoordinates(int nodeX, int nodeY) {
         world.removeUnequippedInventoryItemByCoordinates(nodeX, nodeY);
+    }
+
+    /**
+     * remove an rare item from the unequipped inventory by its x and y coordinates in the unequipped inventory gridpane
+     * @param nodeX x coordinate from 0 to unequippedInventoryWidth-1
+     * @param nodeY y coordinate from 0 to unequippedInventoryHeight-1
+     */
+    private void removeRareItemByCoordinates(int nodeX, int nodeY) {
+        world.removeRareInventoryItemByCoordinates(nodeX, nodeY);
     }
 
     /**
@@ -849,6 +888,7 @@ public class LoopManiaWorldController {
                                                     cards.getChildren().remove(node);
                                                     equippedItems.getChildren().remove(node);
                                                     unequippedInventory.getChildren().remove(node);
+                                                    rareItemsInventory.getChildren().remove(node);
                                                 })
                                                .buildAttached();
         ListenerHandle handleY = ListenerHandles.createFor(entity.y(), node)
@@ -860,6 +900,7 @@ public class LoopManiaWorldController {
                                                    cards.getChildren().remove(node);
                                                    equippedItems.getChildren().remove(node);
                                                    unequippedInventory.getChildren().remove(node);
+                                                   rareItemsInventory.getChildren().remove(node);
                                                 })
                                                .buildAttached();
         handleX.attach();
@@ -904,6 +945,10 @@ public class LoopManiaWorldController {
 
     public GridPane getUnequippedInventory () {
         return this.unequippedInventory;
+    }
+
+    public GridPane getRareItemsInventory () {
+        return this.rareItemsInventory;
     }
 
     public LoopManiaWorld getWorld() {

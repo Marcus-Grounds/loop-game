@@ -108,4 +108,28 @@ public class RareItemsTest {
         int damageDone = elanMuske.getDamage() / 5;
         assertEquals(c.getCurrentHealth(), 100 - damageDone);
     }
+
+    @Test
+    public void TestTheOneRingRespawnCharacter() {
+        JFXPanel jfxPanel = new JFXPanel();
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, new ArrayList<>());
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+        
+        Pair<Integer, Integer> path1 = new Pair<Integer,Integer>(1, 0);
+        Pair<Integer, Integer> path2 = new Pair<Integer,Integer>(1, 1);
+        orderedPath.add(path1);
+        orderedPath.add(path2);
+
+        TheOneRing oneRing = new TheOneRing(new SimpleIntegerProperty(1), new SimpleIntegerProperty(1));
+        Character c = new Character(new PathPosition(0, orderedPath));
+        d.setCharacter(c);
+        ElanMuske elanMuske = new ElanMuske(new PathPosition(1, orderedPath));
+      
+        assertEquals(100, c.getCurrentHealth());
+        int damageDone = elanMuske.getDamage() / 5;
+        assertEquals(c.getCurrentHealth(), 100 - damageDone);
+
+        oneRing.reviveCharacter(c);
+        assertEquals(100, c.getCurrentHealth());
+    }
 }

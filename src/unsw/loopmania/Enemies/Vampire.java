@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
-import unsw.loopmania.TheOneRing;
+import unsw.loopmania.RareItems.TheOneRing;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.Helmet;
@@ -21,6 +21,8 @@ import unsw.loopmania.Cards.Card;
 import unsw.loopmania.Cards.TrapCard;
 import unsw.loopmania.Cards.*;
 import unsw.loopmania.CharacterFolder.Character;
+import unsw.loopmania.RareItems.Anduril;
+import unsw.loopmania.RareItems.TreeStump;
 
 public class Vampire extends BasicEnemy{
 
@@ -63,12 +65,21 @@ public class Vampire extends BasicEnemy{
         } else if (r < 0.6){
             return new VampireCastleCard(x, y);
         } else if (r < 0.70) {
-            if (r2 <= 50 || r2 >= 150) {
+            if (r2 <= 40 || r2 >= 150) {
                 return new TheOneRing(x, y);
             }
         } else if (r < 0.75) {
             return new ZombiePitCard(x, y);
-        } else if (r < 0.9) {
+        } else if (r < 0.80) {
+            if (r2 <= 40 || r2 >= 160) {
+                return new Anduril(x, y);
+            }
+        }
+        else if (r < 0.85) {
+            if (r2 <= 30 || r2 >= 170) {
+                return new TreeStump(x, y);
+            }
+        }else if (r < 0.9) {
             return new VillageCard(x, y);
         }
         else if (r < 0.95){
