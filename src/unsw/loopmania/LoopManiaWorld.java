@@ -91,7 +91,11 @@ import unsw.loopmania.LoopManiaApplication;
     private List<SpawnBuilding>  spawnBuildings;
 
     private List<Ally> allies;
-    boolean elanHere;
+    private boolean elanHere;
+    //private boolean isDoggieDefeated;
+    //private boolean isElanDefeated;
+    private boolean expGoalMet;
+    //private boolean goldGoaMet;
 
     private boolean isThereGhost = false;
 
@@ -126,6 +130,7 @@ import unsw.loopmania.LoopManiaApplication;
         thePotion = null;
         loopCount = 0;
         elanHere = false;
+        expGoalMet = false;
     }
 
     public int getWidth() {
@@ -588,6 +593,7 @@ import unsw.loopmania.LoopManiaApplication;
         for (int i = 0; i < goldInTheWorld.size(); i++){
             Gold g = goldInTheWorld.get(i);
             if (g.getX() == character.getX() && g.getY() == character.getY()){
+                character.increaseGold(g);
                 goldInTheWorld.remove(g);
                 g.destroy();
                 goldInTheWorld.remove(g);
@@ -820,6 +826,10 @@ import unsw.loopmania.LoopManiaApplication;
 
     public void setIsThereGhost () {
         this.isThereGhost = !this.isThereGhost;
+    }
+
+    public int getExperience() {
+        return character.getExperience();
     }
 
     public int getGameMode() {
