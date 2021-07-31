@@ -592,6 +592,7 @@ import unsw.loopmania.LoopManiaApplication;
         for (int i = 0; i < goldInTheWorld.size(); i++){
             Gold g = goldInTheWorld.get(i);
             if (g.getX() == character.getX() && g.getY() == character.getY()){
+                character.increaseGold(g);
                 goldInTheWorld.remove(g);
                 g.destroy();
                 goldInTheWorld.remove(g);

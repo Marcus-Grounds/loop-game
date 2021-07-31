@@ -56,6 +56,5 @@ public class Ghost extends BasicEnemy{
     @Override
     public void dealDamage(DefendingStrategy defence, Character c, List<BasicEnemy> enemies) {
         c.decreaseHealth(this.getDamage());
-        
     }
 }

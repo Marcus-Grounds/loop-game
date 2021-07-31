@@ -14,7 +14,6 @@ import javax.lang.model.util.ElementScanner7;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.embed.swing.JFXPanel;
 import jdk.dynalink.beans.StaticClass;
-import test.EnemyTest;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
