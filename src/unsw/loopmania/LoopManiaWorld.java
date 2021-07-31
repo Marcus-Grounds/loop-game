@@ -10,6 +10,7 @@ import unsw.loopmania.Cards.*;
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -93,10 +94,15 @@ import unsw.loopmania.LoopManiaApplication;
     private List<SpawnBuilding>  spawnBuildings;
 
     private List<Ally> allies;
-    boolean elanHere;
+    private boolean elanHere;
+    //private boolean isDoggieDefeated;
+    //private boolean isElanDefeated;
+    private boolean expGoalMet;
+    //private boolean goldGoaMet;
 
     private boolean isThereGhost = false;
 
+    private int gameMode;
 
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
@@ -111,7 +117,7 @@ import unsw.loopmania.LoopManiaApplication;
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
     public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
-        
+        this.gameMode = 0;
         this.width = width;
         this.height = height;
         this.nonSpecifiedEntities = new ArrayList<>();
@@ -127,6 +133,7 @@ import unsw.loopmania.LoopManiaApplication;
         thePotion = null;
         loopCount = 0;
         elanHere = false;
+        expGoalMet = false;
     }
 
     public int getWidth() {
@@ -157,7 +164,8 @@ import unsw.loopmania.LoopManiaApplication;
         possiblyCollectPotion();
         fluctuateDoggieCoinValue();
         updateLoopCount(character);
-       
+        
+        
     }
 
     // Created for testing purposes
@@ -589,6 +597,7 @@ import unsw.loopmania.LoopManiaApplication;
         for (int i = 0; i < goldInTheWorld.size(); i++){
             Gold g = goldInTheWorld.get(i);
             if (g.getX() == character.getX() && g.getY() == character.getY()){
+                character.increaseGold(g);
                 goldInTheWorld.remove(g);
                 g.destroy();
                 goldInTheWorld.remove(g);
@@ -923,4 +932,15 @@ import unsw.loopmania.LoopManiaApplication;
         this.isThereGhost = !this.isThereGhost;
     }
 
+    public int getExperience() {
+        return character.getExperience();
+    }
+
+    public int getGameMode() {
+        return this.gameMode;
+    }
+
+    public void setGameMode(int gameMode) {
+        this.gameMode = gameMode;
+    }
 }

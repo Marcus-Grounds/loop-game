@@ -14,7 +14,6 @@ import javax.lang.model.util.ElementScanner7;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.embed.swing.JFXPanel;
 import jdk.dynalink.beans.StaticClass;
-import test.EnemyTest;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
@@ -68,7 +67,7 @@ public class ElanMuske extends BasicEnemy{
     }
     @Override
     public void dealDamage(DefendingStrategy defence, Character c, List<BasicEnemy> enemies) {
-        decreaseHealth(this.getDamage());
+        c.decreaseHealth(this.getDamage());
 
         //bosts health of all enemies that arnt already dead
         for (BasicEnemy enemy: enemies) {
