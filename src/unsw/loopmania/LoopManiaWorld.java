@@ -9,6 +9,7 @@ import unsw.loopmania.Cards.*;
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,6 @@ import unsw.loopmania.LoopManiaApplication;
 
     private List<Ally> allies;
 
-
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
      */
@@ -148,7 +148,8 @@ import unsw.loopmania.LoopManiaApplication;
         possiblyCollectPotion();
 
         updateLoopCount(character);
-       
+        
+        
     }
 
     // Created for testing purposes

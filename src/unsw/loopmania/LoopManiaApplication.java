@@ -6,12 +6,16 @@ import unsw.loopmania.Cards.*;
 import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -24,11 +28,19 @@ public class LoopManiaApplication extends Application {
     /**
      * the controller for the game. Stored as a field so can terminate it when click exit button
      */
-    private LoopManiaWorldController mainController;
+    private LoopManiaWorldController mainController;    
+    
+    private MediaPlayer mediaPlayerGame;
+    private MediaPlayer mediaPlayerAttack;
+
+    
     //private BattleEnemyController battleEnemyController;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        
+        Music game = new Music(mediaPlayerGame);
+        Music attack = new Music(mediaPlayerAttack);
         // set title on top of window bar
         primaryStage.setTitle("Loop Mania");
 
@@ -59,11 +71,9 @@ public class LoopManiaApplication extends Application {
         shopBuyLoader.setController(shopBuyController);
         Parent shopBuyRoot = shopBuyLoader.load();
         
-
         Scene scene = new Scene(mainMenuRoot);
         LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("world_with_twists_and_turns.json", battleEnemyController, null);
     
-
         //LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("basic_world_with_player.json");
         mainController = loopManiaLoader.loadController();
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
@@ -76,24 +86,25 @@ public class LoopManiaApplication extends Application {
         endScreenLoader.setController(endScreenController);
         Parent endScreenRoot = endScreenLoader.load();
         
-        
-
         mainController.setGameRoot(gameRoot);
 
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
         mainController.setMainMenuSwitcher(() -> {
             mainController.pause();
-            switchToRoot(scene, mainMenuRoot, primaryStage);
-            });
+            switchToRoot(scene, mainMenuRoot, primaryStage);      
+        });
         mainMenuController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
+            game.playMusic("music/epicGameSong.wav");
         });
         mainController.setBattleSwitcher(() -> {  
             switchToRoot(scene, battleRoot, primaryStage);
             mainController.pause();
             battleEnemyController.startTimer();
+            attack.playMusic("music/epicAttack.wav");
+
         });
         mainController.setShopSellSwitcher(() -> {  
             switchToRoot(scene, shopSellRoot, primaryStage);
@@ -139,6 +150,7 @@ public class LoopManiaApplication extends Application {
         //battleRoot.requestFocus();
         primaryStage.setScene(scene);
         primaryStage.show();
+    
     }
     
     @Override
