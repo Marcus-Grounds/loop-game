@@ -1,6 +1,8 @@
 package unsw.loopmania.BasicItems;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Enemies.Doggie;
+import unsw.loopmania.Enemies.ElanMuske;
 import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Vampire;
 import unsw.loopmania.Enemies.Zombie;
@@ -50,5 +52,13 @@ public class Armour extends BasicItem implements DefendingStrategy {
      */
     public void reduceVampireDamage(Vampire vampire, Character c) {
         c.decreaseHealth(5);
+    }
+
+    @Override
+    public void reduceDoggieDamage(Character character, Doggie doggie) {
+    }
+
+    @Override
+    public void reduceElanMuskeDamage(Character character, ElanMuske elanMuske) {  
     }
 }

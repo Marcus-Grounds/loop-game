@@ -2,6 +2,7 @@ package unsw.loopmania.RareItems;
 
 import unsw.loopmania.*;
 import unsw.loopmania.Character;
+import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.Enemies.*;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.image.Image;
@@ -12,7 +13,7 @@ import java.io.File;
  * Represents an Anduril, Flame of the West in the backend world
  * An Anduril triples damage done to bosses
  */
-public class Anduril extends StaticEntity{
+public class Anduril extends StaticEntity implements AttackingStrategy {
     
     private int damage;
     public Anduril(SimpleIntegerProperty x, SimpleIntegerProperty y) {
@@ -39,5 +40,17 @@ public class Anduril extends StaticEntity{
         
         damage = character.getBaseDamage() * 3;
         elanMuske.decreaseHealth(damage);
+    }
+
+    @Override
+    public void reduceSlugHealth(Slug slug, int loopCount) { 
+    }
+
+    @Override
+    public void reduceZombieHealth(Zombie zombie, int loopCount) {
+    }
+
+    @Override
+    public void reduceVampireHealth(Vampire vampire, int loopCount) {
     }
 }

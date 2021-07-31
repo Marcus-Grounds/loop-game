@@ -1,10 +1,13 @@
 package unsw.loopmania.BasicItems;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.Enemies.Doggie;
+import unsw.loopmania.Enemies.ElanMuske;
 import unsw.loopmania.Enemies.Slug;
 import unsw.loopmania.Enemies.Vampire;
 import unsw.loopmania.Enemies.Zombie;
 import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.Character;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import java.io.File;
@@ -85,6 +88,14 @@ public class Sword extends BasicItem implements AttackingStrategy {
         }
         
         vampire.decreaseHealth(damage);
+    }
+
+    @Override
+    public void reduceDoggieHealth(Doggie doggie, Character character) {
+    }
+
+    @Override
+    public void reduceElanMuskeHealth(ElanMuske elanMuske, Character character) {
     }
   
 }

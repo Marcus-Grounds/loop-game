@@ -363,7 +363,7 @@ public class LoopManiaWorldController {
         System.out.println("react to enemy defeat");
        
         StaticEntity lootedThing = enemy.onDeath(null, null);
-        if (lootedThing instanceof BasicItem) {
+        if (lootedThing instanceof BasicItem){
             world.addUnequippedItem((BasicItem) lootedThing);
             onLoad((BasicItem) lootedThing);
         }
