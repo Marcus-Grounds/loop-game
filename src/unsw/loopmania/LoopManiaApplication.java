@@ -76,7 +76,6 @@ public class LoopManiaApplication extends Application {
         endScreenLoader.setController(endScreenController);
         Parent endScreenRoot = endScreenLoader.load();
         
-        
 
         mainController.setGameRoot(gameRoot);
 
