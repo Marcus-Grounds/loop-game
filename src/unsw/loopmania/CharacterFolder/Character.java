@@ -49,6 +49,7 @@ public class Character extends MovingEntity {
         this.equippedDefence = null;        
         this.cardEntities = new ArrayList<>();
         this.unequippedInventoryItems = new ArrayList<>();
+        this.unequippedRareItems = new ArrayList<>();
         this.allies = new ArrayList<>();
         this.doggieCoins = new ArrayList<>();
         state = new RegularState(this);

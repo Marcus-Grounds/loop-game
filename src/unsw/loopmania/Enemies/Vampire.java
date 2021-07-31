@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
-import unsw.loopmania.TheOneRing;
+import unsw.loopmania.RareItems.TheOneRing;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.Helmet;
@@ -65,7 +65,7 @@ public class Vampire extends BasicEnemy{
         } else if (r < 0.6){
             return new VampireCastleCard(x, y);
         } else if (r < 0.70) {
-            if (r2 <= 50 || r2 >= 150) {
+            if (r2 <= 40 || r2 >= 150) {
                 return new TheOneRing(x, y);
             }
         } else if (r < 0.75) {

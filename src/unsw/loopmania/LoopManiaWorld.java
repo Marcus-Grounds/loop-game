@@ -549,7 +549,7 @@ import unsw.loopmania.LoopManiaApplication;
     public JailBuilding possiblySpawnJailBuilding() {
         Random random = new Random();
         double r = random.nextDouble();
-        if (r < 0.02) {
+        if (r < 0.005) {
             Pair<Integer, Integer> pos = getRandomPosition();
             int indexInPath = orderedPath.indexOf(pos);
             PathPosition position = new PathPosition(indexInPath, orderedPath);

@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
-import unsw.loopmania.TheOneRing;
+import unsw.loopmania.RareItems.TheOneRing;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
 import unsw.loopmania.BasicItems.Staff;
@@ -65,7 +65,7 @@ public class Zombie extends BasicEnemy{
             }
         }
         else if (r < 0.80) {
-            if (r2 <= 15 || r2 >= 185) {
+            if (r2 <= 20 || r2 >= 185) {
                 return new TreeStump(x, y);
             }
         }else if (r < 0.85) {

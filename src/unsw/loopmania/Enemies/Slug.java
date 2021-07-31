@@ -15,7 +15,7 @@ import jdk.dynalink.beans.StaticClass;
 import unsw.loopmania.Health;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.StaticEntity;
-import unsw.loopmania.TheOneRing;
+import unsw.loopmania.RareItems.TheOneRing;
 import unsw.loopmania.BasicItems.Armour;
 import unsw.loopmania.BasicItems.AttackingStrategy;
 import unsw.loopmania.BasicItems.BasicItem;
@@ -54,7 +54,7 @@ public class Slug extends BasicEnemy{
         if (r < 0.05){
             return new Sword(x, y);
         } 
-        /*else if (r < 0.1) {
+        else if (r < 0.1) {
             return new Stake(x, y);
         } else if (r < 0.15){
             return new Staff(x, y);
@@ -78,21 +78,21 @@ public class Slug extends BasicEnemy{
             return new TrapCard(x, y);
         } else if (r < 0.65) {
             return new CampfireCard(x, y);
-        } */
+        }
         else if (r < 0.70) {
-            //if (r2 <= 10 || r2 >= 190) {
-            return new TheOneRing(x, y);
-            //}
+            if (r2 <= 30 || r2 >= 170) {
+                return new TheOneRing(x, y);
+            }
         }
         else if (r < 0.75) {
-            //if (r2 <= 15 || r2 >= 185) {
-            return new Anduril(x, y);
-            //}
+            if (r2 <= 40 || r2 >= 185) {
+                return new Anduril(x, y);
+            }
         }
         else if (r < 0.90) {
-            //if (r2 <= 20 || r2 >= 180) {
-            return new TreeStump(x, y);
-            // }
+            if (r2 <= 40 || r2 >= 180) {
+                return new TreeStump(x, y);
+            }
         }
         return null;
     }
