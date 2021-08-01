@@ -30,7 +30,7 @@ public class LoopManiaApplication extends Application {
      */
     private LoopManiaWorldController mainController;    
     
-    private MediaPlayer gameMusic;
+    private MediaPlayer backGroundMusic;
     private MediaPlayer other;
 
     
@@ -39,8 +39,8 @@ public class LoopManiaApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         
-        Music game = new Music(gameMusic);
-        Music misc = new Music(other);
+        Music gameMusic = new Music(backGroundMusic);
+        Music miscMusic = new Music(other);
         // set title on top of window bar
         primaryStage.setTitle("Loop Mania");
 
@@ -98,19 +98,20 @@ public class LoopManiaApplication extends Application {
         mainMenuController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
-            game.playMusic("music/epicGameSong.wav");
+            gameMusic.playMusic("music/theme.wav");
         });
         mainController.setBattleSwitcher(() -> {  
             switchToRoot(scene, battleRoot, primaryStage);
             mainController.pause();
             battleEnemyController.startTimer();
-            misc.playMusic("music/epicAttack.wav");
+            miscMusic.playMusic("music/attack.wav");
 
         });
         mainController.setShopSellSwitcher(() -> {  
             switchToRoot(scene, shopSellRoot, primaryStage);
             mainController.pause();
             shopSellController.startTimer(mainController);
+            miscMusic.playMusic("music/money.wav");
         });
         mainController.setShopBuySwitcher(() -> {  
             switchToRoot(scene, shopBuyRoot, primaryStage);
@@ -124,7 +125,8 @@ public class LoopManiaApplication extends Application {
         });
         battleEnemyController.setEndSwitcher(() -> {  
             switchToRoot(scene, endScreenRoot, primaryStage);
-            misc.playMusic("music/died.wav");
+            gameMusic.stopMusic();
+            miscMusic.playMusic("music/died.wav");
         });
 
         shopSellController.setGameSwitcher(() -> {  

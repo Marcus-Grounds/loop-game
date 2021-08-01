@@ -23,8 +23,6 @@ public class Music {
             this.mediaPlayer = new MediaPlayer(sound);
             this.mediaPlayer.play();
             
-            
-            
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Ur mum?");
         
