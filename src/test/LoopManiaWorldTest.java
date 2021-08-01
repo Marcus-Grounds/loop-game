@@ -20,6 +20,7 @@ import unsw.loopmania.BasicItems.*;
 import unsw.loopmania.Buildings.*;
 import unsw.loopmania.Buildings.BattleBuildings.BattleBuilding;
 import unsw.loopmania.Buildings.PathBuildings.BarracksBuilding;
+import unsw.loopmania.Buildings.PathBuildings.PathBuilding;
 import unsw.loopmania.Buildings.SpawnBuildings.VampireCastleBuilding;
 import unsw.loopmania.Buildings.SpawnBuildings.ZombiePitBuilding;
 import unsw.loopmania.Cards.*;
@@ -137,18 +138,15 @@ public class LoopManiaWorldTest {
     */
     @Test
     public void slugSpawnTest() {
-        //test that without zombie pits or vampire castles, only slugs spawn
+        
         JFXPanel jfxPanel = new JFXPanel();
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
             
-        orderedPath.add( new Pair<Integer,Integer>(0, 0));
-        orderedPath.add( new Pair<Integer,Integer>(0, 1));
-        orderedPath.add( new Pair<Integer,Integer>(0, 2));
-        orderedPath.add( new Pair<Integer,Integer>(0, 3));
-        orderedPath.add( new Pair<Integer,Integer>(0, 4));
-        orderedPath.add( new Pair<Integer,Integer>(0, 5));
+        for (int i = 0; i < 1000; i++){
+            orderedPath.add(new Pair<Integer,Integer>(0, i));
+        }
 
-        PathPosition p1 = new PathPosition(0, orderedPath);
+        PathPosition p1 = new PathPosition(5, orderedPath);
 
         Character c = new Character(p1);
 
@@ -177,12 +175,9 @@ public class LoopManiaWorldTest {
         JFXPanel jfxPanel = new JFXPanel();
         List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
             
-        orderedPath.add( new Pair<Integer,Integer>(0, 0));
-        orderedPath.add( new Pair<Integer,Integer>(0, 1));
-        orderedPath.add( new Pair<Integer,Integer>(0, 2));
-        orderedPath.add( new Pair<Integer,Integer>(0, 3));
-        orderedPath.add( new Pair<Integer,Integer>(0, 4));
-        orderedPath.add( new Pair<Integer,Integer>(0, 5));
+        for (int i = 0; i < 10; i++){
+            orderedPath.add(new Pair<Integer,Integer>(0, i));
+        }
 
         PathPosition p1 = new PathPosition(0, orderedPath);
 
@@ -210,8 +205,8 @@ public class LoopManiaWorldTest {
             }
         }
 
-        assertEquals(16, zombieCount, 3);
-        assertEquals(3, vampireCount, 1);
+        assertEquals(10, zombieCount, 3);
+        assertEquals(2, vampireCount, 1);
     }
 
     /** 
@@ -293,4 +288,66 @@ public class LoopManiaWorldTest {
         int size2 = d.getNonSpecifiedEntities().size();
         assertEquals(1, size2);
     }
+
+    @Test
+    public void testDoggieAndElanSpawn() {
+         
+        JFXPanel jfxPanel = new JFXPanel();
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+            
+        for (int i = 0; i < 100; i++){
+            orderedPath.add(new Pair<Integer,Integer>(0, i));
+        }
+
+        PathPosition p1 = new PathPosition(5, orderedPath);
+
+        Character c = new Character(p1);
+
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, orderedPath);
+        d.setCharacter(c);
+        for (int i = 0; i < 4000; i ++){
+            c.move();
+            d.possiblySpawnEnemies();
+        }
+        boolean doggie = false;
+        boolean elan = false;
+        for (BasicEnemy e: d.getAllBasicEnemies()) {
+            if (e instanceof Doggie){
+                doggie = true;
+            }   
+            if (e instanceof ElanMuske){
+                elan = true;
+            }
+        }
+        assertTrue (doggie);
+        assertTrue (elan);
+    }
+
+    @Test
+    public void testJailSpawn(){
+        JFXPanel jfxPanel = new JFXPanel();
+        List<Pair<Integer, Integer>> orderedPath = new ArrayList<>();
+            
+        for (int i = 0; i < 100; i++){
+            orderedPath.add(new Pair<Integer,Integer>(0, i));
+        }
+
+        LoopManiaWorld d = new LoopManiaWorld(50, 30, orderedPath);
+
+        PathPosition p1 = new PathPosition(5, orderedPath);
+
+        Character c = new Character(p1);
+
+        d.setCharacter(c);
+
+        for (int i = 0; i < 300; i++){
+            d.possiblySpawnJailBuilding();
+        }   
+
+        List<PathBuilding> buildings = d.getAllPathBuildings();
+
+        assertTrue(buildings.size() > 0);
+        //assertTrue(0 == 1);
+    } 
+
 }

@@ -30,18 +30,6 @@ import unsw.loopmania.Enemies.*;
 import unsw.loopmania.GameMode.*;
 
 public class DoggieAndElanTests {
-    //test that value of a dogecoin varies
-    /*
-    @Test
-    public void TestDoggieCoinValue(){
-        JFXPanel jfxPanel = new JFXPanel();
-        DoggieCoin doggieCoin = new DoggieCoin(null, null);
-        int value1 = doggieCoin.getValue();
-        int value2 = doggieCoin.getValue();
-        
-        assertTrue(value1 != value2);
-    }
-    */
 
     @Test
     public void TestDoggieSpawn() {

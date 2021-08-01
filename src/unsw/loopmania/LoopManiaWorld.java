@@ -318,13 +318,13 @@ import unsw.loopmania.LoopManiaApplication;
 
         if (checkCharacterOnCastle()){
             if (loopCount % 20 == 0) {
-                Doggie doggie = new Doggie(new PathPosition(10, orderedPath));
+                Doggie doggie = new Doggie(new PathPosition(5, orderedPath));
                 enemies.add(doggie);
                 spawningEnemies.add(doggie);
             }
 
             if(loopCount % 40 == 0){
-                ElanMuske elan = new ElanMuske(new PathPosition(20, orderedPath));
+                ElanMuske elan = new ElanMuske(new PathPosition(6, orderedPath));
                 enemies.add(elan);
                 spawningEnemies.add(elan);
                 elanHere = true;
@@ -557,7 +557,7 @@ import unsw.loopmania.LoopManiaApplication;
     public JailBuilding possiblySpawnJailBuilding() {
         Random random = new Random();
         double r = random.nextDouble();
-        if (r < 0.005) {
+        if (r < 0.01) {
             Pair<Integer, Integer> pos = getRandomPosition();
             int indexInPath = orderedPath.indexOf(pos);
             PathPosition position = new PathPosition(indexInPath, orderedPath);
