@@ -41,10 +41,6 @@ public class ShopBuyController {
 
     private MenuSwitcher shopSellSwitcher;
 
-    private LoopManiaWorld loopManiaWorld;
-
-    private LoopManiaWorldController loopManiaWorldController;
-
     private Timeline timeline;
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -63,10 +59,6 @@ public class ShopBuyController {
 
     public void setShopSellSwitcher (MenuSwitcher shopSellSwitcher) {
         this.shopSellSwitcher = shopSellSwitcher;
-    }
-
-    public void setLoopManiaWorld(LoopManiaWorld loopManiaWorld) {
-        this.loopManiaWorld = loopManiaWorld;
     }
 
     public void startTimer(LoopManiaWorldController loopManiaWorldController){
