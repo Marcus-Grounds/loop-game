@@ -93,12 +93,13 @@ public class LoopManiaApplication extends Application {
         // e.g. from main menu to start the game, or from the game to return to main menu
         mainController.setMainMenuSwitcher(() -> {
             mainController.pause();
-            switchToRoot(scene, mainMenuRoot, primaryStage);      
+            switchToRoot(scene, mainMenuRoot, primaryStage);
+            gameMusic.stopMusic();      
         });
         mainMenuController.setGameSwitcher(() -> {
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
-            gameMusic.playMusic("music/theme.wav");
+            gameMusic.playMusic("music/halotheme.wav");
         });
         mainController.setBattleSwitcher(() -> {  
             switchToRoot(scene, battleRoot, primaryStage);
