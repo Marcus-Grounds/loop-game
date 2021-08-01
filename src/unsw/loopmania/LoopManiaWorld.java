@@ -98,7 +98,7 @@ import unsw.loopmania.LoopManiaApplication;
     private boolean expGoalMet;
     //private boolean goldGoaMet;
 
-    private boolean isThereGhost = false;
+    private boolean isThereGhost;
 
     private int gameMode;
 
@@ -115,6 +115,7 @@ import unsw.loopmania.LoopManiaApplication;
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
     public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
+        this.isThereGhost = false;
         this.gameMode = 0;
         this.width = width;
         this.height = height;

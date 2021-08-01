@@ -31,12 +31,6 @@ import javafx.scene.image.ImageView;
 
 public class ShopBuyController {
 
-    @FXML // ResourceBundle that was given to the FXMLLoader
-    private ResourceBundle resources;
-
-    @FXML // URL location of the FXML file that was given to the FXMLLoader
-    private URL location;
-
     @FXML // fx:id="listItems"
     private GridPane listItems; // Value injected by FXMLLoader
 

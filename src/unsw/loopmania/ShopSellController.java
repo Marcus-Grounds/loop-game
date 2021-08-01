@@ -34,12 +34,6 @@ import javafx.geometry.HPos;
 
 public class ShopSellController {
 
-    //@FXML // ResourceBundle that was given to the FXMLLoader
-    //private ResourceBundle resources;
-
-    //@FXML // URL location of the FXML file that was given to the FXMLLoader
-    //private URL location;
-
     @FXML // fx:id="inventory"
     private GridPane inventory; // Value injected by FXMLLoader
 
